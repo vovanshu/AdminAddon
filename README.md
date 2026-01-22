@@ -1,4 +1,4 @@
-JobAddon (module for Omeka S)
+AdminAddon (module for Omeka S)
 ==========================
 
 Addition for control the Jobs
@@ -7,7 +7,7 @@ Addition for control the Jobs
 Installation
 ------------
 
-Uncompress files and rename module folder "JobAddon".
+Uncompress files and rename module folder "AdminAddon".
 
 See general end user documentation for [Installing a module].
 
@@ -57,9 +57,9 @@ Copyright
 * Copyright Volodimir Shumeyko, 2025 (see [vovanshu] on GitHub)
 
 
-[JobAddon]: https://github.com/vovanshu/JobAddon
+[AdminAddon]: https://github.com/vovanshu/AdminAddon
 [Omeka S]: https://omeka.org/s
 [Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
-[module issues]: https://github.com/vovanshu/JobAddon/issues
+[module issues]: https://github.com/vovanshu/AdminAddon/issues
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [vovanshu]: https://github.com/vovanshu "Volodimir Shumeyko"
