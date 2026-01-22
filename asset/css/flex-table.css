@@ -1,0 +1,81 @@
+body:not(:is(.resource-templates.show)) .flex > #content > table,
+body .flex > #content > #batch-form table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    overflow: hidden;
+}
+body:not(:is(.resource-templates.show)) .flex > #content > table tbody,
+body .flex > #content > #batch-form table tbody {
+    flex: 1 1;
+    overflow-y: auto;
+}
+body:not(:is(.resource-templates.show)) .flex > #content > table tr,
+body .flex > #content > #batch-form table tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+body .flex > #content > table td,
+body .flex > #content > table th,
+body .flex > #content > #batch-form table td,
+body .flex > #content > #batch-form table th {
+    flex: 1 1;
+}
+body .flex > #content > table td:first-child,
+body .flex > #content > table th:first-child,
+body .flex > #content > #batch-form table td:first-child,
+body .flex > #content > #batch-form table th:first-child {
+    flex: 5 1;
+}
+
+body.jobs .flex > #content > table td:first-child,
+body.jobs .flex > #content > table th:first-child,
+body.jobs .flex > #content > #batch-form table td:first-child,
+body.jobs .flex > #content > #batch-form table th:first-child {
+    flex: 2 1;
+}
+
+.browse-controls {
+    height: 35px;
+}
+.sortable-container {
+    display: flex;
+    margin-right: 12px;
+}
+
+.sortable-container span {
+    opacity: 0.35;
+}
+
+.sortable-container span:hover {
+    opacity: 1;
+}
+
+.value.delete .sortable-container {
+    visibility: hidden;
+}
+
+.sortable-down::before, .sortable-up::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.sortable-container .sortable-up::before {
+    content: "\f0d8";
+    top: 3px;
+}
+
+.sortable-container .sortable-down::before {
+    content: "\f0dd";
+    top: -3px;
+}
+
+.sortable-container {
+    display: flex;
+    margin-right: 12px;
+}

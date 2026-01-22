@@ -1,0 +1,33 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $query
+ */
+
+$plugins = $this->getHelperPluginManager();
+$common = $this->AdminAddonCommon();
+$translate = $plugins->get('translate');
+
+?>
+
+<div class="field">
+    <div class="field-meta">
+        <?= $translate('Media Ingester') ?>
+    </div>
+    <div class="inputs">
+        <select name="ingester" id="ingester" class="touched">
+            <option value=""><?= $translate('Select Media Ingester') ?></option>
+<?PHP
+foreach($common->getListIngesters() as $k => $v){
+    
+    if(!empty($query['ingester']) && $query['ingester'] == $k){
+        $selected = ' selected="selected"';
+    }else{
+        $selected = '';
+    }
+            echo '<option value="'.$k.'"'.$selected.'>'.$translate($v).'</option>';
+}
+?>
+        </select>
+    </div>
+</div>

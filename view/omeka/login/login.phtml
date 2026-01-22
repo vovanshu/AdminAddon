@@ -1,0 +1,26 @@
+<?php
+$translate = $this->plugin('translate');
+$this->htmlElement('body')->appendAttribute('class', 'login');
+$lf1url = $this->setting('adminaddon_lf_1_url');
+$lf1label = $this->setting('adminaddon_lf_1_label');
+$lf2url = $this->setting('adminaddon_lf_2_url');
+$lf2label = $this->setting('adminaddon_lf_2_label');
+$form->prepare();
+?>
+<h1><?php echo $translate('Log in'); ?></h1>
+<?
+echo $this->form()->openTag($form);
+echo $this->formCollection($form, false);
+?>
+<div class="login-actions">
+	<button type="submit" name="submit" value="<?= $translate('Log in') ?>"><?= $translate('Log in') ?></button>
+	<button type="button" name="forgot-password'" onclick="window.location.href='<?= $this->url('forgot-password') ?>'" class="button" value=""><?= $translate('Forgot password?') ?></button>
+	<?php if(!empty($lf1url) && !empty($lf1label)): ?>
+	<button type="button" name="back-to-site" onclick="window.location.href='<?= $lf1url ?>'" class="button" value=""><?= $lf1label ?></button>
+	<?php endif; ?>
+	<?php if(!empty($lf2url) && !empty($lf2label)): ?>
+	<button type="button" name="back-to-site" onclick="window.location.href='<?= $lf2url ?>'" class="button" value=""><?= $lf2label ?></button>
+	<?php endif; ?>
+
+</div>
+<?php echo $this->form()->closeTag(); ?>

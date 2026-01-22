@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \RolesManager\Form\PermissionForm $form
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+
+$this->htmlElement('body')->appendAttribute('class', 'items-review backup');
+?>
+
+<?= $this->pageTitle($translate('Backup'), 1, $translate('Items Review')) ?>
+
+<div id="page-actions">
+    <?= $hyperlink($translate('Configure'), $this->url('admin/item-review-settings', ['action' => 'edit']), ['class' => 'button']) ?>
+    <?= $hyperlink($translate('Backups'), $this->url('admin/item-review-settings', ['action' => 'backups']), ['class' => 'button']) ?>
+</div>
+<fieldset id="general" class="section active"></fieldset>
+<?php
+foreach($result as $k => $v){
+    echo $k.' - '.$v.'<br>';
+}
+?>
+</fieldset>

@@ -1,0 +1,74 @@
+/* .tablesaw th {
+    cursor: pointer;
+} */
+
+body .flex > header {
+    height: 100vh;
+    /* overflow-y: auto; */
+    position: fixed;
+}
+
+body .flex > header nav#menu {
+    overflow-y: auto;
+    height: calc(100vh - 170px);
+}
+
+body .flex > #content {
+    position: absolute;
+    left: 18.75%;
+    height: 100vh;
+    /* width: 100vw; */
+    display: flex;
+    flex-direction: column;
+}
+
+body .flex #advanced-search {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+body .flex > #content div#modules,
+body .flex > #content .section,
+body.assets.edit .flex > #content,
+body.item-review .flex > #content,
+body.jobs.show .flex > #content,
+body.resource-templates.show .flex > #content,
+body.resource-templates:is(.add, .edit) .flex > #content form,
+body.configure .flex > #content form,
+body.settings .flex > #content form,
+body.sites .flex > #content form,
+body.site-pages .flex > #content form,
+body.resource-meta .flex > #content form,
+body.easy-admin .flex > #content,
+body.oai-pmh-harvester .flex > #content,
+body .flex > #content div#bulk-import {
+    height: calc(100vh - 80px);
+    overflow: auto;
+    margin: 0;
+}
+
+/* body:not(.settings, .sites, .site-pages) .flex > #content form fieldset */
+body .flex > #content form .section {
+    height: calc(100vh - 145px);
+    overflow-y: auto;
+    margin: 0;
+}
+
+body footer {
+    z-index: 999999;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+nav.pagination {
+    margin-bottom: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    height: 30px;
+}
+
+form.asset-upload {
+    height: 305px !important;
+}

@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AdminAddon\n"
+"POT-Creation-Date: 2026-01-14 15:24+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: AdminAddon\n"
+"X-Generator: Poedit 3.8\n"
+
+#: modules/AdminAddon/Module.php:330
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:39
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:27
+msgid "Html edition mode for pages"
+msgstr "Режим редагування HTML для сторінок"
+
+#: modules/AdminAddon/Module.php:332
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:41
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:29
+msgid "Inline (default)"
+msgstr "Вбудований (за замовчуванням)"
+
+#: modules/AdminAddon/Module.php:347
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:56
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:43
+msgid "Html edition config and toolbar for pages"
+msgstr "Конфігурація HTML-версії та панель інструментів для сторінок"
+
+#: modules/AdminAddon/config/module.config.php:8
+msgid "Settings Admin Addition"
+msgstr ""
+
+#: modules/AdminAddon/config/module.config.php:9
+msgid "Deactivate all"
+msgstr "Деактивувати всі"
+
+#: modules/AdminAddon/config/module.config.php:112
+msgid "Simple application"
+msgstr "Простий застосунок"
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:24
+msgid "Allow change Editor config in the setting"
+msgstr "Дозволити зміну конфігурації редактора в налаштуваннях"
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:79
+msgid "Mode admin UI"
+msgstr "Режим Інтерфейсу адміністратора"
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:88
+msgid "Select mode admin UI"
+msgstr "Вибрати режим Інтерфейсу адміністратора"
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
+#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:15
+msgid "Backup"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
+#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:15
+msgid "Items Review"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:18
+msgid "Backups"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:25
+msgid "Backups file no found."
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:33
+msgid "Actions"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/details.phtml:5
+msgid "Details backup"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/details.phtml:6
+#, php-format
+msgid "File %s backup content"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/edit.phtml:11
+msgid "Admin Addition"
+msgstr ""
+
+#: modules/AdminAddon/view/admin-addon/admin/settings/restore-confirm.phtml:3
+msgid "Confirm restore"
+msgstr ""
+
+#: modules/AdminAddon/view/common/advanced-search/media_ingester.phtml:15
+msgid "Media Ingester"
+msgstr "Медіа інтегратор"
+
+#: modules/AdminAddon/view/common/advanced-search/media_ingester.phtml:19
+msgid "Select Media Ingester"
+msgstr "Виберіть медіа інтегратор"
+
+#: modules/AdminAddon/view/common/pagination.phtml:24
+msgid "First"
+msgstr "Перший"
+
+#: modules/AdminAddon/view/common/pagination.phtml:33
+msgid "Last"
+msgstr "Останній"
