@@ -225,7 +225,9 @@ class Module extends AbstractModule
             $action = $params['action'];
         }
 
-        // if(!empty($params['__ADMIN__'])){
+        $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
+
+        if(!empty($params['__ADMIN__'])){
 
             $mode = $this->modeAdminUI($controller, $action);
             if($mode){
@@ -237,31 +239,26 @@ class Module extends AbstractModule
                 }
 
                 foreach($mode['styles'] as $name => $style){
-                    if($this->isCompatibleAdminUI($mode['controllers'], $controller, $name) && $this->isCompatibleAdminUI($mode['actions'], $action, $name)){
-
+                    if($this->isCompatibleAdminUI($mode['controllers'], $controller, $action, $name)){
                         if(!empty($style['css'])){
                             foreach($style['css'] as $file){
                                 $view->headLink()->appendStylesheet($view->assetUrl($file, 'AdminAddon'));
                             }
                         }
                         if(!empty($style['js'])){
-                            foreach($style['js'] as $file){
+                            foreach($style['general']['js'] as $file){
                                 $view->headScript()->appendFile($view->assetUrl($file, 'AdminAddon'));
                             }
                         }
-
                     }
                 }
 
-                    // echo $controller.' - '.$action;
-                    // if(in_array($controller, $con) && in_array($action, $act)){
-
-                        $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
-
-                        // $view->headLink()->appendStylesheet($view->assetUrl('css/general.css', 'AdminAddon'));
-                        // $view->headLink()->appendStylesheet($view->assetUrl('css/flex-table.css', 'AdminAddon'));
-                    // }
-                    // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
+                // echo $controller.' - '.$action;
+                // if(in_array($controller, $con) && in_array($action, $act)){
+                    // $view->headLink()->appendStylesheet($view->assetUrl('css/general.css', 'AdminAddon'));
+                    // $view->headLink()->appendStylesheet($view->assetUrl('css/flex-table.css', 'AdminAddon'));
+                // }
+                // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
 
             }
 
@@ -283,7 +280,7 @@ class Module extends AbstractModule
 // JS;
             // $view->headScript()->appendScript($script);
 
-        // }
+        }
 
         function convert($size)
         {

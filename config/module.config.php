@@ -134,7 +134,10 @@ return [
                         'roles' => ['browse', 'show', 'edit'],
                         'item-review' => ['browse', 'edit'],
                         'item-review-contracts' => ['browse'],
-                        'settings' => ['browse', 'edit', 'backups'],
+                        'setting' => ['browse'],
+                        'settings' => ['edit', 'backups'],
+                        'Index' => ['index', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources'],
+                        'Page' => ['index', 'show', 'edit'],
                         'Omeka\Controller\Login' => ['login', 'forgot-password']
                     ]
                 ],
@@ -143,7 +146,7 @@ return [
                 ],
                 'styles' => [
                     'general' => [
-                        'css' => ['css/adminaddon.css'],
+                        'css' => ['css/simpleapp.css'],
                         'js' => [],
                     ],
                 ]

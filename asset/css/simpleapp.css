@@ -1,0 +1,160 @@
+/* .tablesaw th {
+    cursor: pointer;
+} */
+
+body .flex > header {
+    height: 100vh;
+    /* overflow-y: auto; */
+    position: fixed;
+}
+
+body .flex > header nav#menu {
+    overflow-y: auto;
+    height: calc(100vh - 170px);
+}
+
+body .flex > #content {
+    position: absolute;
+    left: 18.75%;
+    height: 100vh;
+    /* width: 100vw; */
+    display: flex;
+    flex-direction: column;
+}
+
+body .flex #advanced-search {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+body .flex > #content div#modules,
+body .flex > #content .section,
+body.assets.edit .flex > #content,
+body.jobs.show .flex > #content,
+body.resource-templates.show .flex > #content,
+body.resource-templates:is(.add, .edit) .flex > #content form,
+body.configure .flex > #content form,
+body.settings .flex > #content form,
+body.sites .flex > #content form,
+body.site-pages .flex > #content form,
+body.resource-meta .flex > #content form,
+body.easy-admin .flex > #content,
+body.oai-pmh-harvester .flex > #content,
+body .flex > #content div#bulk-import {
+    height: calc(100vh - 80px);
+    overflow: auto;
+    margin: 0;
+}
+
+/* body:not(.settings, .sites, .site-pages) .flex > #content form fieldset */
+body .flex > #content form .section {
+    height: calc(100vh - 145px);
+    overflow-y: auto;
+    margin: 0;
+}
+
+body footer {
+    z-index: 999999;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+body .flex > #content > #batch-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    overflow: hidden;
+}
+body:not(:is(.resource-templates.show)) .flex > #content > table,
+body .flex > #content > #batch-form table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    overflow: hidden;
+}
+body:not(:is(.resource-templates.show)) .flex > #content > table tbody,
+body .flex > #content > #batch-form table tbody {
+    flex: 1 1;
+    overflow-y: auto;
+}
+body:not(:is(.resource-templates.show)) .flex > #content > table tr,
+body .flex > #content > #batch-form table tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+body .flex > #content > table td,
+body .flex > #content > table th,
+body .flex > #content > #batch-form table td,
+body .flex > #content > #batch-form table th {
+    flex: 1 1;
+}
+body .flex > #content > table td:first-child,
+body .flex > #content > table th:first-child,
+body .flex > #content > #batch-form table td:first-child,
+body .flex > #content > #batch-form table th:first-child {
+    flex: 5 1;
+}
+
+body.jobs .flex > #content > table td:first-child,
+body.jobs .flex > #content > table th:first-child,
+body.jobs .flex > #content > #batch-form table td:first-child,
+body.jobs .flex > #content > #batch-form table th:first-child {
+    flex: 2 1;
+}
+
+.browse-controls {
+    height: 35px;
+}
+.sortable-container {
+    display: flex;
+    margin-right: 12px;
+}
+
+.sortable-container span {
+    opacity: 0.35;
+}
+
+.sortable-container span:hover {
+    opacity: 1;
+}
+
+.value.delete .sortable-container {
+    visibility: hidden;
+}
+
+.sortable-down::before, .sortable-up::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.sortable-container .sortable-up::before {
+    content: "\f0d8";
+    top: 3px;
+}
+
+.sortable-container .sortable-down::before {
+    content: "\f0dd";
+    top: -3px;
+}
+
+.sortable-container {
+    display: flex;
+    margin-right: 12px;
+}
+
+nav.pagination {
+    margin-bottom: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    height: 30px;
+}
+
+form.asset-upload {
+    height: 305px !important;
+}
