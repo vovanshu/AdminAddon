@@ -44,6 +44,7 @@ body .flex > #content div#bulk-import {
     height: calc(100vh - 80px);
     overflow: auto;
     margin: 0;
+    padding: 10px;
 }
 
 /* body:not(.settings, .sites, .site-pages) .flex > #content form fieldset */
@@ -51,6 +52,7 @@ body .flex > #content form .section {
     height: calc(100vh - 145px);
     overflow-y: auto;
     margin: 0;
+    padding: 10px;
 }
 
 body footer {
@@ -157,4 +159,13 @@ nav.pagination {
 
 form.asset-upload {
     height: 305px !important;
+}
+
+.search-filters {
+    height: 30px;
+    overflow-y: auto;
+}
+
+.vocabularies #content p {
+    margin: 0px 0px;
 }

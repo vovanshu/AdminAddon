@@ -246,7 +246,7 @@ class Module extends AbstractModule
                             }
                         }
                         if(!empty($style['js'])){
-                            foreach($style['general']['js'] as $file){
+                            foreach($style['js'] as $file){
                                 $view->headScript()->appendFile($view->assetUrl($file, 'AdminAddon'));
                             }
                         }

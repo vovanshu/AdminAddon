@@ -122,11 +122,11 @@ return [
                 'label' => 'Simple application', // @translate
                 'controllers' => [
                     'general' => [
-                        'item' => ['browse', 'show'],
-                        'media' => ['browse', 'show'],
-                        'item-set' => ['browse', 'show'],
+                        'item' => ['browse', 'show', 'add', 'edit'],
+                        'media' => ['browse', 'show', 'add', 'edit'],
+                        'item-set' => ['browse', 'show', 'add', 'edit'],
                         'vocabulary' => ['browse', 'classes', 'properties'],
-                        'resource-template' => ['browse'],
+                        'resource-template' => ['browse', 'add', 'edit'],
                         'user' => ['browse'],
                         'module' => ['browse'],
                         'job' => ['browse'],
@@ -136,7 +136,8 @@ return [
                         'item-review-contracts' => ['browse'],
                         'setting' => ['browse'],
                         'settings' => ['edit', 'backups'],
-                        'Index' => ['index', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources'],
+                        'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation'],
+                        'index' => ['browse'],
                         'Page' => ['index', 'show', 'edit'],
                         'Omeka\Controller\Login' => ['login', 'forgot-password']
                     ]
@@ -147,7 +148,7 @@ return [
                 'styles' => [
                     'general' => [
                         'css' => ['css/simpleapp.css'],
-                        'js' => [],
+                        'js' => ['js/simpleapp.js'],
                     ],
                 ]
             ],
