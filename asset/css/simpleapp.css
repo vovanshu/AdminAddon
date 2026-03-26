@@ -169,3 +169,8 @@ form.asset-upload {
 .vocabularies #content p {
     margin: 0px 0px;
 }
+
+#content .messages {
+    height: 42px;
+    overflow-y: auto;
+}

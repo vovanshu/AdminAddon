@@ -90,6 +90,20 @@ class SettingsController extends AbstractActionController
                 ],
             ]);
 
+        $form->add([
+                'name' => $this->getOps('search_form_hidden'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Hiding the Search form field in the Admin menu', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('search_form_hidden'),
+                    'value' => $this->getSets('search_form_hidden'),
+                ],
+            ]);
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $post = $request->getPost()->toArray();

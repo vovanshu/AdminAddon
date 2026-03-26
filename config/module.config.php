@@ -101,6 +101,7 @@ return [
             'adminaddon_html_mode_page' => 'inline',
             'adminaddon_html_config_page' => 'default',
             'adminaddon_mode_admin_ui' => 'default',
+            'adminaddon_search_form_inmenu_hidden' => 'false',
             'recaptcha_enable_on_login' => 'false',
             'recaptcha_enable_on_forgot_password' => 'false',
             'recaptcha_ip_white_list' => '',
@@ -110,6 +111,7 @@ return [
             'html_mode' => 'adminaddon_html_mode_page',
             'html_config' => 'adminaddon_html_config_page',
             'mode_admin_ui' => 'adminaddon_mode_admin_ui',
+            'search_form_hidden' => 'adminaddon_search_form_inmenu_hidden',
             'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
             'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
             'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
@@ -122,6 +124,7 @@ return [
                 'label' => 'Simple application', // @translate
                 'controllers' => [
                     'general' => [
+                        'AdminAddon\Controller\Admin\SettingsController' => ['edit'],
                         'item' => ['browse', 'show', 'add', 'edit'],
                         'media' => ['browse', 'show', 'add', 'edit'],
                         'item-set' => ['browse', 'show', 'add', 'edit'],

@@ -273,7 +273,22 @@ class Module extends AbstractModule
             // add ckeditor styles (provide defaults)
             // todo: check if exists
             // $styleSetUrl = $view->assetUrl('js/ckeditor_styles.js', 'AdminAddon', true);
-//             $script = <<<JS
+            $css = '';
+            if($this->getSets('search_form_hidden') == 'true'){
+                $css .= <<<CSS
+    header #user {
+        margin-bottom: 24px;
+    }
+    header #search {
+        display: none;
+    }
+CSS;
+            }
+
+            if(!empty($css)){
+                $view->HeadStyle()->appendStyle($css);
+            }
+            // $script = <<<JS
 // $(document).on('o:ckeditor-config', function(event, config) {
 //     config.stylesSet = "theme_styles:$styleSetUrl";    
 // });
