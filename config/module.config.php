@@ -139,7 +139,7 @@ return [
                         'item-review-contracts' => ['browse'],
                         'setting' => ['browse'],
                         'settings' => ['edit', 'backups'],
-                        'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation'],
+                        'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation', 'users'],
                         'index' => ['browse'],
                         'Page' => ['index', 'show', 'edit'],
                         'Omeka\Controller\Login' => ['login', 'forgot-password']

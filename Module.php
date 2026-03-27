@@ -101,22 +101,6 @@ class Module extends AbstractModule
             file_put_contents(OMEKA_PATH.'/logs/dev.config.log', $data);
 
             $configuration = $this->getServiceLocator()->get('ApplicationConfig');
-
-        // print_r(($configuration));
-        
-    //     $name = $event->getName();
-    //     $target = $event->getTarget();
-    //     $params = $event->getParams();
-    //     if(!empty($target)){
-
-            
-    //         // print_r(get_class_methods($event));
-            // $this->getSettings()['view_helpers']
-            // print_r(var_export($this->getSettings(), true));
-            
-            // echo "\r\n";
-            
-            // file_put_contents(OMEKA_PATH.'/logs/dev.log', $data, FILE_APPEND);
    
         }
 

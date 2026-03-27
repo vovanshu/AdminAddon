@@ -33,9 +33,8 @@ body.assets.edit .flex > #content,
 body.jobs.show .flex > #content,
 body.resource-templates.show .flex > #content,
 body.resource-templates:is(.add, .edit) .flex > #content form,
-body.configure .flex > #content form,
-body.settings .flex > #content form,
-body.sites .flex > #content form,
+body:is(.configure, .settings) .flex > #content form,
+body:is(.theme, .theme-settings) .flex > #content form,
 body.site-pages .flex > #content form,
 body.resource-meta .flex > #content form,
 body.easy-admin .flex > #content,
@@ -155,6 +154,7 @@ nav.pagination {
     display: flex;
     flex-wrap: wrap;
     height: 30px;
+    gap: 5px;
 }
 
 form.asset-upload {
