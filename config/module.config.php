@@ -30,6 +30,8 @@ return [
     'view_helpers' => [
         'invokables' => [
             'ckEditor' => View\Helper\CkEditor::class,
+            'formCollectionElementGroups' => Form\View\Helper\FormCollectionElementGroups::class,
+            'formCollectionElementGroupsCollapsible' => Form\View\Helper\FormCollectionElementGroupsCollapsible::class,
         ],
         'factories' => [
             'AdminAddonCommon' => Service\ControllerPlugin\CommonPluginFactory::class,
@@ -105,6 +107,10 @@ return [
             'recaptcha_enable_on_login' => 'false',
             'recaptcha_enable_on_forgot_password' => 'false',
             'recaptcha_ip_white_list' => '',
+            'adminaddon_menuadmindashboard_enable' => 'false',
+            'adminaddon_menuadmindashboard_label' => '',
+            'adminaddon_menuadmindashboard' => '',
+            
         ],
         'options' => [
             'editor_change_in_setting' => 'adminaddon_editor_change_in_setting',
@@ -115,6 +121,9 @@ return [
             'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
             'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
             'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
+            'menuadmindashboard' => 'adminaddon_menuadmindashboard',
+            'menuadmindashboard_enable' => 'adminaddon_menuadmindashboard_enable',
+            'menuadmindashboard_label' => 'adminaddon_menuadmindashboard_label',
         ],
         'modes_admin_ui' => [
             'default' => [
@@ -131,7 +140,7 @@ return [
                         'vocabulary' => ['browse', 'classes', 'properties'],
                         'resource-template' => ['browse', 'add', 'edit'],
                         'user' => ['browse'],
-                        'module' => ['browse'],
+                        'module' => ['browse', 'index'],
                         'job' => ['browse'],
                         'asset' => ['browse'],
                         'roles' => ['browse', 'show', 'edit'],
@@ -142,7 +151,12 @@ return [
                         'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation', 'users'],
                         'index' => ['browse'],
                         'Page' => ['index', 'show', 'edit'],
-                        'Omeka\Controller\Login' => ['login', 'forgot-password']
+                        'Omeka\Controller\Login' => ['login', 'forgot-password'],
+                        'event' => ['browse'],
+                        'check-and-fix' => ['index'],
+                        'theme' => ['index'],
+                        'Admin\Index' => ['index'],
+                        'Log\Controller\Admin\LogController' => ['browse'],
                     ]
                 ],
                 'actions' => [

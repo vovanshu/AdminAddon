@@ -37,9 +37,9 @@ body:is(.configure, .settings) .flex > #content form,
 body:is(.theme, .theme-settings) .flex > #content form,
 body.site-pages .flex > #content form,
 body.resource-meta .flex > #content form,
-body.easy-admin .flex > #content,
 body.oai-pmh-harvester .flex > #content,
-body .flex > #content div#bulk-import {
+body .flex > #content div#bulk-import,
+body #content > #dashboard {
     height: calc(100vh - 80px);
     overflow: auto;
     margin: 0;
@@ -173,4 +173,29 @@ form.asset-upload {
 #content .messages {
     height: 42px;
     overflow-y: auto;
+}
+
+body.easy-admin .flex > #content > form > fieldset {
+    height: calc(100vh - 130px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 10px;
+}
+
+#content > ul.item-sets-tree {
+    height: calc(100vh - 80px);
+    overflow: auto;
+    margin: 0;
+}
+
+.activity-log-events {
+    .browse-controls{
+        z-index: 10;
+    }
+    .tablesaw {
+        max-height: calc(100% - 60px) !important;
+    }
+    .event-id {
+        max-width: 80px;
+    }
 }

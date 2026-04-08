@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AdminAddon\n"
-"POT-Creation-Date: 2026-01-14 15:24+0200\n"
+"POT-Creation-Date: 2026-04-08 13:25+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,33 +12,82 @@ msgstr ""
 "X-Domain: AdminAddon\n"
 "X-Generator: Poedit 3.8\n"
 
-#: modules/AdminAddon/Module.php:330
+#: modules/AdminAddon/Module.php:342
 #: modules/AdminAddon/src/Controller/Admin/SettingsController.php:39
 #: modules/AdminAddon/src/Form/SettingsFieldset.php:27
 msgid "Html edition mode for pages"
 msgstr "Режим редагування HTML для сторінок"
 
-#: modules/AdminAddon/Module.php:332
+#: modules/AdminAddon/Module.php:344
 #: modules/AdminAddon/src/Controller/Admin/SettingsController.php:41
 #: modules/AdminAddon/src/Form/SettingsFieldset.php:29
 msgid "Inline (default)"
 msgstr "Вбудований (за замовчуванням)"
 
-#: modules/AdminAddon/Module.php:347
+#: modules/AdminAddon/Module.php:359
 #: modules/AdminAddon/src/Controller/Admin/SettingsController.php:56
 #: modules/AdminAddon/src/Form/SettingsFieldset.php:43
 msgid "Html edition config and toolbar for pages"
 msgstr "Конфігурація HTML-версії та панель інструментів для сторінок"
 
+#: modules/AdminAddon/Module.php:380
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:61
+msgid "Enable reCAPTCHA on Login page"
+msgstr "Увімкнути reCAPTCHA на сторінці Входу"
+
+#: modules/AdminAddon/Module.php:381
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:62
+msgid "Check this to enable reCAPTCHA on Login page."
+msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Входу"
+
+#: modules/AdminAddon/Module.php:396
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:77
+msgid "Enable reCAPTCHA on Forgot Password page"
+msgstr "Увімкнути reCAPTCHA на сторінці Відновлення паролю"
+
+#: modules/AdminAddon/Module.php:397
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:78
+msgid "Check this to enable reCAPTCHA on Forgot Password page."
+msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Відновлення паролю"
+
+#: modules/AdminAddon/Module.php:412
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:93
+msgid "IP whitelist for reCAPTCHA"
+msgstr "Білий список IP для reCAPTCHA"
+
+#: modules/AdminAddon/Module.php:429
+msgid "Button 1 - URL"
+msgstr "Кнопка 1 - URL"
+
+#: modules/AdminAddon/Module.php:443
+msgid "Button 1 - Label"
+msgstr "Кнопка 1 - Етикетка"
+
+#: modules/AdminAddon/Module.php:457
+msgid "Button 2 - URL"
+msgstr "Кнопка 2 - URL"
+
+#: modules/AdminAddon/Module.php:471
+msgid "Button 2 - Label"
+msgstr "Кнопка 2 - Етикетка"
+
+#: modules/AdminAddon/Module.php:501
+msgid "Enable"
+msgstr "Увімкнути"
+
+#: modules/AdminAddon/Module.php:502
+msgid "Enable menu on Admin dashboard"
+msgstr "Увімкнути меню на Панелі адмінстування"
+
+#: modules/AdminAddon/Module.php:517
+msgid "Content"
+msgstr "Вміст"
+
 #: modules/AdminAddon/config/module.config.php:8
 msgid "Settings Admin Addition"
-msgstr ""
+msgstr "Налаштування Адмін Росширення"
 
-#: modules/AdminAddon/config/module.config.php:9
-msgid "Deactivate all"
-msgstr "Деактивувати всі"
-
-#: modules/AdminAddon/config/module.config.php:112
+#: modules/AdminAddon/config/module.config.php:133
 msgid "Simple application"
 msgstr "Простий застосунок"
 
@@ -53,6 +102,10 @@ msgstr "Режим Інтерфейсу адміністратора"
 #: modules/AdminAddon/src/Controller/Admin/SettingsController.php:88
 msgid "Select mode admin UI"
 msgstr "Вибрати режим Інтерфейсу адміністратора"
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:97
+msgid "Hiding the Search form field in the Admin menu"
+msgstr ""
 
 #: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
 #: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:15
@@ -87,7 +140,7 @@ msgstr ""
 
 #: modules/AdminAddon/view/admin-addon/admin/settings/edit.phtml:11
 msgid "Admin Addition"
-msgstr ""
+msgstr "Адмін Росширення"
 
 #: modules/AdminAddon/view/admin-addon/admin/settings/restore-confirm.phtml:3
 msgid "Confirm restore"
@@ -108,3 +161,6 @@ msgstr "Перший"
 #: modules/AdminAddon/view/common/pagination.phtml:33
 msgid "Last"
 msgstr "Останній"
+
+msgid "Deactivate all"
+msgstr "Деактивувати всі"

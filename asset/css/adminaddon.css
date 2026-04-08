@@ -19,3 +19,7 @@
 .login-actions button {
     flex: 1 0 auto
 }
+
+#dashboard .panel {
+    margin-top: 15px;
+}

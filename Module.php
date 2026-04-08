@@ -189,6 +189,11 @@ class Module extends AbstractModule
             -1001
         );
 
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Index',
+            'view.browse.after',
+            [$this, 'addMenuAdminDashboard']
+        );
     }
 
     public function handleViewLayout(Event $event): void
@@ -301,9 +306,25 @@ CSS;
             $usege = getrusage();
             echo "<!-- User CPU time: ".($usege['ru_utime.tv_usec']/1000000)." seconds -->\r\n";
             echo "<!-- System CPU time: ".($usege['ru_stime.tv_usec']/1000000)." seconds -->\r\n";
-
         }
+
     }
+
+    public function addMenuAdminDashboard(Event $event): void
+    {
+
+        if($this->getSets('menuadmindashboard_enable') == 'true' && !empty($this->getSets('menuadmindashboard')) && !empty($this->getSets('menuadmindashboard_label'))){
+            $view = $event->getTarget();
+            $menurc = $this->getSets('menuadmindashboard');
+            $menu = parse_ini_string($menurc, true, INI_SCANNER_TYPED);
+            echo $view->partial('admin-addon/admin/index/menu', [
+                'label' => $this->getSets('menuadmindashboard_label'),
+                'menu' => $menu,
+            ]);
+        }
+        
+    }
+
 
     public function appendFieldsSettings(Event $event): void
     {
@@ -311,6 +332,7 @@ CSS;
         if(!empty($mode = $this->getSets('editor_change_in_setting')) && $mode !== 'default'){
 
             $form = $event->getTarget();
+            $options = $form->getOptions();
 
             $form->add([
                 'name' => 'adminaddon_html_mode_page',
@@ -396,9 +418,8 @@ CSS;
             ],
         ]);
 
-                $options = $form->getOptions();
+
         $options['element_groups']['login&forgot'] = 'Pages Log in and Forgot Password';
-        $form->setOption('element_groups', $options['element_groups']);
         
         $form->add([
             'name' => 'adminaddon_lf_1_url',
@@ -456,6 +477,54 @@ CSS;
             ],
         ]);
 
+        $options['element_groups']['menuadmindashboard'] = 'Menu on Admin dashboard';
+
+        $form->add([
+            'name' => 'adminaddon_menuadmindashboard_label',
+            'type' => 'Text',
+            'options' => [
+                'element_group' => 'menuadmindashboard',
+                'label' => 'Label', // @translate
+                'info' => 'Label for menu on Admin dashboard', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->getSets('menuadmindashboard_label'),
+                'id' => 'adminaddon_menuadmindashboard_label',
+            ],
+        ]);
+
+        $form->add([
+            'type' => 'checkbox',
+            'name' => 'adminaddon_menuadmindashboard_enable',
+            'options' => [
+                'element_group' => 'menuadmindashboard',
+                'label' => 'Enable', // @translate
+                'info' => 'Enable menu on Admin dashboard', // @translate
+                'checked_value' => 'true',
+                'unchecked_value' => 'false',
+            ],
+            'attributes' => [
+                'value' => $this->getSets('menuadmindashboard_enable'),
+                'id' => 'adminaddon_menuadmindashboard_enable',
+            ],
+        ]);
+
+        $form->add([
+            'name' => 'adminaddon_menuadmindashboard',
+            'type' => 'textarea',
+            'options' => [
+                'element_group' => 'menuadmindashboard',
+                'label' => 'Content', // @translate
+                'info' => '', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->getSets('menuadmindashboard'),
+                'id' => 'adminaddon_menuadmindashboard',
+            ],
+        ]);
+
+        $form->setOption('element_groups', $options['element_groups']);
+
     }
 
     public function addInSearchQuery(Event $event): void
@@ -495,8 +564,6 @@ CSS;
     {
 
         $view = $event->getTarget();
-
-        
         //if ($this->userIsAllowed('Omeka\Controller\Admin\Vocabulary', 'add'))
         echo '<div id="page-actions">';
         if($view->userIsAllowed('AdminAddon\Controller\Admin\SettingsController', 'deactivate-all')){

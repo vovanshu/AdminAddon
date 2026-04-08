@@ -1,0 +1,22 @@
+<?php
+$translate = $this->plugin('translate');
+$common = $this->AdminAddonCommon();
+?>
+
+<div id="menuadmindashboard" class="panel">
+    <h2><?= $translate($label) ?></h2>
+    <?php foreach ($menu as $name => $link): ?>
+        <?php if(!isset($link['roles']) || in_array($common->getRoleCurentUser(), $link['roles'])): ?>
+    <div class="row">
+        <?= $this->hyperlink($translate($link['label']), $link['URL'], [
+            'target' => $link['target'],
+            // 'class' => 'o-icon-external public button',
+            'id' => $name
+        ]); ?>
+    </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+
+

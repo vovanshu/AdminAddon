@@ -278,7 +278,7 @@ trait Common
 
     }
     
-    private function getRoleCurentUser()
+    public function getRoleCurentUser()
     {
 
         $r = 'public';
