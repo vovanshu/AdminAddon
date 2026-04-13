@@ -3,12 +3,12 @@ namespace AdminAddon\Form;
 
 use Laminas\Form\Form;
 use Omeka\Form\Element\Recaptcha;
-use AdminAddon\Common;
+use AdminAddon\General;
 
 class LoginForm extends Form
 {
 
-    use Common;
+    use General;
 
     public function __construct($serviceLocator, $requestedName, $options)
     {

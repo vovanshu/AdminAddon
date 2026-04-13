@@ -5,17 +5,31 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Laminas\Form\Form;
 use Omeka\Stdlib\Message;
-use AdminAddon\Common;
+use AdminAddon\General;
 
 class SettingsController extends AbstractActionController
 {
 
-    use Common;
+    use General;
 
     public function editAction()
     {
 
         $form = $this->getForm(Form::class);
+
+        $form->add([
+                'name' => $this->getOps('replace_helper_ckeditor'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Replace ckEditor Helper', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('replace_helper_ckeditor'),
+                    'value' => $this->getSets('replace_helper_ckeditor'),
+                ],
+            ]);
 
         $form->add([
                 'name' => $this->getOps('editor_change_in_setting'),
@@ -84,7 +98,7 @@ class SettingsController extends AbstractActionController
                     'id' => $this->getOps('mode_admin_ui'),
                     'multiple' => false,
                     'required' => false,
-                    'class' => 'chosen-select',
+                    'class' => 'select',
                     'data-placeholder' => 'Select mode admin UI', // @translate
                     'value' => $this->getSets('mode_admin_ui')
                 ],
@@ -104,14 +118,79 @@ class SettingsController extends AbstractActionController
                 ],
             ]);
 
+        $form->add([
+                'name' => $this->getOps('select2'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Select2 enable', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('select2'),
+                    'value' => $this->getSets('select2'),
+                ],
+            ]);
+
+        $form->add([
+                'name' => $this->getOps('select2public'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Select2 enable on public', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('select2public'),
+                    'value' => $this->getSets('select2public'),
+                ],
+            ]);
+
+        $form->add([
+                'name' => $this->getOps('chosen_js_disable'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Chosen-js disable', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('chosen_js_disable'),
+                    'value' => $this->getSets('chosen_js_disable'),
+                ],
+            ]);
+
+        $this->saveSettings();
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        return $view;
+
+    }
+
+    private function saveSettings()
+    {
+
         $request = $this->getRequest();
         if ($request->isPost()) {
+            $ops_custom_configs = $this->getConf('custom_configs');
+
+            $file = OMEKA_PATH . '/config/custom.config.php';
+            $config = file_exists($file) ? include $file : [];
+
             $post = $request->getPost()->toArray();
             foreach($this->getConf('options') as $key){
                 if(isset($post[$key])){
                     $this->setSets($key, $post[$key]);
+                    if(in_array($key, $ops_custom_configs)){
+                        $config = $this->prepCustomConfig($config, $key, $post[$key]);
+                    }
                 }
             }
+
+            $content = "<?php\n\nreturn " . var_export($config, true) . ";\n";
+            file_put_contents($file, $content);
+
             $message = new Message(
                 'Settings save successfully.' // @translate
             );
@@ -120,9 +199,52 @@ class SettingsController extends AbstractActionController
             return $this->redirect()->refresh();
         }
 
-        $view = new ViewModel;
-        $view->setVariable('form', $form);
-        return $view;
+    }
+
+    private function prepCustomConfig($config, $key, $val)
+    {
+
+        if($key == 'adminaddon_chosen_js_disable'){
+            if($val == 'true'){
+                $config['assets']['internals']['vendor/chosen-js/chosen.css'] = 'AdminAddon';
+                $config['assets']['internals']['vendor/chosen-js/chosen.jquery.js'] = 'AdminAddon';
+                $config['assets']['internals']['js/chosen-options.js'] = 'AdminAddon';
+            }else{
+                if(isset($config['assets']['internals']['vendor/chosen-js/chosen.css'])){
+                    unset($config['assets']['internals']['vendor/chosen-js/chosen.css']);
+                }
+                if(isset($config['assets']['internals']['vendor/chosen-js/chosen.jquery.js'])){
+                    unset($config['assets']['internals']['vendor/chosen-js/chosen.jquery.js']);
+                }
+                if(isset($config['assets']['internals']['js/chosen-options.js'])){
+                    unset($config['assets']['internals']['js/chosen-options.js']);
+                }
+                if(!empty($config['assets']['internals'])){
+                    unset($config['assets']['internals']);
+                }
+                if(!empty($config['assets'])){
+                    unset($config['assets']);
+                }
+            }
+        }
+
+        if($key == 'adminaddon_replace_helper_ckeditor'){
+            if($val == 'true'){
+                $config['view_helpers']['invokables']['ckEditor'] = '\AdminAddon\View\Helper\CkEditor';
+            }else{
+                if(isset($config['view_helpers']['invokables']['ckEditor'])){
+                    unset($config['view_helpers']['invokables']['ckEditor']);
+                }
+                if(!empty($config['view_helpers']['invokables'])){
+                    unset($config['view_helpers']['invokables']);
+                }
+                if(!empty($config['view_helpers'])){
+                    unset($config['view_helpers']);
+                }
+            }
+        }
+
+        return $config;
 
     }
 

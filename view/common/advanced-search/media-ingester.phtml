@@ -5,7 +5,7 @@
  */
 
 $plugins = $this->getHelperPluginManager();
-$common = $this->AdminAddonCommon();
+$AdminAddon = $this->AdminAddon();
 $translate = $plugins->get('translate');
 
 ?>
@@ -18,7 +18,7 @@ $translate = $plugins->get('translate');
         <select name="ingester" id="ingester" class="touched">
             <option value=""><?= $translate('Select Media Ingester') ?></option>
 <?PHP
-foreach($common->getListIngesters() as $k => $v){
+foreach($AdminAddon->getListIngesters() as $k => $v){
     
     if(!empty($query['ingester']) && $query['ingester'] == $k){
         $selected = ' selected="selected"';

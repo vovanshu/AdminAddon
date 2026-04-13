@@ -6,9 +6,7 @@ if (!class_exists(\Common\TraitModule::class)) {
     require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-if (!class_exists(AdminAddon\Common::class)) {
-    require_once __DIR__ . '/Common.php';
-}
+require_once __DIR__ . '/src/General.php';
 
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\EventManager\Event;
@@ -21,20 +19,30 @@ use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
 // use Omeka\Entity\Job;
 use Common\TraitModule;
-use AdminAddon\Common;
+use AdminAddon\General;
 
 class Module extends AbstractModule
 {
 
     use TraitModule;
 
-    use Common;
+    use General;
 
     protected $application;
 
     const NAMESPACE = __NAMESPACE__;
 
     
+    /**
+     * Get the config of the current module.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return include $this->modulePath() . '/config/module.config.php';
+    }
+
     public function init(ModuleManager $moduleManager): void
     {
         $moduleManager->getEventManager()->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onEventMergeConfig']);
@@ -43,21 +51,29 @@ class Module extends AbstractModule
     public function onEventMergeConfig(ModuleEvent $event): void
     {
 
-        /** @var \Laminas\ModuleManager\Listener\ConfigListener $configListener */
-        $configListener = $event->getParam('configListener');
-        // At this point, the config is read only, so it is copied and replaced.
-        $config = $configListener->getMergedConfig(false);
-        $config['view_helpers']['invokables']['ckEditor'] = View\Helper\CkEditor::class;
-        $configListener->setMergedConfig($config);
+        if(file_exists(OMEKA_PATH . '/config/custom.config.php')){
+            $custom_config = include OMEKA_PATH . '/config/custom.config.php';
+            if(!empty($custom_config)){
+                /** @var \Laminas\ModuleManager\Listener\ConfigListener $configListener */
+                $configListener = $event->getParam('configListener');
+                // At this point, the config is read only, so it is copied and replaced.
+                $config = $configListener->getMergedConfig(false);
+                $config = array_replace_recursive($config, $custom_config);
+                $configListener->setMergedConfig($config);
+            }
+        }
 
     }
 
     public function onBootstrap(MvcEvent $event): void
     {
 
+        $this->setServiceLocator($this->serviceLocator);
         $this->setMvcEvent($event);
         parent::onBootstrap($event);
         $this->addDefAclRules();
+
+        
 
     }
     
@@ -284,14 +300,22 @@ CSS;
 // JS;
             // $view->headScript()->appendScript($script);
 
+
+            if($this->getSets('select2') == 'true'){
+                $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
+            }
+
+        }else{
+
+            if($this->getSets('select2public') == 'true'){
+                $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
+            }
         }
 
-        function convert($size)
-        {
-            $unit=array('b','Kb','Mb','Gb','Tb','Pb');
-            return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-        }
-        
         if($this->getConf('developing') || $this->getConf('debug')){
             echo "<!-- Controller: " . $controller . " -->\r\n";
             echo "<!-- Action: " . $action . " -->\r\n";
@@ -300,9 +324,12 @@ CSS;
         if($this->getConf('debug')){
             echo "<!--\r\n Params:\r\n";
             print_r($params);
+
+            // print_r(get_class_methods($cfg));
+
             echo "\r\n-->\r\n";
-            echo "<!-- Current memory usage: " . convert(memory_get_usage()) . " -->\r\n";
-            echo "<!-- Peak memory usage: " . convert(memory_get_peak_usage()) . " -->\n";
+            echo "<!-- Current memory usage: " . $this->convert_size(memory_get_usage()) . " -->\r\n";
+            echo "<!-- Peak memory usage: " . $this->convert_size(memory_get_peak_usage()) . " -->\n";
             $usege = getrusage();
             echo "<!-- User CPU time: ".($usege['ru_utime.tv_usec']/1000000)." seconds -->\r\n";
             echo "<!-- System CPU time: ".($usege['ru_stime.tv_usec']/1000000)." seconds -->\r\n";
@@ -410,7 +437,7 @@ CSS;
             'options' => [
                 'element_group' => 'security',
                 'label' => 'IP whitelist for reCAPTCHA', // @translate
-                'info' => 'Enter a single IP address or a range of IP addresses separated by dashes (IPbegin-IPend) in the line to whitelist for reCAPTCHA.', // @translate
+                'info' => 'Enter a single IP address or a range of IP addresses separated by dashes (IPbegin-IPend) in the line to whitelist for reCAPTCHA.' // @translate
             ],
             'attributes' => [
                 'value' => $this->getSets('recaptcha_ip_white_list'),
@@ -419,7 +446,7 @@ CSS;
         ]);
 
 
-        $options['element_groups']['login&forgot'] = 'Pages Log in and Forgot Password';
+        $options['element_groups']['login&forgot'] = 'Pages Log in and Forgot Password'; // @translate
         
         $form->add([
             'name' => 'adminaddon_lf_1_url',
@@ -427,7 +454,7 @@ CSS;
             'options' => [
                 'element_group' => 'login&forgot',
                 'label' => 'Button 1 - URL', // @translate
-                'info' => 'URL for button', // @translate
+                'info' => 'URL for button' // @translate
             ],
             'attributes' => [
                 'value' => $this->getSets('adminaddon_lf_1_url'),
@@ -477,7 +504,7 @@ CSS;
             ],
         ]);
 
-        $options['element_groups']['menuadmindashboard'] = 'Menu on Admin dashboard';
+        $options['element_groups']['menuadmindashboard'] = 'Menu on Admin dashboard'; // @translate
 
         $form->add([
             'name' => 'adminaddon_menuadmindashboard_label',
@@ -530,21 +557,34 @@ CSS;
     public function addInSearchQuery(Event $event): void
     {
 
+        // $routeMatch = $this->getApplicationRouteMatch();
         $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
-        if(!empty($routeMatch) && is_object($routeMatch) && method_exists($routeMatch, 'getParam')){
-            if($routeMatch->getParam('__ADMIN__')){
-                $request = $event->getParam('request');
-                $params = $request->getContent();
+        $controller = $routeMatch->getParam('__CONTROLLER__');
+        if($controller == 'media' || $controller == 'item'){
+        // if(!empty($routeMatch) && is_object($routeMatch) && method_exists($routeMatch, 'getParam')){
+            // if($routeMatch->getParam('__ADMIN__')){
+            $request = $event->getParam('request');
+            $params = $request->getContent();
+            $qb = $event->getParam('queryBuilder');
+            $entityAlias = $qb->getRootAlias();
+            $mediaAlias = $qb->createAlias();
+            $expr = $qb->expr();
+            if($controller == 'media'){
                 if(!empty($params['ingester'])){
-                    $controller = $routeMatch->getParam('__CONTROLLER__');
-                    $qb = $event->getParam('queryBuilder');
-                    $expr = $qb->expr();
-                    if($controller == 'media'){
-                        $qb->andWhere($expr->eq('omeka_root.ingester', "'".$params['ingester']."'"));
-                    }elseif($controller == 'item'){
-                        $qb->leftJoin('omeka_root.media', 'omeka_media');
-                        $qb->andWhere($expr->eq('omeka_media.ingester', "'".$params['ingester']."'"));
-                    }
+                    $qb->andWhere($expr->eq($entityAlias . '.ingester', "'".$params['ingester']."'"));
+                }
+                if(!empty($params['media_type'])){
+                    $qb->andWhere($expr->eq($entityAlias . '.mediaType', "'".$params['media_type']."'"));
+                }
+            }
+            if($controller == 'item'){
+                if(!empty($params['ingester'])){
+                    $qb->leftJoin($entityAlias . '.media', $mediaAlias);
+                    $qb->andWhere($expr->eq($mediaAlias . '.ingester', "'".$params['ingester']."'"));
+                }
+                if(!empty($params['media_type'])){
+                    $qb->leftJoin($entityAlias . '.media', $mediaAlias);
+                    $qb->andWhere($expr->eq($mediaAlias . '.mediaType', "'".$params['media_type']."'"));
                 }
             }
         }
@@ -555,7 +595,8 @@ CSS;
     {
 
         $partials = $event->getParam('partials');
-        $partials[] = 'common/advanced-search/media_ingester';
+        $partials[] = 'common/advanced-search/media-ingester';
+        $partials[] = 'common/advanced-search/media-type';
         $event->setParam('partials', $partials);
 
     }

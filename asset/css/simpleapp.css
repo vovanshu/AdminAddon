@@ -199,3 +199,11 @@ body.easy-admin .flex > #content > form > fieldset {
         max-width: 80px;
     }
 }
+
+.items.browse .bulk-export,
+.media.browse .bulk-export,
+.item-sets.browse .bulk-export {
+    position: absolute;
+    right: 25px;
+    bottom: 50px;
+}

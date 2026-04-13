@@ -34,7 +34,7 @@ return [
             'formCollectionElementGroupsCollapsible' => Form\View\Helper\FormCollectionElementGroupsCollapsible::class,
         ],
         'factories' => [
-            'AdminAddonCommon' => Service\ControllerPlugin\CommonPluginFactory::class,
+            'AdminAddon' => Service\ControllerPlugin\GeneralPluginFactory::class,
         ],
     ],
     'controllers' => [
@@ -53,7 +53,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'AdminAddon\Common' => Service\ControllerPlugin\CommonPluginFactory::class,
+            'AdminAddon' => Service\ControllerPlugin\GeneralPluginFactory::class,
         ],
     ],
     'router' => [
@@ -95,10 +95,11 @@ return [
             ],
         ],
     ],
-    'adminaddon' => [
+    'AdminAddon' => [
         'developing' => False,
         'debug' => False,
         'settings' => [
+            'adminaddon_replace_helper_ckeditor' => 'false',
             'adminaddon_editor_change_in_setting' => 'false',
             'adminaddon_html_mode_page' => 'inline',
             'adminaddon_html_config_page' => 'default',
@@ -110,9 +111,13 @@ return [
             'adminaddon_menuadmindashboard_enable' => 'false',
             'adminaddon_menuadmindashboard_label' => '',
             'adminaddon_menuadmindashboard' => '',
+            'adminaddon_select2_enable' => 'false',
+            'adminaddon_select2_enable_public' => 'false',
+            'adminaddon_chosen_js_disable' => 'false',
             
         ],
         'options' => [
+            'replace_helper_ckeditor' => 'adminaddon_replace_helper_ckeditor',
             'editor_change_in_setting' => 'adminaddon_editor_change_in_setting',
             'html_mode' => 'adminaddon_html_mode_page',
             'html_config' => 'adminaddon_html_config_page',
@@ -124,6 +129,13 @@ return [
             'menuadmindashboard' => 'adminaddon_menuadmindashboard',
             'menuadmindashboard_enable' => 'adminaddon_menuadmindashboard_enable',
             'menuadmindashboard_label' => 'adminaddon_menuadmindashboard_label',
+            'select2' => 'adminaddon_select2_enable',
+            'select2public' => 'adminaddon_select2_enable_public',
+            'chosen_js_disable' => 'adminaddon_chosen_js_disable',
+        ],
+        'custom_configs' => [
+            'adminaddon_replace_helper_ckeditor',
+            'adminaddon_chosen_js_disable'
         ],
         'modes_admin_ui' => [
             'default' => [

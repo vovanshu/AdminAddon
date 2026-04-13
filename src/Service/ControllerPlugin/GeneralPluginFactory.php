@@ -4,13 +4,13 @@ namespace AdminAddon\Service\ControllerPlugin;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use AdminAddon\Mvc\Controller\Plugin\CommonPlugin;
+use AdminAddon\Mvc\Controller\Plugin\GeneralPlugin;
 
-class CommonPluginFactory implements FactoryInterface
+class GeneralPluginFactory implements FactoryInterface
 {
 
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        return new CommonPlugin($serviceLocator, $requestedName, $options);
+        return new GeneralPlugin($serviceLocator, $requestedName, $options);
     }
 }
