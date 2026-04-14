@@ -35,9 +35,6 @@
         // console.log(window_height + ' | ' + height_tbody);
         // console.log(height_content_title + ' ' + height_content_controls + ' ' + height_content_tbbar + ' ' + height_content_tbhead + ' ' + height_footer);
 
-    });
-
-
 })(jQuery);
 
 

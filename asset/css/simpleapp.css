@@ -200,9 +200,9 @@ body.easy-admin .flex > #content > form > fieldset {
     }
 }
 
-.items.browse .bulk-export,
-.media.browse .bulk-export,
-.item-sets.browse .bulk-export {
+.items.browse #content > .bulk-export,
+.media.browse #content > .bulk-export,
+.item-sets.browse #content > .bulk-export {
     position: absolute;
     right: 25px;
     bottom: 50px;

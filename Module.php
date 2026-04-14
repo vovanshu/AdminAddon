@@ -103,6 +103,12 @@ class Module extends AbstractModule
                 Controller\Admin\SettingsController::class
             ]
         );
+        $this->getAcl()->allow(
+            null,
+            [
+                Controller\AdminAddonController::class
+            ]
+        );
 
     }
 
@@ -278,42 +284,36 @@ class Module extends AbstractModule
             // add ckeditor styles (provide defaults)
             // todo: check if exists
             // $styleSetUrl = $view->assetUrl('js/ckeditor_styles.js', 'AdminAddon', true);
-            $css = '';
-            if($this->getSets('search_form_hidden') == 'true'){
-                $css .= <<<CSS
-    header #user {
-        margin-bottom: 24px;
-    }
-    header #search {
-        display: none;
-    }
-CSS;
-            }
 
-            if(!empty($css)){
+            if($this->getSets('search_form_hidden') == 'true'){
+                $css = <<<CSS
+header #user {
+    margin-bottom: 24px;
+}
+header #search {
+    display: none;
+}
+CSS;
                 $view->HeadStyle()->appendStyle($css);
             }
-            // $script = <<<JS
-// $(document).on('o:ckeditor-config', function(event, config) {
-//     config.stylesSet = "theme_styles:$styleSetUrl";    
-// });
-// JS;
-            // $view->headScript()->appendScript($script);
 
+        }
 
-            if($this->getSets('select2') == 'true'){
-                $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
-                $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
-                $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
-            }
+        if($this->getSets('select2') == 'true' && !empty($params['__ADMIN__']) || $this->getSets('select2public') == 'true'){
+            $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
+            $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
+            $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
+        }         
 
-        }else{
-
-            if($this->getSets('select2public') == 'true'){
-                $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
-                $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
-                $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
-            }
+        if($this->getSets('advsearch_autocomplete') == 'true' && !empty($params['__ADMIN__']) || $this->getSets('advsearch_autocomplete') == 'true'){
+            $view->headLink()->appendStylesheet('//code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css');
+            $view->headScript()->appendFile('//code.jquery.com/ui/1.14.2/jquery-ui.min.js');
+            $autocompleteURL = $view->url('admin-addon-controller', ['action' => 'autocomplete']);
+    $script = <<<JS
+window.AdminAdonAutocompleteURL = '$autocompleteURL';
+JS;
+            $view->headScript()->appendScript($script);
+            $view->headScript()->appendFile($view->assetUrl('js/property-autocomplete.js', 'AdminAddon'));
         }
 
         if($this->getConf('developing') || $this->getConf('debug')){

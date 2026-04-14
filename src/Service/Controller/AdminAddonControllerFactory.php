@@ -1,14 +1,14 @@
 <?php
-namespace AdminAddon\Service\Controller\Admin;
+namespace AdminAddon\Service\Controller;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use AdminAddon\Controller\Admin\SettingsController;
+use AdminAddon\Controller\AdminAddonController;
 
-class SettingsControllerFactory implements FactoryInterface
+class AdminAddonControllerFactory implements FactoryInterface
 {
     public function __invoke($services, $requestedName, ?array $options = null)
     {
-        $class = new SettingsController();
+        $class = new AdminAddonController();
         $class->setServiceLocator($services);
         return $class;
     }

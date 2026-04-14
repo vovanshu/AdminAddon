@@ -160,6 +160,34 @@ class SettingsController extends AbstractActionController
                 ],
             ]);
 
+        $form->add([
+                'name' => $this->getOps('advsearch_autocomplete'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Autocomplete on Advanced search', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('advsearch_autocomplete'),
+                    'value' => $this->getSets('advsearch_autocomplete'),
+                ],
+            ]);
+
+        $form->add([
+                'name' => $this->getOps('advsearch_public_autocomplete'),
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Autocomplete on public Advanced search', // @translate
+                    'checked_value' => 'true',
+                    'unchecked_value' => 'false',
+                ],
+                'attributes' => [
+                    'id' => $this->getOps('advsearch_public_autocomplete'),
+                    'value' => $this->getSets('advsearch_public_autocomplete'),
+                ],
+            ]);
+
         $this->saveSettings();
 
         $view = new ViewModel;

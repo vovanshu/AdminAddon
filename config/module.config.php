@@ -40,6 +40,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\Admin\SettingsController::class => Service\Controller\Admin\SettingsControllerFactory::class,
+            Controller\AdminAddonController::class => Service\Controller\AdminAddonControllerFactory::class,
         ],
     ],
     'form_elements' => [
@@ -74,6 +75,20 @@ return [
                                 'action' => 'edit',
                             ],
                         ],
+                    ],
+                ],
+            ],
+            'admin-addon-controller' => [
+                'type' => \Laminas\Router\Http\Segment::class,
+                'options' => [
+                    'route' => '/admin-addon[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                    ],
+                    'defaults' => [
+                        '__NAMESPACE__' => 'AdminAddon\Controller',
+                        'controller' => Controller\AdminAddonController::class,
+                        'action' => 'autocomplete',
                     ],
                 ],
             ],
@@ -114,6 +129,8 @@ return [
             'adminaddon_select2_enable' => 'false',
             'adminaddon_select2_enable_public' => 'false',
             'adminaddon_chosen_js_disable' => 'false',
+            'adminadon_advsearch_autocomplete' => 'false',
+            'adminadon_advsearch_public_autocomplete' => 'false',
             
         ],
         'options' => [
@@ -132,6 +149,8 @@ return [
             'select2' => 'adminaddon_select2_enable',
             'select2public' => 'adminaddon_select2_enable_public',
             'chosen_js_disable' => 'adminaddon_chosen_js_disable',
+            'advsearch_autocomplete' => 'adminadon_advsearch_autocomplete',
+            'advsearch_public_autocomplete' => 'adminadon_advsearch_public_autocomplete',
         ],
         'custom_configs' => [
             'adminaddon_replace_helper_ckeditor',
