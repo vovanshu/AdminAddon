@@ -5,6 +5,8 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Laminas\Form\Form;
 use Omeka\Stdlib\Message;
+// use Common\Form\Element as CommonElement;
+use Omeka\Form\Element\PropertySelect;
 use AdminAddon\General;
 
 class SettingsController extends AbstractActionController
@@ -28,79 +30,6 @@ class SettingsController extends AbstractActionController
                 'attributes' => [
                     'id' => $this->getOps('replace_helper_ckeditor'),
                     'value' => $this->getSets('replace_helper_ckeditor'),
-                ],
-            ]);
-
-        $form->add([
-                'name' => $this->getOps('editor_change_in_setting'),
-                'type' => 'checkbox',
-                'options' => [
-                    'label' => 'Allow change Editor config in the setting', // @translate
-                    'checked_value' => 'true',
-                    'unchecked_value' => 'false',
-                ],
-                'attributes' => [
-                    'id' => $this->getOps('editor_change_in_setting'),
-                    'value' => $this->getSets('editor_change_in_setting'),
-                ],
-            ]);
-
-        $form->add([
-            'name' => $this->getOps('html_mode'),
-            'type' => 'radio',
-            'options' => [
-                // 'element_group' => 'editing',
-                'label' => 'Html edition mode for pages', // @translate
-                'value_options' => [
-                    'inline' => 'Inline (default)', // @translate
-                    'document' => 'Document (maximizable)', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => $this->getOps('html_mode'),
-                'value' => $this->getSets('html_mode'),
-            ],
-        ]);
-
-        $form->add([
-            'name' => $this->getOps('html_config'),
-            'type' => 'radio',
-            'options' => [
-                // 'element_group' => 'editing',
-                'label' => 'Html edition config and toolbar for pages', // @translate
-                'value_options' => [
-                    // @see https://ckeditor.com/cke4/presets-all
-                    'default' => 'Default', // @translate
-                    'standard' => 'Standard', // @translate
-                    'full' => 'Full', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => $this->getOps('html_config'),
-                'value' => $this->getSets('html_config'),
-            ],
-        ]);
-
-        $modesAdmiUI = $this->getConf('modes_admin_ui');
-        foreach($modesAdmiUI as $k => $v){
-            $modes[$k] = $v['label'];
-        }
-
-        $form->add([
-                'name' => $this->getOps('mode_admin_ui'),
-                'type' => 'select',
-                'options' => [
-                    'label' => 'Mode admin UI', // @translate
-                    'value_options' => $modes,
-                    'use_hidden_element' => true,
-                ],
-                'attributes' => [
-                    'id' => $this->getOps('mode_admin_ui'),
-                    'multiple' => false,
-                    'required' => false,
-                    'class' => 'select',
-                    'data-placeholder' => 'Select mode admin UI', // @translate
-                    'value' => $this->getSets('mode_admin_ui')
                 ],
             ]);
 
@@ -157,34 +86,6 @@ class SettingsController extends AbstractActionController
                 'attributes' => [
                     'id' => $this->getOps('chosen_js_disable'),
                     'value' => $this->getSets('chosen_js_disable'),
-                ],
-            ]);
-
-        $form->add([
-                'name' => $this->getOps('advsearch_autocomplete'),
-                'type' => 'checkbox',
-                'options' => [
-                    'label' => 'Autocomplete on Advanced search', // @translate
-                    'checked_value' => 'true',
-                    'unchecked_value' => 'false',
-                ],
-                'attributes' => [
-                    'id' => $this->getOps('advsearch_autocomplete'),
-                    'value' => $this->getSets('advsearch_autocomplete'),
-                ],
-            ]);
-
-        $form->add([
-                'name' => $this->getOps('advsearch_public_autocomplete'),
-                'type' => 'checkbox',
-                'options' => [
-                    'label' => 'Autocomplete on public Advanced search', // @translate
-                    'checked_value' => 'true',
-                    'unchecked_value' => 'false',
-                ],
-                'attributes' => [
-                    'id' => $this->getOps('advsearch_public_autocomplete'),
-                    'value' => $this->getSets('advsearch_public_autocomplete'),
                 ],
             ]);
 

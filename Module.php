@@ -17,6 +17,7 @@ use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
 use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
+use Omeka\Form\Element\PropertySelect;
 // use Omeka\Entity\Job;
 use Common\TraitModule;
 use AdminAddon\General;
@@ -68,12 +69,10 @@ class Module extends AbstractModule
     public function onBootstrap(MvcEvent $event): void
     {
 
-        $this->setServiceLocator($this->serviceLocator);
-        $this->setMvcEvent($event);
+        // $this->setServiceLocator($this->serviceLocator);
         parent::onBootstrap($event);
+        $this->setMvcEvent($event);
         $this->addDefAclRules();
-
-        
 
     }
     
@@ -112,55 +111,8 @@ class Module extends AbstractModule
 
     }
 
-    public function debugEvent(Event $event)
-    {
-
-        if($this->getConf('debug')){
-
-            ob_start();
-            print_r($this->getConfigs());
-            $data = ob_get_clean();
-            file_put_contents(OMEKA_PATH.'/logs/dev.config.log', $data);
-
-            $configuration = $this->getServiceLocator()->get('ApplicationConfig');
-   
-        }
-
-    }
-
-
-    public function debugTrigersEvent(Event $event)
-    {
-
-        if($this->getConf('debug')){
-
-            $name = $event->getName();
-            $target = $event->getTarget();
-            $params = $event->getParams();
-            $data = date('Y-m-d H:i:s');
-            $data .= ' | '.get_class($target);
-            $data .= ' | '.$name;
-            $data .= ' | '.json_encode($params);
-            $data .= "\r\n";
-            file_put_contents(OMEKA_PATH.'/logs/trigger.log', $data, FILE_APPEND);
-
-        }
-
-    }
-
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
-
-        $sharedEventManager->attach(
-            '*',
-            // 'Laminas\Mvc\Application',
-            'view.layout',
-            // 'route',
-            [$this, 'debugEvent'],
-            1000
-        );
-
-        // $sharedEventManager->attach('*', '*', [$this, 'debugTrigersEvent'],1000);
 
         $sharedEventManager->attach(
             \Omeka\Stdlib\HtmlPurifier::class,
@@ -172,6 +124,12 @@ class Module extends AbstractModule
             \Omeka\Form\SettingForm::class,
             'form.add_elements',
             [$this, 'appendFieldsSettings']
+        );
+
+        $sharedEventManager->attach(
+            \Omeka\Form\SiteSettingsForm::class,
+            'form.add_elements',
+            [$this, 'appendFieldsSiteSettings']
         );
 
         $sharedEventManager->attach(
@@ -208,7 +166,7 @@ class Module extends AbstractModule
             '*',
             'view.layout',
             [$this, 'handleViewLayout'],
-            -1001
+            1001
         );
 
         $sharedEventManager->attach(
@@ -223,10 +181,8 @@ class Module extends AbstractModule
 
         $view = $event->getTarget();
         $params = $view->params()->fromRoute();
-
         $controller = False;
         $action = False;
-
         if(!empty($params['__CONTROLLER__'])){
             $controller = $params['__CONTROLLER__'];
         }elseif(!empty($params['controller'])){
@@ -235,9 +191,7 @@ class Module extends AbstractModule
         if(!empty($params['action'])){
             $action = $params['action'];
         }
-
         $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
-
         if(!empty($params['__ADMIN__'])){
 
             $mode = $this->modeAdminUI($controller, $action);
@@ -264,19 +218,12 @@ class Module extends AbstractModule
                     }
                 }
 
-                // echo $controller.' - '.$action;
-                // if(in_array($controller, $con) && in_array($action, $act)){
-                    // $view->headLink()->appendStylesheet($view->assetUrl('css/general.css', 'AdminAddon'));
-                    // $view->headLink()->appendStylesheet($view->assetUrl('css/flex-table.css', 'AdminAddon'));
-                // }
                 // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
-
             }
 
             if($controller == 'Page' && $action == 'edit'){
                 $view->headScript()->appendFile($view->assetUrl('js/ckeditor/mode.js', 'AdminAddon'));
             }
-                
 
             // add theme ckeditor css (provide defaults)
             // todo: check if exists
@@ -299,34 +246,55 @@ CSS;
 
         }
 
-        if($this->getSets('select2') == 'true' && !empty($params['__ADMIN__']) || $this->getSets('select2public') == 'true'){
-            $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
-            $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
-            $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
-        }         
+        if(!empty($params['__ADMIN__']) && $this->getSets('select2') == 'true' || !empty($params['__SITE__']) && $this->getSets('select2public') == 'true'){
+            if(in_array($action, ['search', 'add', 'edit'])){
+                $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
+                $view->headScript()->appendFile($view->assetUrl('js/select2-init.js', 'AdminAddon'));
+            }
+        }
 
-        if($this->getSets('advsearch_autocomplete') == 'true' && !empty($params['__ADMIN__']) || $this->getSets('advsearch_autocomplete') == 'true'){
-            $view->headLink()->appendStylesheet('//code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css');
-            $view->headScript()->appendFile('//code.jquery.com/ui/1.14.2/jquery-ui.min.js');
-            $autocompleteURL = $view->url('admin-addon-controller', ['action' => 'autocomplete']);
-    $script = <<<JS
-window.AdminAdonAutocompleteURL = '$autocompleteURL';
-JS;
-            $view->headScript()->appendScript($script);
-            $view->headScript()->appendFile($view->assetUrl('js/property-autocomplete.js', 'AdminAddon'));
+        if(!empty($params['__ADMIN__']) && $this->getSets('advsearch_autocomplete') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('advsearch_autocomplete') == 'true'){
+            if(in_array($controller, ['item', 'media', 'item-set']) && in_array($action, ['search', 'add', 'edit'])){
+                $script = 'window.AdminAdonSuggestionsURL = \''.$view->url('admin-addon-controller', ['action' => 'suggestions']).'\';';
+                if(in_array($action, ['search', 'add', 'edit'])){
+                    $view->headLink()->appendStylesheet('//code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css');
+                    $view->headScript()->appendFile('//code.jquery.com/ui/1.14.2/jquery-ui.min.js');
+                }
+                if(!empty($params['__ADMIN__']) && in_array($action, ['search'])){  
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                }
+                if(!empty($params['__SITE__']) && in_array($action, ['search'])){  
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSiteSets('advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                }
+                if(!empty($params['__ADMIN__']) && in_array($action, ['add', 'edit'])){
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('forms_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                }
+                $script .= 'window.AdminAdonController = \''.$controller.'\';';
+                $script .= 'window.AdminAdonAction = \''.$action.'\';';
+                // $TypeUI = $params['__ADMIN__'] ? 'ADMIN' : 'SITE';
+                // $script .= 'window.AdminAdonTypeUI = \''.$TypeUI.'\';';
+                $SiteSlug = isset($params['site-slug']) ? $params['site-slug'] : '';
+                $script .= 'window.AdminAdonSiteSlug = \''.$SiteSlug.'\';';
+                // $PageSlug = $params['page-slug'] ? $params['page-slug'] : '';
+                // $script .= 'window.AdminAdonPageSlug = \''.$PageSlug.'\';';
+                $view->headScript()->appendScript($script);
+                if(in_array($action, ['search'])){  
+                    $view->headScript()->appendFile($view->assetUrl('js/search-property-autocomplete.js', 'AdminAddon'));
+                }
+                if(in_array($action, ['add', 'edit'])){
+                    $view->headScript()->appendFile($view->assetUrl('js/form-property-autocomplete.js', 'AdminAddon'));
+                }
+            }
         }
 
         if($this->getConf('developing') || $this->getConf('debug')){
             echo "<!-- Controller: " . $controller . " -->\r\n";
             echo "<!-- Action: " . $action . " -->\r\n";
         }
-
         if($this->getConf('debug')){
             echo "<!--\r\n Params:\r\n";
             print_r($params);
-
-            // print_r(get_class_methods($cfg));
-
             echo "\r\n-->\r\n";
             echo "<!-- Current memory usage: " . $this->convert_size(memory_get_usage()) . " -->\r\n";
             echo "<!-- Peak memory usage: " . $this->convert_size(memory_get_peak_usage()) . " -->\n";
@@ -352,205 +320,23 @@ JS;
         
     }
 
+    public function appendFieldsSiteSettings(Event $event): void
+    {
+
+        $fieldset = new Form\SiteSettingsFieldset;
+        $fieldset->setServiceLocator($this->getServiceLocator());
+        $fieldset->setForm($event->getTarget());
+        $fieldset->init();
+
+    }
 
     public function appendFieldsSettings(Event $event): void
     {
 
-        if(!empty($mode = $this->getSets('editor_change_in_setting')) && $mode !== 'default'){
-
-            $form = $event->getTarget();
-            $options = $form->getOptions();
-
-            $form->add([
-                'name' => 'adminaddon_html_mode_page',
-                'type' => 'radio',
-                'options' => [
-                    'element_group' => 'editing',
-                    'label' => 'Html edition mode for pages', // @translate
-                    'value_options' => [
-                        'inline' => 'Inline (default)', // @translate
-                        'document' => 'Document (maximizable)', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'adminaddon_html_mode_page',
-                    'value' => $this->getSets('html_mode')
-                ],
-            ]);
-
-            $form->add([
-                'name' => 'adminaddon_html_config_page',
-                'type' => 'radio',
-                'options' => [
-                    'element_group' => 'editing',
-                    'label' => 'Html edition config and toolbar for pages', // @translate
-                    'value_options' => [
-                        // @see https://ckeditor.com/cke4/presets-all
-                        'default' => 'Default', // @translate
-                        'standard' => 'Standard', // @translate
-                        'full' => 'Full', // @translate
-                    ],
-                ],
-                'attributes' => [
-                    'id' => 'adminaddon_html_config_page',
-                    'value' => $this->getSets('html_config')
-                ],
-            ]);
-
-        }
-
-        $form->add([
-            'type' => 'checkbox',
-            'name' => 'recaptcha_enable_on_login',
-            'options' => [
-                'element_group' => 'security',
-                'label' => 'Enable reCAPTCHA on Login page', // @translate
-                'info' => 'Check this to enable reCAPTCHA on Login page.', // @translate
-                'checked_value' => 'true',
-                'unchecked_value' => 'false',
-            ],
-            'attributes' => [
-                'value' => $this->getSets('recaptcha_enable_on_login'),
-                'id' => 'recaptcha_enable_on_login',
-            ],
-        ]);
-
-        $form->add([
-            'type' => 'checkbox',
-            'name' => 'recaptcha_enable_on_forgot_password',
-            'options' => [
-                'element_group' => 'security',
-                'label' => 'Enable reCAPTCHA on Forgot Password page', // @translate
-                'info' => 'Check this to enable reCAPTCHA on Forgot Password page.', // @translate
-                'checked_value' => 'true',
-                'unchecked_value' => 'false',
-            ],
-            'attributes' => [
-                'value' => $this->getSets('recaptcha_enable_on_forgot_password'),
-                'id' => 'recaptcha_enable_on_forgot_password',
-            ],
-        ]);
-
-        $form->add([
-            'name' => 'recaptcha_ip_white_list',
-            'type' => 'textarea',
-            'options' => [
-                'element_group' => 'security',
-                'label' => 'IP whitelist for reCAPTCHA', // @translate
-                'info' => 'Enter a single IP address or a range of IP addresses separated by dashes (IPbegin-IPend) in the line to whitelist for reCAPTCHA.' // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('recaptcha_ip_white_list'),
-                'id' => 'recaptcha_ip_white_list',
-            ],
-        ]);
-
-
-        $options['element_groups']['login&forgot'] = 'Pages Log in and Forgot Password'; // @translate
-        
-        $form->add([
-            'name' => 'adminaddon_lf_1_url',
-            'type' => 'Text',
-            'options' => [
-                'element_group' => 'login&forgot',
-                'label' => 'Button 1 - URL', // @translate
-                'info' => 'URL for button' // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_lf_1_url'),
-                'id' => 'adminaddon_lf_1_url',
-            ],
-        ]);
-
-        $form->add([
-            'name' => 'adminaddon_lf_1_label',
-            'type' => 'Text',
-            'options' => [
-                'element_group' => 'login&forgot',
-                'label' => 'Button 1 - Label', // @translate
-                'info' => 'Label for button', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_lf_1_label'),
-                'id' => 'adminaddon_lf_1_label',
-            ],
-        ]);
-
-        $form->add([
-            'name' => 'adminaddon_lf_2_url',
-            'type' => 'Text',
-            'options' => [
-                'element_group' => 'login&forgot',
-                'label' => 'Button 2 - URL', // @translate
-                'info' => 'URL for button', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_lf_2_url'),
-                'id' => 'adminaddon_lf_2_url',
-            ],
-        ]);
-
-        $form->add([
-            'name' => 'adminaddon_lf_2_label',
-            'type' => 'Text',
-            'options' => [
-                'element_group' => 'login&forgot',
-                'label' => 'Button 2 - Label', // @translate
-                'info' => 'Label for button', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_lf_2_label'),
-                'id' => 'adminaddon_lf_2_label',
-            ],
-        ]);
-
-        $options['element_groups']['menuadmindashboard'] = 'Menu on Admin dashboard'; // @translate
-
-        $form->add([
-            'name' => 'adminaddon_menuadmindashboard_label',
-            'type' => 'Text',
-            'options' => [
-                'element_group' => 'menuadmindashboard',
-                'label' => 'Label', // @translate
-                'info' => 'Label for menu on Admin dashboard', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('menuadmindashboard_label'),
-                'id' => 'adminaddon_menuadmindashboard_label',
-            ],
-        ]);
-
-        $form->add([
-            'type' => 'checkbox',
-            'name' => 'adminaddon_menuadmindashboard_enable',
-            'options' => [
-                'element_group' => 'menuadmindashboard',
-                'label' => 'Enable', // @translate
-                'info' => 'Enable menu on Admin dashboard', // @translate
-                'checked_value' => 'true',
-                'unchecked_value' => 'false',
-            ],
-            'attributes' => [
-                'value' => $this->getSets('menuadmindashboard_enable'),
-                'id' => 'adminaddon_menuadmindashboard_enable',
-            ],
-        ]);
-
-        $form->add([
-            'name' => 'adminaddon_menuadmindashboard',
-            'type' => 'textarea',
-            'options' => [
-                'element_group' => 'menuadmindashboard',
-                'label' => 'Content', // @translate
-                'info' => '', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('menuadmindashboard'),
-                'id' => 'adminaddon_menuadmindashboard',
-            ],
-        ]);
-
-        $form->setOption('element_groups', $options['element_groups']);
+        $fieldset = new Form\SettingsFieldset;
+        $fieldset->setServiceLocator($this->getServiceLocator());
+        $fieldset->setForm($event->getTarget());
+        $fieldset->init();
 
     }
 

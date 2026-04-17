@@ -1,209 +1,209 @@
-/* .tablesaw th {
-    cursor: pointer;
-} */
+@media (min-width: 1024px) {
 
-body .flex > header {
-    height: 100vh;
-    /* overflow-y: auto; */
-    position: fixed;
-}
-
-body .flex > header nav#menu {
-    overflow-y: auto;
-    height: calc(100vh - 170px);
-}
-
-body .flex > #content {
-    position: absolute;
-    left: 18.75%;
-    height: 100vh;
-    /* width: 100vw; */
-    display: flex;
-    flex-direction: column;
-}
-
-body .flex #advanced-search {
-    height: 100vh;
-    overflow-y: auto;
-}
-
-body .flex > #content div#modules,
-body .flex > #content .section,
-body.assets.edit .flex > #content,
-body.jobs.show .flex > #content,
-body.resource-templates.show .flex > #content,
-body.resource-templates:is(.add, .edit) .flex > #content form,
-body:is(.configure, .settings) .flex > #content form,
-body:is(.theme, .theme-settings) .flex > #content form,
-body.site-pages .flex > #content form,
-body.resource-meta .flex > #content form,
-body.oai-pmh-harvester .flex > #content,
-body .flex > #content div#bulk-import,
-body #content > #dashboard {
-    height: calc(100vh - 80px);
-    overflow: auto;
-    margin: 0;
-    padding: 10px;
-}
-
-/* body:not(.settings, .sites, .site-pages) .flex > #content form fieldset */
-body .flex > #content form .section {
-    height: calc(100vh - 145px);
-    overflow-y: auto;
-    margin: 0;
-    padding: 10px;
-}
-
-body footer {
-    z-index: 999999;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-}
-body .flex > #content > #batch-form {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1;
-    overflow: hidden;
-}
-body:not(:is(.resource-templates.show)) .flex > #content > table,
-body .flex > #content > #batch-form table {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1;
-    overflow: hidden;
-}
-body:not(:is(.resource-templates.show)) .flex > #content > table tbody,
-body .flex > #content > #batch-form table tbody {
-    flex: 1 1;
-    overflow-y: auto;
-}
-body:not(:is(.resource-templates.show)) .flex > #content > table tr,
-body .flex > #content > #batch-form table tr {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-body .flex > #content > table td,
-body .flex > #content > table th,
-body .flex > #content > #batch-form table td,
-body .flex > #content > #batch-form table th {
-    flex: 1 1;
-}
-body .flex > #content > table td:first-child,
-body .flex > #content > table th:first-child,
-body .flex > #content > #batch-form table td:first-child,
-body .flex > #content > #batch-form table th:first-child {
-    flex: 5 1;
-}
-
-body.jobs .flex > #content > table td:first-child,
-body.jobs .flex > #content > table th:first-child,
-body.jobs .flex > #content > #batch-form table td:first-child,
-body.jobs .flex > #content > #batch-form table th:first-child {
-    flex: 2 1;
-}
-
-.browse-controls {
-    height: 35px;
-}
-.sortable-container {
-    display: flex;
-    margin-right: 12px;
-}
-
-.sortable-container span {
-    opacity: 0.35;
-}
-
-.sortable-container span:hover {
-    opacity: 1;
-}
-
-.value.delete .sortable-container {
-    visibility: hidden;
-}
-
-.sortable-down::before, .sortable-up::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 0;
-    position: relative;
-    cursor: pointer;
-}
-
-.sortable-container .sortable-up::before {
-    content: "\f0d8";
-    top: 3px;
-}
-
-.sortable-container .sortable-down::before {
-    content: "\f0dd";
-    top: -3px;
-}
-
-.sortable-container {
-    display: flex;
-    margin-right: 12px;
-}
-
-nav.pagination {
-    margin-bottom: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    height: 30px;
-    gap: 5px;
-}
-
-form.asset-upload {
-    height: 305px !important;
-}
-
-.search-filters {
-    height: 30px;
-    overflow-y: auto;
-}
-
-.vocabularies #content p {
-    margin: 0px 0px;
-}
-
-#content .messages {
-    height: 42px;
-    overflow-y: auto;
-}
-
-body.easy-admin .flex > #content > form > fieldset {
-    height: calc(100vh - 130px);
-    overflow-y: auto;
-    margin: 0;
-    padding: 10px;
-}
-
-#content > ul.item-sets-tree {
-    height: calc(100vh - 80px);
-    overflow: auto;
-    margin: 0;
-}
-
-.activity-log-events {
-    .browse-controls{
-        z-index: 10;
+    body .flex > header {
+        height: 100vh;
+        /* overflow-y: auto; */
+        position: fixed;
     }
-    .tablesaw {
-        max-height: calc(100% - 60px) !important;
-    }
-    .event-id {
-        max-width: 80px;
-    }
-}
 
-.items.browse #content > .bulk-export,
-.media.browse #content > .bulk-export,
-.item-sets.browse #content > .bulk-export {
-    position: absolute;
-    right: 25px;
-    bottom: 50px;
+    body .flex > header nav#menu {
+        overflow-y: auto;
+        height: calc(100vh - 170px);
+    }
+
+    body .flex > #content {
+        position: absolute;
+        left: 18.75%;
+        height: 100vh;
+        /* width: 100vw; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    body .flex #advanced-search {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    body .flex > #content div#modules,
+    body .flex > #content .section,
+    body.assets.edit .flex > #content,
+    body.jobs.show .flex > #content,
+    body.resource-templates.show .flex > #content,
+    body.resource-templates:is(.add, .edit) .flex > #content form,
+    body:is(.configure, .settings) .flex > #content form,
+    body:is(.theme, .theme-settings) .flex > #content form,
+    body.site-pages .flex > #content form,
+    body.resource-meta .flex > #content form,
+    body.oai-pmh-harvester .flex > #content,
+    body .flex > #content div#bulk-import,
+    body #content > #dashboard {
+        height: calc(100vh - 80px);
+        overflow: auto;
+        margin: 0;
+        padding: 10px;
+    }
+
+    /* body:not(.settings, .sites, .site-pages) .flex > #content form fieldset */
+    body .flex > #content form .section {
+        height: calc(100vh - 145px);
+        overflow-y: auto;
+        margin: 0;
+        padding: 10px;
+    }
+
+    body footer {
+        z-index: 999999;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
+    body .flex > #content > #batch-form {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1;
+        overflow: hidden;
+    }
+    body:not(:is(.resource-templates.show)) .flex > #content > table,
+    body .flex > #content > #batch-form table {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1;
+        overflow: hidden;
+    }
+    body:not(:is(.resource-templates.show)) .flex > #content > table tbody,
+    body .flex > #content > #batch-form table tbody {
+        flex: 1 1;
+        overflow-y: auto;
+    }
+    body:not(:is(.resource-templates.show)) .flex > #content > table tr,
+    body .flex > #content > #batch-form table tr {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    body .flex > #content > table td,
+    body .flex > #content > table th,
+    body .flex > #content > #batch-form table td,
+    body .flex > #content > #batch-form table th {
+        flex: 1 1;
+    }
+    body .flex > #content > table td:first-child,
+    body .flex > #content > table th:first-child,
+    body .flex > #content > #batch-form table td:first-child,
+    body .flex > #content > #batch-form table th:first-child {
+        flex: 5 1;
+    }
+
+    body.jobs .flex > #content > table td:first-child,
+    body.jobs .flex > #content > table th:first-child,
+    body.jobs .flex > #content > #batch-form table td:first-child,
+    body.jobs .flex > #content > #batch-form table th:first-child {
+        flex: 2 1;
+    }
+
+    .browse-controls {
+        height: 35px;
+    }
+    .sortable-container {
+        display: flex;
+        margin-right: 12px;
+    }
+
+    .sortable-container span {
+        opacity: 0.35;
+    }
+
+    .sortable-container span:hover {
+        opacity: 1;
+    }
+
+    .value.delete .sortable-container {
+        visibility: hidden;
+    }
+
+    .sortable-down::before, .sortable-up::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 24px;
+        line-height: 0;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .sortable-container .sortable-up::before {
+        content: "\f0d8";
+        top: 3px;
+    }
+
+    .sortable-container .sortable-down::before {
+        content: "\f0dd";
+        top: -3px;
+    }
+
+    .sortable-container {
+        display: flex;
+        margin-right: 12px;
+    }
+
+    nav.pagination {
+        margin-bottom: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        height: 30px;
+        gap: 5px;
+    }
+
+    form.asset-upload {
+        height: 305px !important;
+    }
+
+    .search-filters {
+        height: 30px;
+        overflow-y: auto;
+    }
+
+    .vocabularies #content p {
+        margin: 0px 0px;
+    }
+
+    #content .messages {
+        height: 42px;
+        overflow-y: auto;
+    }
+
+    body.easy-admin .flex > #content > form > fieldset {
+        height: calc(100vh - 130px);
+        overflow-y: auto;
+        margin: 0;
+        padding: 10px;
+    }
+
+    #content > ul.item-sets-tree {
+        height: calc(100vh - 80px);
+        overflow: auto;
+        margin: 0;
+    }
+
+    .activity-log-events {
+        .browse-controls{
+            z-index: 10;
+        }
+        .tablesaw {
+            max-height: calc(100% - 60px) !important;
+        }
+        .event-id {
+            max-width: 80px;
+        }
+    }
+
+    .items.browse #content > .bulk-export,
+    .media.browse #content > .bulk-export,
+    .item-sets.browse #content > .bulk-export {
+        position: absolute;
+        right: 25px;
+        bottom: 50px;
+    }
+
 }

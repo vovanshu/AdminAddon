@@ -47,6 +47,8 @@ return [
         'factories' => [
             'Omeka\Form\LoginForm' => Service\Form\LoginFormFactory::class,
             'Omeka\Form\ForgotPasswordForm' => Service\Form\ForgotPasswordFormFactory::class,
+            // Form\SettingsFieldset::class => Form\SettingsFieldsetFactory::class
+            // Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldsetFactory::class
         ],
         'invokables' => [
             // Form\SettingsFieldset::class => Form\SettingsFieldset::class,
@@ -88,7 +90,7 @@ return [
                     'defaults' => [
                         '__NAMESPACE__' => 'AdminAddon\Controller',
                         'controller' => Controller\AdminAddonController::class,
-                        'action' => 'autocomplete',
+                        'action' => 'suggestions',
                     ],
                 ],
             ],
@@ -131,6 +133,9 @@ return [
             'adminaddon_chosen_js_disable' => 'false',
             'adminadon_advsearch_autocomplete' => 'false',
             'adminadon_advsearch_public_autocomplete' => 'false',
+            'adminadon_advsearch_autocomplete_fields' => [],
+            'adminadon_forms_autocomplete' => 'false',
+            'adminadon_forms_autocomplete_fields' => [],
             
         ],
         'options' => [
@@ -140,9 +145,9 @@ return [
             'html_config' => 'adminaddon_html_config_page',
             'mode_admin_ui' => 'adminaddon_mode_admin_ui',
             'search_form_hidden' => 'adminaddon_search_form_inmenu_hidden',
-            'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
-            'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
-            'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
+            // 'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
+            // 'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
+            // 'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
             'menuadmindashboard' => 'adminaddon_menuadmindashboard',
             'menuadmindashboard_enable' => 'adminaddon_menuadmindashboard_enable',
             'menuadmindashboard_label' => 'adminaddon_menuadmindashboard_label',
@@ -151,6 +156,13 @@ return [
             'chosen_js_disable' => 'adminaddon_chosen_js_disable',
             'advsearch_autocomplete' => 'adminadon_advsearch_autocomplete',
             'advsearch_public_autocomplete' => 'adminadon_advsearch_public_autocomplete',
+            'forms_autocomplete' => 'adminadon_forms_autocomplete',
+            'advsearch_autocomplete_fields' => 'adminadon_advsearch_autocomplete_fields',
+            'forms_autocomplete_fields' => 'adminadon_forms_autocomplete_fields',
+        ],
+        'site_settings' => [
+            'adminadon_advsearch_autocomplete' => 'false',
+            'adminadon_advsearch_autocomplete_fields' => [],
         ],
         'custom_configs' => [
             'adminaddon_replace_helper_ckeditor',
@@ -165,9 +177,9 @@ return [
                 'controllers' => [
                     'general' => [
                         'AdminAddon\Controller\Admin\SettingsController' => ['edit'],
-                        'item' => ['browse', 'show', 'add', 'edit'],
-                        'media' => ['browse', 'show', 'add', 'edit'],
-                        'item-set' => ['browse', 'show', 'add', 'edit'],
+                        'item' => ['browse', 'show', 'add', 'edit', 'search'],
+                        'media' => ['browse', 'show', 'add', 'edit', 'search'],
+                        'item-set' => ['browse', 'show', 'add', 'edit', 'search'],
                         'vocabulary' => ['browse', 'classes', 'properties'],
                         'resource-template' => ['browse', 'add', 'edit'],
                         'user' => ['browse'],

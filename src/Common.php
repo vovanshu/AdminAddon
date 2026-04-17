@@ -19,6 +19,8 @@ trait Common
 
     protected $settings;
 
+    protected $siteSettings;
+
     protected $userSettings;
 
     protected $config;
@@ -172,6 +174,19 @@ trait Common
 
     }
 
+    public function getSiteSettings()
+    {
+
+        if($this->serviceLocator){
+            if(!$this->siteSettings){
+                $this->siteSettings = $this->getServiceLocator()->get('Omeka\Settings\Site');
+            }
+            return $this->siteSettings;
+        }
+        return;
+
+    }
+
     public function getUserSettings()
     {
 
@@ -203,7 +218,7 @@ trait Common
         return $this->getServiceLocator()->get('Omeka\Media\Ingester\Manager');
     }
 
-    public function getConf($name = Null, $param = Null, $all = False)
+    public function getConf($name = Null, $param = Null, $default = Null, $all = False)
     {
 
         $config = $this->getConfigs()[$this->configName];
@@ -213,7 +228,7 @@ trait Common
                     if(isset($config[$name][$param])){
                         return $config[$name][$param];
                     }else{
-                        return False;
+                        return $default;
                     }
                 }else{
                     return $config[$name];
@@ -223,30 +238,24 @@ trait Common
             if($all){
                 return $config;
             }else{
-                return False;
+                return $default;
             }
         }
 
     }
 
-    public function getOps($name)
+    public function getOps($name, $default = Null)
     {
 
-        $config = $this->getConfigs()[$this->configName];
-        if(!empty($name)){
-            if(!empty($config['options']) && !empty($config['options'][$name])){
-                return $config['options'][$name];
-            }
-        }
-        return False;
+        return $this->getConf('options', $name, $default);        
 
     }
 
     public function getSets($name, $callback = [])
     {
         
-        $name = (($opt = $this->getOps($name)) ? $opt : $name);
-        $r = ($this->getSettings()->get($name) ? $this->getSettings()->get($name) : ($this->getConf('settings', $name) ? $this->getConf('settings', $name) : Null));
+        $ops = $this->getOps($name, $name);
+        $r = $this->getSettings()->get($ops, $this->getConf('settings', $ops));
         if(!empty($callback)){
             $r = call_user_func_array($callback, [$r]);
         }
@@ -257,8 +266,39 @@ trait Common
     public function setSets($name, $value)
     {
         
-        $name = (($opt = $this->getOps($name)) ? $opt : $name);
-        $this->getSettings()->set($name, $value);
+        $ops = $this->getOps($name, $name);
+        $this->getSettings()->set($ops, $value);
+        
+    }
+
+    public function getSiteSets($name, $callback = [])
+    {
+
+        $ops = $this->getOps($name, $name);
+        $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops));
+        if(!empty($callback)){
+            $r = call_user_func_array($callback, [$r]);
+        }
+        return $r;
+        
+    }
+
+    public function setSiteSets($name, $value)
+    {
+        
+        $ops = $this->getOps($name, $name);
+        $this->getSiteSettings()->set($ops, $value);
+        
+    }
+
+    public function getSiteID($slug)
+    {
+
+        $rc = $this->getConnection()->executeQuery("SELECT id FROM `site` WHERE `slug` = '{$slug}' LIMIT 1;")->fetchAssociative();
+        if(!empty($rc['id'])){
+            return $rc['id'];
+        }
+        return False;
         
     }
 
