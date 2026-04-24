@@ -1,0 +1,55 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var string $name
+ * @var array $facetValues With value and count.
+ * @var array $options Facets options, including "min", "max", "step".
+ * @var array $query
+ * @var numeric $property_id
+ *
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$isFacetModeDirect = in_array($options['mode'] ?? null, ['link', 'js']);
+
+if(!empty($facetValues[0]['count']['val'])){
+    $min = $max = $facetValues[0]['count']['val'];
+    foreach ($facetValues as $vals) {
+        if ($vals['count']['val'] < $min) $min = $vals['count']['val'];
+        if ($vals['count']['val'] > $max) $max = $vals['count']['val'];
+    }
+}else{
+    $min = (string) ($options['min_value'] ?? date('Y')-100);
+    $max = (string) ($options['max_value'] ?? date('Y'));
+}
+
+$step = (string) ($options['step'] ?? '1');
+
+$minMaxStep = ($min === '' ? '' : ' min="' . $escapeAttr($min) . '"')
+    . ($max === '' ? '' : ' max="' . $escapeAttr($max) . '"')
+    . ($step === '' ? '' : ' step="' . $escapeAttr($step) . '"');
+
+$from = $query['numeric']['ts']['gte']['val'] ?? Null;
+$to = $query['numeric']['ts']['lte']['val'] ?? Null;
+
+?>
+
+<div class="facet-items facet-range-double range-double">
+    <div class="range-sliders">
+        <input name="numeric[ts][gte][pid]" type="hidden" value="<?= $property_id ?>"/>
+        <input class="range-slider-from" type="range" name="numeric[ts][gte][val]" value="<?= $escapeAttr($from ?? $min) ?>"<?= $minMaxStep ?><?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($fromUrl ?? '') . '"' : '' ?><?= $from ? ' data-value-set="query"' : '' ?> data-type="faset"/>
+        <input name="numeric[ts][lte][pid]" type="hidden" value="<?= $property_id ?>"/>
+        <input class="range-slider-to" type="range" name="numeric[ts][lte][val]" value="<?= $escapeAttr($to ?? $max) ?>"<?= $minMaxStep ?><?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($toUrl ?? '') . '"' : '' ?><?= $to ? ' data-value-set="query"' : '' ?> data-type="faset"/>
+    </div>
+    <div class="range-numerics">
+        <div class="range-numeric">
+            <input class="range-numeric-from" type="number" value="<?= $escapeAttr($from ?? $min) ?>"<?= $minMaxStep ?><?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($fromUrl ?? '') . '"' : '' ?>/>
+        </div>
+        <div class="range-numeric">
+            <input class="range-numeric-to" type="number" value="<?= $escapeAttr($to ?? $max) ?>"<?= $minMaxStep ?><?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($toUrl ?? '') . '"' : '' ?>/>
+        </div>
+    </div>
+</div>

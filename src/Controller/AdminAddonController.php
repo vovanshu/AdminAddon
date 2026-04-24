@@ -13,16 +13,66 @@ class AdminAddonController extends AbstractActionController
 
     use General;
 
-    public function metadataFiltersAction()
+    public function listFasetsAction()
     {
 
-        $request = $this->getRequest();
-        $query = $request->getQuery();
+        $referer = parse_url($_SERVER['HTTP_REFERER'] ?? '', PHP_URL_HOST);
+        if($referer == $_SERVER['SERVER_NAME'] || ( $this->getConf('developing') || $this->getConf('debug') )){
+            $success = False;
+            $request = $this->getRequest();
+            $query = $request->getQuery();
+
+            $config = [];
+            $list = [];
+
+            // if(!empty($query['site_slug']) && !empty($siteID = $this->getSiteID($query['site_slug'])) && $this->getSiteSets('search_fasets_enable', $siteID) == 'true'){
+            if(!empty($query['site_slug']) && $this->getSiteSets('search_fasets_enable') == 'true'){
+                $config = $this->getSiteSets('search_fasets');
+            }elseif($this->getSets('search_fasets_enable') == 'true'){
+                $config = $this->getSets('search_fasets');
+            }
+            if(!empty($config)){
+                $config = parse_ini_string($config, true, INI_SCANNER_TYPED);
+            }
+
+            foreach($config as $k => $v){
+                if(stripos($v['type'], 'range') !== False){
+                    $q = $this->createQueryRange($query, $v);
+                    $rc = $this->getConnection()->executeQuery($q)->fetchAssociative();
+                    if(!empty($rc)){
+                        if($v['result'] == 'date-year'){
+                            if (strlen($rc['min_value']) > 4) {
+                                $rc['min_value']= date("Y", strtotime($rc['min_value']));
+                            }
+                            if (strlen($rc['max_value']) > 4) {
+                                $rc['max_value']= date("Y", strtotime($rc['max_value']));
+                            }
+                        }
+                        $list[$k]['range'] = $rc;
+                    }
+                    $success = True;
+                }
+                if(stripos($v['type'], 'select') !== False){
+                    $list[]['q'] = $this->createQueryList($query, $v);
+
+                    // $success = True;
+                }
+
+            }          
+
+            return new JsonModel([
+                'success' => $success,
+                'request' => $query,
+                'config' => $config,
+                'list' => $list
+            ]);
+
+        }
 
         return new JsonModel([
-            'query' => $query
+            'success' => false,
+            'list' => [],
         ]);
-
     }
 
     public function suggestionsAction()
@@ -31,6 +81,8 @@ class AdminAddonController extends AbstractActionController
         $referer = parse_url($_SERVER['HTTP_REFERER'] ?? '', PHP_URL_HOST);
         if($referer == $_SERVER['SERVER_NAME'] || ( $this->getConf('developing') || $this->getConf('debug') )){
             $request = $this->getRequest();
+            $query = $request->getQuery();
+
             $term = $request->getQuery('term', '');
             $property_id = $request->getQuery('property_id', '');
             $value = $request->getQuery('value', '');
@@ -76,7 +128,7 @@ class AdminAddonController extends AbstractActionController
 
                     $q .= ' GROUP BY `value`';
                     $q .= ' ORDER BY `value`.`value` ASC';
-                    $q .= ' LIMIT 0, 100;';
+                    $q .= ' LIMIT 0, 20;';
 
                     $rc = $this->getConnection()->executeQuery($q);
                     if(!empty($rc)){

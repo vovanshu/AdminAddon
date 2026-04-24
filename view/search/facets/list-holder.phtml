@@ -1,0 +1,51 @@
+<?php
+
+$plugins = $this->getHelperPluginManager();
+$AdminAddon = $this->AdminAddon();
+$partial = $plugins->get('partial');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$query = $this->params()->fromQuery();
+$searchFasets = $AdminAddon->prepareSearchFasets($query);
+?>
+<form id="facets-form" type="get">
+<?php $AdminAddon->getHiddenQueriesInput($query, $searchFasets); ?>
+
+<div class="facets-actions facets-actions-top mb-3">
+    <div class="g-grid gap-2">
+        <button id="facets-apply" class="btn btn-primary btn-sm facets-apply" type="submit">
+            <i class="fas fa-check me-1"></i>
+            <?= $escape($translate('Apply')) ?>
+        </button>
+        <button id="facets-reset" class="btn btn-outline-secondary btn-sm facets-reset" type="button">
+            <i class="fas fa-undo me-1"></i>
+            <?= $escape($translate('Reset')) ?>
+        </button>
+    </div>
+</div>
+
+<div class="facets-list">
+    <?php $cardId = 0; ?>
+    <?php foreach ($searchFasets as $facetID => $facetOption): ?>
+    <?php $cardId++; ?>
+    <div id="facet-id-<?= $facetID ?>" class="card mb-3 facet">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <?php if(!empty($facetOption['icon'])): ?>
+                <i class="fas <?= $facetOption['icon'] ?> me-2"></i>
+                <?php endif; ?>
+                <?= $escape($translate($facetOption['title'])) ?>
+            </h5>
+        </div>
+        <div id="collapse<?= $cardId ?>" class="collapse show">
+            <div class="card-body">
+                <div class="facet-elements">
+                    <?= $partial($facetOption['partial'], $facetOption) ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+</form>

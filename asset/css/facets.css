@@ -1,0 +1,6 @@
+.range-sliders input[type="range"].active::-webkit-slider-thumb {
+    transform: scale(1.2);
+}
+.range-sliders input[type="range"].active::-moz-range-thumb {
+    transform: scale(1.2);
+}

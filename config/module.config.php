@@ -35,6 +35,7 @@ return [
         ],
         'factories' => [
             'AdminAddon' => Service\ControllerPlugin\GeneralPluginFactory::class,
+            // 'AdminAddonFacets' => Service\ViewHelper\FacetsFactory::class,
         ],
     ],
     'controllers' => [
@@ -49,9 +50,6 @@ return [
             'Omeka\Form\ForgotPasswordForm' => Service\Form\ForgotPasswordFormFactory::class,
             // Form\SettingsFieldset::class => Form\SettingsFieldsetFactory::class
             // Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldsetFactory::class
-        ],
-        'invokables' => [
-            // Form\SettingsFieldset::class => Form\SettingsFieldset::class,
         ],
     ],
     'service_manager' => [
@@ -78,19 +76,37 @@ return [
                             ],
                         ],
                     ],
+                    'admin-addon-controller' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '/admin-addon[/:action]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                            ],
+                            'defaults' => [
+                                '__NAMESPACE__' => 'AdminAddon\Controller',
+                                'controller' => Controller\AdminAddonController::class,
+                                'action' => 'suggestions',
+                            ],
+                        ],
+                    ],
                 ],
             ],
-            'admin-addon-controller' => [
-                'type' => \Laminas\Router\Http\Segment::class,
-                'options' => [
-                    'route' => '/admin-addon[/:action]',
-                    'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
-                    ],
-                    'defaults' => [
-                        '__NAMESPACE__' => 'AdminAddon\Controller',
-                        'controller' => Controller\AdminAddonController::class,
-                        'action' => 'suggestions',
+            'site' => [
+                'child_routes' => [
+                    'admin-addon-controller' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '/admin-addon[/:action]',
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                            ],
+                            'defaults' => [
+                                '__NAMESPACE__' => 'AdminAddon\Controller',
+                                'controller' => Controller\AdminAddonController::class,
+                                'action' => 'suggestions',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -136,7 +152,9 @@ return [
             'adminadon_advsearch_autocomplete_fields' => [],
             'adminadon_forms_autocomplete' => 'false',
             'adminadon_forms_autocomplete_fields' => [],
-            
+            'adminadon_search_fasets_enable' => 'false',
+            'adminadon_search_fasets' => '',
+            'adminadon_render_by_js' => 'false',
         ],
         'options' => [
             'replace_helper_ckeditor' => 'adminaddon_replace_helper_ckeditor',
@@ -145,9 +163,9 @@ return [
             'html_config' => 'adminaddon_html_config_page',
             'mode_admin_ui' => 'adminaddon_mode_admin_ui',
             'search_form_hidden' => 'adminaddon_search_form_inmenu_hidden',
-            // 'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
-            // 'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
-            // 'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
+            'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
+            'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
+            'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
             'menuadmindashboard' => 'adminaddon_menuadmindashboard',
             'menuadmindashboard_enable' => 'adminaddon_menuadmindashboard_enable',
             'menuadmindashboard_label' => 'adminaddon_menuadmindashboard_label',
@@ -159,6 +177,9 @@ return [
             'forms_autocomplete' => 'adminadon_forms_autocomplete',
             'advsearch_autocomplete_fields' => 'adminadon_advsearch_autocomplete_fields',
             'forms_autocomplete_fields' => 'adminadon_forms_autocomplete_fields',
+            'search_fasets_enable' => 'adminadon_search_fasets_enable',
+            'search_fasets' => 'adminadon_search_fasets',
+            'render_by_js' => 'adminadon_render_by_js',
         ],
         'site_settings' => [
             'adminadon_advsearch_autocomplete' => 'false',

@@ -232,6 +232,7 @@ class SettingsFieldset extends Fieldset
             'attributes' => [
                 'value' => $this->getSets('menuadmindashboard'),
                 'id' => 'adminaddon_menuadmindashboard',
+                'class' => 'edit-ini-textarea'
             ],
         ]);
 
@@ -249,6 +250,8 @@ class SettingsFieldset extends Fieldset
                     'value' => $this->getSets('advsearch_autocomplete'),
                 ],
             ]);
+
+        $allowedEmpty[] = $this->getOps('advsearch_autocomplete');
 
         $this->form->add([
                 'name' => $this->getOps('advsearch_autocomplete_fields'),
@@ -269,6 +272,7 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
+        $allowedEmpty[] = $this->getOps('advsearch_autocomplete_fields');
 
         $this->form->add([
                 'name' => $this->getOps('forms_autocomplete'),
@@ -305,29 +309,46 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
+        $allowedEmpty[] = $this->getOps('forms_autocomplete_fields');
+
+
+        $this->form->add([
+            'type' => 'checkbox',
+            'name' => $this->getOps('search_fasets_enable'),
+            'options' => [
+                'element_group' => 'search',
+                'label' => 'Enable search fasets', // @translate
+                'info' => 'Enable search fasets config', // @translate
+                'checked_value' => 'true',
+                'unchecked_value' => 'false',
+            ],
+            'attributes' => [
+                'value' => $this->getSets('search_fasets_enable'),
+                'id' => $this->getOps('search_fasets_enable'),
+            ],
+        ]);
+
+        $this->form->add([
+            'name' => $this->getOps('search_fasets'),
+            'type' => 'textarea',
+            'options' => [
+                'element_group' => 'search',
+                'label' => 'Search fasets config', // @translate
+                'info' => '', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->getSets('search_fasets'),
+                'id' => $this->getOps('search_fasets'),
+                'class' => 'edit-ini-textarea'
+            ],
+        ]);
+
+        $allowedEmpty[] = $this->getOps('search_fasets');
 
         $this->form->setOption('element_groups', $options['element_groups']);
 
         $inputFilter = $this->form->getInputFilter();
-        $inputFilter->add([
-            'name' => $this->getOps('advsearch_autocomplete'),
-            'allow_empty' => true,
-        ]);
-
-        $inputFilter->add([
-            'name' => $this->getOps('advsearch_autocomplete_fields'),
-            'allow_empty' => true,
-        ]);
-
-        $inputFilter->add([
-            'name' => $this->getOps('forms_autocomplete'),
-            'allow_empty' => true,
-        ]);
-
-        $inputFilter->add([
-            'name' => $this->getOps('forms_autocomplete_fields'),
-            'allow_empty' => true,
-        ]);
+        $this->inputFilterAllowEmpty($inputFilter, $allowedEmpty);
 
     }
 }

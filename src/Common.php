@@ -271,11 +271,16 @@ trait Common
         
     }
 
-    public function getSiteSets($name, $callback = [])
+    public function getSiteSets($name, $siteID = Null, $callback = [])
     {
 
         $ops = $this->getOps($name, $name);
-        $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops));
+        if($siteID){
+            $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops), $siteID);
+        }else{
+            $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops));
+        }
+        
         if(!empty($callback)){
             $r = call_user_func_array($callback, [$r]);
         }
@@ -499,10 +504,66 @@ trait Common
 
     }
 
+    public function searchInArray($haystack, $needs)
+    {
+
+        $r = [];
+        foreach($haystack as $i => $v){
+            if(is_array($v)){
+                $rc = $this->searchInArray($v, $needs);
+                if(!empty($rc)){
+                    $r[] = $i;
+                }
+            }else{
+                $rc = $this->procSearchInArray($i, $v, $needs);
+                if(!empty($rc)){
+                    $r[] = $rc;
+                }
+            }
+        }
+        return $r;
+
+    }
+
+    private function procSearchInArray($i, $v, $needs)
+    {
+
+        foreach($needs as $k => $n){
+            if($k == $i && $n == $v){
+                return $i;
+            }
+        }
+        return False;
+
+    }
+
     public function convert_size($size)
     {
         $unit=array('b','Kb','Mb','Gb','Tb','Pb');
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
     }
-    
+
+    public function inputFilterAllowEmpty($inputFilter, $allowedEmpty = [])
+    {
+
+        if(!empty($allowedEmpty)){
+            foreach($allowedEmpty as $var){
+                if(is_array($var)){
+                    foreach($var as $group => $name){
+                        $inputFilter->get($group)->add([
+                            'name' => $name,
+                            'allow_empty' => true,
+                        ]);
+                    }
+                }else{
+                    $inputFilter->add([
+                        'name' => $var,
+                        'allow_empty' => true,
+                    ]);
+                }
+            }
+        }
+
+    }
+
 }

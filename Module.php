@@ -135,14 +135,27 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\ItemAdapter',
             'api.search.query',
-            [$this, 'addInSearchQuery']
+            [$this, 'handlerSearchQuery']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\MediaAdapter',
             'api.search.query',
-            [$this, 'addInSearchQuery']
+            [$this, 'handlerSearchQuery']
         );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\ItemAdapter',
+            'api.search.query.finalize',
+            [$this, 'debugSearchQuery']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\MediaAdapter',
+            'api.search.query.finalize',
+            [$this, 'debugSearchQuery']
+        );
+        
 
         $sharedEventManager->attach(
             'Omeka\Controller\Admin\Item',
@@ -183,6 +196,7 @@ class Module extends AbstractModule
         $params = $view->params()->fromRoute();
         $controller = False;
         $action = False;
+        $SiteSlug = isset($params['site-slug']) ? $params['site-slug'] : '';
         if(!empty($params['__CONTROLLER__'])){
             $controller = $params['__CONTROLLER__'];
         }elseif(!empty($params['controller'])){
@@ -192,6 +206,10 @@ class Module extends AbstractModule
             $action = $params['action'];
         }
         $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
+        
+        $view->headLink()->appendStylesheet($view->assetUrl('css/facets.css', 'AdminAddon'));
+        $view->headScript()->appendFile($view->assetUrl('js/fasets.js', 'AdminAddon'));
+
         if(!empty($params['__ADMIN__'])){
 
             $mode = $this->modeAdminUI($controller, $action);
@@ -255,8 +273,15 @@ CSS;
         }
 
         if(!empty($params['__ADMIN__']) && $this->getSets('advsearch_autocomplete') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('advsearch_autocomplete') == 'true'){
-            if(in_array($controller, ['item', 'media', 'item-set']) && in_array($action, ['search', 'add', 'edit'])){
-                $script = 'window.AdminAdonSuggestionsURL = \''.$view->url('admin-addon-controller', ['action' => 'suggestions']).'\';';
+            if(in_array($controller, ['item', 'media', 'item-set']) && in_array($action, ['browse', 'search', 'add', 'edit'])){
+                if($SiteSlug){
+                    $script = 'window.AdminAdonSuggestionsURL = \''.$view->url('site/admin-addon-controller', ['site-slug' => $SiteSlug, 'action' => 'suggestions']).'\';';
+                    $script .= 'window.AdminAdonListFasetsURL = \''.$view->url('site/admin-addon-controller', ['site-slug' => $SiteSlug, 'action' => 'list-fasets']).'\';';
+                }else{
+                    $script = 'window.AdminAdonSuggestionsURL = \''.$view->url('admin/admin-addon-controller', ['action' => 'suggestions']).'\';';
+                    $script .= 'window.AdminAdonListFasetsURL = \''.$view->url('admin/admin-addon-controller', ['action' => 'list-fasets']).'\';';
+                }
+                
                 if(in_array($action, ['search', 'add', 'edit'])){
                     $view->headLink()->appendStylesheet('//code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css');
                     $view->headScript()->appendFile('//code.jquery.com/ui/1.14.2/jquery-ui.min.js');
@@ -274,7 +299,6 @@ CSS;
                 $script .= 'window.AdminAdonAction = \''.$action.'\';';
                 // $TypeUI = $params['__ADMIN__'] ? 'ADMIN' : 'SITE';
                 // $script .= 'window.AdminAdonTypeUI = \''.$TypeUI.'\';';
-                $SiteSlug = isset($params['site-slug']) ? $params['site-slug'] : '';
                 $script .= 'window.AdminAdonSiteSlug = \''.$SiteSlug.'\';';
                 // $PageSlug = $params['page-slug'] ? $params['page-slug'] : '';
                 // $script .= 'window.AdminAdonPageSlug = \''.$PageSlug.'\';';
@@ -340,22 +364,64 @@ CSS;
 
     }
 
-    public function addInSearchQuery(Event $event): void
+    public function debugSearchQuery(Event $event): void
     {
 
-        // $routeMatch = $this->getApplicationRouteMatch();
+        if($this->getConf('debug')){
+            $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+            $controller = $routeMatch->getParam('__CONTROLLER__');
+            if(in_array($controller, ['media', 'item'])){
+                $ADMIN = False;
+                $SITE = False;
+                if($routeMatch->getParam('__ADMIN__')){
+                    $ADMIN = True;
+                }
+                if($routeMatch->getParam('__SITE__')){
+                    $SITE = True;
+                }
+                $request = $event->getParam('request');
+                $params = $request->getContent();
+                $qb = $event->getParam('queryBuilder');
+            
+                echo "<!--\r\n Params:\r\n";
+                print_r($params);
+                echo "\r\n-->\r\n";
+                echo "<!--\r\n Query:\r\n";
+                // print_r(get_class_methods($qb));
+                // print_r(get_class_methods($qb->getQuery()));
+
+                // echo $qb->getRootAlias()."\r\n";
+                // print_r($qb->getRootAliases());
+                print_r($qb->getAllAliases());
+
+                echo $qb->getQuery()->getSQL();
+                echo "\r\n-->\r\n";
+            }
+        }
+
+    }
+
+    public function handlerSearchQuery(Event $event): void
+    {
+
         $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
         $controller = $routeMatch->getParam('__CONTROLLER__');
-        if($controller == 'media' || $controller == 'item'){
-        // if(!empty($routeMatch) && is_object($routeMatch) && method_exists($routeMatch, 'getParam')){
-            // if($routeMatch->getParam('__ADMIN__')){
+        if(in_array($controller, ['media', 'item'])){
+            $ADMIN = False;
+            $SITE = False;
+            if($routeMatch->getParam('__ADMIN__')){
+                $ADMIN = True;
+            }
+            if($routeMatch->getParam('__SITE__')){
+                $SITE = True;
+            }
             $request = $event->getParam('request');
             $params = $request->getContent();
             $qb = $event->getParam('queryBuilder');
             $entityAlias = $qb->getRootAlias();
-            $mediaAlias = $qb->createAlias();
             $expr = $qb->expr();
             if($controller == 'media'){
+                $mediaAlias = $qb->createAlias();
                 if(!empty($params['ingester'])){
                     $qb->andWhere($expr->eq($entityAlias . '.ingester', "'".$params['ingester']."'"));
                 }
@@ -364,6 +430,7 @@ CSS;
                 }
             }
             if($controller == 'item'){
+                $mediaAlias = $qb->createAlias();
                 if(!empty($params['ingester'])){
                     $qb->leftJoin($entityAlias . '.media', $mediaAlias);
                     $qb->andWhere($expr->eq($mediaAlias . '.ingester', "'".$params['ingester']."'"));
@@ -371,6 +438,45 @@ CSS;
                 if(!empty($params['media_type'])){
                     $qb->leftJoin($entityAlias . '.media', $mediaAlias);
                     $qb->andWhere($expr->eq($mediaAlias . '.mediaType', "'".$params['media_type']."'"));
+                }
+                if(!empty($params['facets'])){
+                    $configFasets = $this->getConfigSearchFasets($ADMIN);
+                    if(!empty($configFasets)){
+                        
+                        $fasetsQuery = [];
+                        // $qb->leftJoin($entityAlias.'.values', $valuesAlias);
+
+                        foreach($configFasets as $faset){
+                            if(!empty($params['facets'][$faset['name']])){
+                                $valuesAlias = $qb->createAlias();
+                                $facetOps = $params['facets'][$faset['name']];
+                                $qb->leftJoin($entityAlias.'.values', $valuesAlias, 'WITH', $qb->expr()->eq("$valuesAlias.property", $faset['property_id']));
+                                if($faset['type'] == 'range'){
+                                    $fasetsQuery[] = $expr->andX(
+                                        $expr->gte($valuesAlias.'.value', $facetOps['from']),
+                                        $expr->lte($valuesAlias.'.value', $facetOps['to'])
+                                    );
+                                }
+                                if($faset['type'] == 'checkboxe'){
+                                    $fvars = [];
+                                    foreach($facetOps as $fvar){
+                                        $fvars[] = $expr->eq($valuesAlias.'.value', "'$fvar'");
+                                    }
+                                    $fasetsQuery[] = '('.join(' OR ', $fvars).')';                        
+                                }
+                                if($faset['type'] == 'select'){
+
+                                    echo "<!--\r\n facetOps:\r\n";
+                                    print_r($facetOps);
+                                    echo "\r\n-->\r\n";
+
+                                }
+                            }
+                        }
+                        if(!empty($fasetsQuery)){
+                            $qb->andWhere(join(' AND ', $fasetsQuery));
+                        }
+                    }
                 }
             }
         }

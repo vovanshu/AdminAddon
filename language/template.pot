@@ -3,104 +3,161 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "MIME-Version: 1.0\n"
-"POT-Creation-Date: 2026-04-08 13:25+0000\n"
+"POT-Creation-Date: 2026-04-24 11:35+0000\n"
 "Project-Id-Version: AdminAddon\n"
 "X-Domain: AdminAddon\n"
 "X-Generator: LanguagesManager\n"
 
-#: modules/AdminAddon/Module.php:342
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:39
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:27
-msgid "Html edition mode for pages"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:344
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:41
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:29
-msgid "Inline (default)"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:359
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:56
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:43
-msgid "Html edition config and toolbar for pages"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:380
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:61
-msgid "Enable reCAPTCHA on Login page"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:381
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:62
-msgid "Check this to enable reCAPTCHA on Login page."
-msgstr ""
-
-#: modules/AdminAddon/Module.php:396
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:77
-msgid "Enable reCAPTCHA on Forgot Password page"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:397
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:78
-msgid "Check this to enable reCAPTCHA on Forgot Password page."
-msgstr ""
-
-#: modules/AdminAddon/Module.php:412
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:93
-msgid "IP whitelist for reCAPTCHA"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:429
-msgid "Button 1 - URL"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:443
-msgid "Button 1 - Label"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:457
-msgid "Button 2 - URL"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:471
-msgid "Button 2 - Label"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:501
-msgid "Enable"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:502
-msgid "Enable menu on Admin dashboard"
-msgstr ""
-
-#: modules/AdminAddon/Module.php:517
-msgid "Content"
+#: modules/AdminAddon/Module.php:503
+msgid "Deactivate all"
 msgstr ""
 
 #: modules/AdminAddon/config/module.config.php:8
 msgid "Settings Admin Addition"
 msgstr ""
 
-#: modules/AdminAddon/config/module.config.php:133
+#: modules/AdminAddon/config/module.config.php:197
 msgid "Simple application"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:24
-msgid "Allow change Editor config in the setting"
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:26
+msgid "Replace ckEditor Helper"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:79
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:40
+msgid "Hiding the Search form field in the Admin menu"
+msgstr ""
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:54
+msgid "Select2 enable"
+msgstr ""
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:68
+msgid "Select2 enable on public"
+msgstr ""
+
+#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:82
+msgid "Chosen-js disable"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:36
 msgid "Mode admin UI"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:88
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:45
 msgid "Select mode admin UI"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:97
-msgid "Hiding the Search form field in the Admin menu"
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:55
+msgid "Html edition mode for pages"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:57
+msgid "Inline (default)"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:72
+msgid "Html edition config and toolbar for pages"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:92
+msgid "Enable reCAPTCHA on Login page"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:93
+msgid "Check this to enable reCAPTCHA on Login page."
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:108
+msgid "Enable reCAPTCHA on Forgot Password page"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:109
+msgid "Check this to enable reCAPTCHA on Forgot Password page."
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:124
+msgid "IP whitelist for reCAPTCHA"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:141
+msgid "Button 1 - URL"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:155
+msgid "Button 1 - Label"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:169
+msgid "Button 2 - URL"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:183
+msgid "Button 2 - Label"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:213
+msgid "Enable"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:214
+msgid "Enable menu on Admin dashboard"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:229
+msgid "Content"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:244
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:29
+msgid "Autocomplete on Advanced search"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:262
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:45
+msgid "Properties for autocomplete input fields in Advanced search"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:263
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:46
+msgid "Select properties for autocomplete in Advanced search input fields."
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:269
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:306
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:53
+msgid "Select properties…"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:282
+msgid "Autocomplete on forms"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:283
+msgid "Autocomplete input fields in forms on the page for adding and editing items, item sets, and media files."
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:299
+msgid "Properties for autocomplete input fields in forms"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:300
+msgid "Select properties for autocomplete in form input fields."
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:320
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:66
+msgid "Enable search fasets"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:321
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:67
+msgid "Enable search fasets config"
+msgstr ""
+
+#: modules/AdminAddon/src/Form/SettingsFieldset.php:336
+#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:82
+msgid "Search fasets config"
 msgstr ""
 
 #: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
@@ -142,11 +199,11 @@ msgstr ""
 msgid "Confirm restore"
 msgstr ""
 
-#: modules/AdminAddon/view/common/advanced-search/media_ingester.phtml:15
+#: modules/AdminAddon/view/common/advanced-search/media-ingester.phtml:15
 msgid "Media Ingester"
 msgstr ""
 
-#: modules/AdminAddon/view/common/advanced-search/media_ingester.phtml:19
+#: modules/AdminAddon/view/common/advanced-search/media-ingester.phtml:19
 msgid "Select Media Ingester"
 msgstr ""
 
@@ -158,5 +215,159 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-msgid "Deactivate all"
+#: modules/AdminAddon/view/search/facet-actives.phtml:18
+#, php-format
+msgid "from %1$s"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-actives.phtml:19
+#, php-format
+msgid "to %1$s"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-checkboxes-filter.phtml:21
+msgid "Filter…"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-checkboxes-filter.phtml:21
+msgid "Filter values"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-range-double.phtml:77
+msgid "Ok"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-select-range.phtml:20
+msgid "Between"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-select-range.phtml:21
+#: modules/AdminAddon/view/search/facet-select-range.phtml:30
+#: modules/AdminAddon/view/search/facet-select.phtml:18
+msgid "Select below…"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facet-select-range.phtml:29
+#: modules/AdminAddon/view/search/search-form-main.phtml:519
+msgid "and"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets/list copy.phtml:51
+#: modules/AdminAddon/view/search/facets/list.phtml:22
+#: modules/AdminAddon/view/search/facets-list.phtml:42
+msgid "Facets"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets/list.phtml:31
+msgid "Facets loading..."
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets-list-work.phtml:169
+msgid "See more"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets-list-work.phtml:169
+msgid "See less"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets-list-work.phtml:169
+msgid "Previous page"
+msgstr ""
+
+#: modules/AdminAddon/view/search/facets-list-work.phtml:169
+msgid "Next page"
+msgstr ""
+
+#: modules/AdminAddon/view/search/pagination-per-page-selector.phtml:18
+msgid "Per page"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results-header-footer.phtml:62
+#, php-format
+msgid "Found %d items matching your search"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results-header-footer.phtml:114
+msgid "View mode"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results-header-footer.phtml:116
+msgid "Grid view"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results-header-footer.phtml:121
+msgid "List view"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results-header-footer.phtml:123
+msgid "List"
+msgstr ""
+
+#: modules/AdminAddon/view/search/results.phtml:50
+msgid "No media"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:512
+msgid "Filters"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:515
+msgid "Add a filter"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:516
+msgid "Remove this filter"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:517
+msgid "Reset fields"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:520
+msgid "or"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:521
+msgid "not"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-main.phtml:524
+msgid "NOT"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search-form-quick.phtml:31
+msgid "Search..."
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:102
+msgid "Breadcrumb"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:155
+#, php-format
+msgid "%d Results"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:156
+msgid "No results"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:304
+msgid "No Results Found"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:306
+msgid "Fill a query and get results."
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:308
+msgid "This item set has no items."
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:315
+msgid "The query returned no results"
+msgstr ""
+
+#: modules/AdminAddon/view/search/search.phtml:318
+msgid "Try adjusting your search criteria or filters"
 msgstr ""

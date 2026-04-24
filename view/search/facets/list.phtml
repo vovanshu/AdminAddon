@@ -1,0 +1,44 @@
+<?php
+
+$plugins = $this->getHelperPluginManager();
+$AdminAddon = $this->AdminAddon();
+$partial = $plugins->get('partial');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+
+$searchFasetsEnable = $AdminAddon->getSiteSets('search_fasets_enable');
+$renderByJS = $AdminAddon->getSiteSets('render_by_js');
+
+if($searchFasetsEnable == 'true'):
+?>
+
+<div id="search-facets" class="facets">
+    <div class="card mb-4">
+
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="fas fa-filter me-2"></i>
+                <?= $escape($translate('Facets')) ?>
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+        <?php if($renderByJS == 'true'): ?>
+
+            <div class="facets-loading">
+                <?= $escape($translate('Facets loading...')) ?>
+            </div>
+
+        <?php else: ?>
+
+        <?= $partial('search/facets/list-holder') ?>
+
+        <?php endif; ?>
+
+        </div>
+    </div>
+</div>
+
+<?php endif; ?>

@@ -41,6 +41,7 @@ $(document).ready(function() {
                     },
                     appendTo: fieldContainer,
                     minLength: 0,
+                    maxHeight: 200,
                     select: function(event, ui) {
                         $(this).val(ui.item.value);
                         return false;
@@ -51,6 +52,12 @@ $(document).ready(function() {
                     }
                 });
                 $(this).autocomplete("search", $(this).val());
+
+                // if (items.length > 20)
+                // ul.removeClass( 'ui-autocomplete-noscroll' ).addClass( 'ui-autocomplete-scroll' );
+                // else
+                // ul.removeClass( 'ui-autocomplete-scroll' ).addClass( 'ui-autocomplete-noscroll' );
+
             }else{
                 if( $(fieldContainer).find('.ui-autocomplete').length > 0 ){
                     $(this).autocomplete("destroy");

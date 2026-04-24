@@ -1,0 +1,65 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var string $name
+ * @var array $facetValues With value, count, active, label and url when needed.
+ * @var array $options
+ * @var array|null $tree For item sets tree or thesaurus. Don't contain data from item sets not in the site.
+ */
+
+$plugins = $this->getHelperPluginManager();
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
+$AdminAddon = $this->AdminAddon();
+
+$isFacetModeDirect = in_array($options['mode'] ?? null, ['link', 'js']);
+$displayCount = !empty($options['display_count']);
+// print_r($query);
+
+// &property[1][joiner]=and
+// &property[1][property]=12
+// &property[1][type]=eq
+// &property[1][text]=uk
+?>
+
+<?php if(!empty($facetValues)): ?>
+<div class="facet-items">
+    <?php foreach ($facetValues as $facetValue):
+
+        $facetValue['active'] = False;
+        $inputIndex = $AdminAddon->raiseIndex('property');
+        // $key = $AdminAddon->isEntrieExistInArray($query, [$property_id]);
+// echo '<pre>';
+        // if(!empty($query['property'])){
+            // $key = $AdminAddon->searchInArray($query['property'], ['property' => $property_id, 'text' => $facetValue['value']]);
+        // }
+        // if(!empty($key) && !empty($query['property'][current($key)]['text'])){
+            // if($query['property'][current($key)]['text'] == $facetValue['value']){
+                // $facetValue['active'] = True;
+            // }
+        // }
+        // echo '</pre>';
+        // $key = array_search($property_id, array_column($query, 'property'), true);
+
+
+        // print_r($key);
+
+        
+        $escapedValue = $escapeAttr($facetValue['value']);
+        // $escapedId = $name . '[]' . $escapedValue;
+        $inputName = 'property['.$inputIndex.']';
+        $inputId = 'property-'.$inputIndex;
+        $label = $displayCount
+            ? sprintf('%s <span class="badge bg-secondary ms-1">%d</span>', $escape($facetValue['label']),  $facetValue['count'])
+            : $escape($facetValue['label']);
+    ?>
+    <div class="form-check facet-item <?= $facetValue['active'] ? 'active' : 'inactive' ?>">
+        <input type="hidden" name="<?= $inputName ?>[joiner]" value="and"/>
+        <input type="hidden" name="<?= $inputName ?>[property]" value="<?= $property_id ?>"/>
+        <input type="hidden" name="<?= $inputName ?>[type]" value="eq"/>
+        <input class="form-check-input" type="checkbox" name="<?= $inputName ?>[text]" id="<?= $inputId ?>" value="<?= $escapedValue ?>"<?= $isFacetModeDirect ? ' data-url="' . $escapeAttr($facetValue['url']) . '"' : '' ?><?= $facetValue['active'] ? ' checked="checked"' : '' ?>/>
+        <label class="form-check-label" for="<?= $inputId ?>"><?= $label ?></label>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
