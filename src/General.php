@@ -130,25 +130,53 @@ trait General
 
     public function getHiddenQueriesInput($query, $config)
     {
-        if(!empty($query)){    
+
+        $html = '';
+        if(!empty($query)){
+            $def = ['page', 'advanced', 'submit', 'facets'];
+            $filter = array_merge(array_column($config, 'name'), $def);
+            $query = array_diff_key($query, array_flip($filter));
+            foreach (explode("\n", http_build_query($query, '', "\n")) as $nameValue) {
+                if (!$nameValue) {
+                    continue;
+                }
+                [$name, $value] = mb_strpos($nameValue, '=') === false ? [$nameValue, ''] : explode('=', $nameValue, 2);
+                $name = urldecode($name);
+                // if (is_null($value) || in_array($name, $skipNames)) {
+                if (is_null($value)) {
+                    continue;
+                }
+                $name = htmlspecialchars($name, ENT_COMPAT | ENT_HTML5);
+                $value = htmlspecialchars(urldecode($value), ENT_COMPAT | ENT_HTML5);
+                $html .= '<input type="hidden" name="' . $name . '" value="' . $value . '"' . "/>\n";
+            }
             
-            $filter = array_column($config, 'name');
+            
+            // foreach($query as $name => $val){
+            //     if(!empty($val) && is_array($val)){
+            //         $this->prepHiddenQueriesInput($name, $val, $filter);
+            //     }elseif(!in_array($name, $filter)){
+            //         echo '<input name="'.$name.'" type="hidden" data-type="query" value="'.$val.'"/>';
+            //     }                
+            // }
+        }
+        return $html;
 
-            $def = ['page', 'advanced'];
-            $filter = array_merge($filter, $def);
-            foreach($query as $name => $val){
-                if(!in_array($name, $filter)){
-                    if(!empty($val)){
-                        if(is_array($val)){
+    }
 
-                        }else{
-                            echo '<input name="'.$name.'" type="hidden" data-type="query" value="'.$val.'"/>';
-                        }
-                    }
-                    
-                }                
+    public function prepHiddenQueriesInput($name, $vars, $filter)
+    {
+
+        $r = [];
+        foreach($vars as $k => $v){
+            if(is_array($val)){
+                $name .= "[$k]";
+                // $r = $this->prepHiddenQueriesInput($name, $v, $filter);
+            }else{
+                return $val;
             }
         }
+        return $r;
 
     }
 

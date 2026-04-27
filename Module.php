@@ -382,19 +382,15 @@ CSS;
                 $request = $event->getParam('request');
                 $params = $request->getContent();
                 $qb = $event->getParam('queryBuilder');
-            
                 echo "<!--\r\n Params:\r\n";
                 print_r($params);
-                echo "\r\n-->\r\n";
-                echo "<!--\r\n Query:\r\n";
+                echo "\r\n Query:\r\n";
+                echo $qb->getQuery()->getSQL();
                 // print_r(get_class_methods($qb));
                 // print_r(get_class_methods($qb->getQuery()));
-
                 // echo $qb->getRootAlias()."\r\n";
                 // print_r($qb->getRootAliases());
-                print_r($qb->getAllAliases());
-
-                echo $qb->getQuery()->getSQL();
+                // print_r($qb->getAllAliases());
                 echo "\r\n-->\r\n";
             }
         }

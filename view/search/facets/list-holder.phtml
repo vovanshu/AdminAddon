@@ -10,7 +10,7 @@ $query = $this->params()->fromQuery();
 $searchFasets = $AdminAddon->prepareSearchFasets($query);
 ?>
 <form id="facets-form" type="get">
-<?php $AdminAddon->getHiddenQueriesInput($query, $searchFasets); ?>
+<?= $AdminAddon->getHiddenQueriesInput($query, $searchFasets); ?>
 
 <div class="facets-actions facets-actions-top mb-3">
     <div class="g-grid gap-2">
