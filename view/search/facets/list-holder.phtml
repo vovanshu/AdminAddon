@@ -5,9 +5,11 @@ $AdminAddon = $this->AdminAddon();
 $partial = $plugins->get('partial');
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
+// $escapeAttr = $plugins->get('escapeHtmlAttr');
 $query = $this->params()->fromQuery();
-$searchFasets = $AdminAddon->prepareSearchFasets($query);
+$route = $this->params()->fromRoute();
+$searchFasets = $AdminAddon->prepareSearchFasets($query, $route);
+if(!empty($searchFasets)):
 ?>
 <form id="facets-form" type="get">
 <?= $AdminAddon->getHiddenQueriesInput($query, $searchFasets); ?>
@@ -49,3 +51,4 @@ $searchFasets = $AdminAddon->prepareSearchFasets($query);
     <?php endforeach; ?>
 </div>
 </form>
+<?php endif; ?>

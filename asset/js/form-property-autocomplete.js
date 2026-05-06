@@ -6,6 +6,10 @@ $(document).ready(function() {
         if ( fieldContainer.length ){
             var term = $(fieldContainer).data('property-term');
             var property_id = $(fieldContainer).data('property-id');
+            var ApiUrl = window.location.origin + '/api/admin-addon/suggestions';
+            if( window.OmekaSiteSlug ) {
+                ApiUrl = ApiUrl + '/' + window.OmekaSiteSlug;
+            }
             var allfileds = true;
             if ( Array.isArray(AdminAdonNeededFields) && AdminAdonNeededFields.length > 0 && Object.keys(AdminAdonNeededFields[0]).length > 0 ) {
                 allfileds = false;
@@ -14,13 +18,13 @@ $(document).ready(function() {
                 $(this).autocomplete({
                     source: function(request, callback) {
                         $.ajax({
-                            url: AdminAdonSuggestionsURL,
+                            url: ApiUrl,
                             data: {
                                 term: term,
                                 property_id: property_id,
                                 value: val,
-                                controller: AdminAdonController,
-                                action: AdminAdonAction
+                                controller: OmekaAdonController,
+                                action: OmekaAdonAction
                             },
                             dataType: 'json',
                             success: function(data) {

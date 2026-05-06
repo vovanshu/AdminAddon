@@ -5,8 +5,7 @@ $AdminAddon = $this->AdminAddon();
 $partial = $plugins->get('partial');
 $escape = $plugins->get('escapeHtml');
 $translate = $plugins->get('translate');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
-
+// $escapeAttr = $plugins->get('escapeHtmlAttr');
 $searchFasetsEnable = $AdminAddon->getSiteSets('search_fasets_enable');
 $renderByJS = $AdminAddon->getSiteSets('render_by_js');
 
@@ -23,11 +22,11 @@ if($searchFasetsEnable == 'true'):
             </h5>
         </div>
 
-        <div class="card-body">
+        <div id="facets-list-holder" class="card-body">
 
         <?php if($renderByJS == 'true'): ?>
 
-            <div class="facets-loading">
+            <div id="facets-render-js" class="facets-loading">
                 <?= $escape($translate('Facets loading...')) ?>
             </div>
 

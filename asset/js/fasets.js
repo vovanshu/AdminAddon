@@ -2,6 +2,12 @@
     $(document).ready(function() {
 
         const currentPageUrl = window.location.origin + window.location.pathname;
+        const facetsRenderJS = document.querySelector('#facets-render-js');
+        const facetsListHolder = document.querySelector('#facets-list-holder');
+
+        if( facetsRenderJS ){
+            renderFacets();
+        }
 
         $('.search-facets').on('click', '.facets-reset', function(e) {
             e.preventDefault();
@@ -10,17 +16,27 @@
             $.each($('[data-type="query"]'), function(index, input) {
                 params.append(input.name, input.value);
             });
-            const queryString = params.toString(); 
+            const queryString = params.toString();
             window.location.href = currentPageUrl + "/?" + queryString;
 
         });
 
-        $.each($('.facet-range-double, .range-doubleform-control'), function(index, container) {
-            if (!container.hasAttribute('data-initialized')) {
-                initializeRangeSlider(container);
-                container.setAttribute('data-initialized', 'true');
-            }
-        });
+        initializingFacets();
+
+        if( facetsListHolder ){
+            $(facetsListHolder).on('facets-list-loaded', function(e) {
+                initializingFacets();
+            });
+        }
+
+        function initializingFacets() {
+            $.each($('.facet-range-double, .range-doubleform-control'), function(index, container) {
+                if (!container.hasAttribute('data-initialized')) {
+                    initializeRangeSlider(container);
+                    container.setAttribute('data-initialized', 'true');
+                }
+            });
+        }
 
         function initializeRangeSlider(container) {
             const fromSlider = container.querySelector('.range-slider-from');
@@ -152,7 +168,6 @@
             });
         }
        
-        
         function resetFacetRangeDouble() {
             const containers = $('.facet-range-double');
             
@@ -177,9 +192,57 @@
                     const event = new Event('input');
                     fromSlider.dispatchEvent(event);
                 }
-            });
+            });            
+        }
 
-            
+        function getComplexParams() {
+            const params = new URLSearchParams(window.location.search);
+            const result = {};
+            for (const [key, value] of params.entries()) {
+                const parts = key.split(/[\[\]]+/).filter(Boolean);               
+                let current = result;
+                for (let i = 0; i < parts.length; i++) {
+                    const part = parts[i];
+                    const isLast = i === parts.length - 1;
+                    if (isLast) {
+                        if (current[part]) {
+                            if (!Array.isArray(current[part])) {
+                                current[part] = [current[part]];
+                            }
+                            current[part].push(value);
+                        } else {
+                            current[part] = value;
+                        }
+                    } else {
+                        if (!current[part]) current[part] = {};
+                        current = current[part];
+                    }
+                }
+            }
+            return result;
+        }
+
+        function renderFacets(){
+            var facetsListHolder = $('#facets-list-holder');
+            let params = getComplexParams();
+            var ApiUrl = window.location.origin + '/api/admin-addon/list-fasets';
+            if( window.OmekaSiteSlug ) {
+                ApiUrl = ApiUrl + '/' + window.OmekaSiteSlug;
+            }
+            $.ajax({
+                url: ApiUrl,
+                data: params,
+                type: 'GET',
+                success: function(data) {
+                    facetsListHolder.empty();
+                    facetsListHolder.html(data);
+                    facetsListHolder.trigger('facets-list-loaded');
+                },
+                error: function() {
+                    facetsListHolder.empty();
+                    facetsListHolder.html('Fail get facets!');
+                }
+            });
         }
         
     });

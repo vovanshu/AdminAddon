@@ -9,22 +9,26 @@ $(document).ready(function() {
             var selectedOption = current.options[current.selectedIndex];
             var term = $(selectedOption).data('term');
             var property_id = $(selectedOption).data('property-id');
+            var ApiUrl = window.location.origin + '/api/admin-addon/suggestions';
+            if( window.OmekaSiteSlug ) {
+                ApiUrl = ApiUrl + '/' + window.OmekaSiteSlug;
+            }
             var allfileds = true;
             if ( Array.isArray(AdminAdonNeededFields) && AdminAdonNeededFields.length > 0 && Object.keys(AdminAdonNeededFields[0]).length > 0 ) {
                 allfileds = false;
-            }            
+            }
             if(allfileds || !allfileds && AdminAdonNeededFields.includes(term)){
                 $(this).autocomplete({
                     source: function(request, callback) {
                         $.ajax({
-                            url: AdminAdonSuggestionsURL,
+                            url: ApiUrl,
                             data: {
                                 term: term,
                                 property_id: property_id,
                                 value: val,
-                                controller: AdminAdonController,
-                                action: AdminAdonAction,
-                                site_slug: AdminAdonSiteSlug
+                                controller: OmekaAdonController,
+                                action: OmekaAdonAction,
+                                site_slug: OmekaSiteSlug
                             },
                             dataType: 'json',
                             success: function(data) {

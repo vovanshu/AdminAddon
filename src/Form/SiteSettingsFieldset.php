@@ -11,17 +11,10 @@ class SiteSettingsFieldset extends Fieldset
 
     use General;
 
-    protected $form;
-
-    public function setForm($form)
-    {
-        $this->form = $form;
-    }
-
-    public function init(): void
+    public function addFields($form): void
     {
 
-        $this->form->add([
+        $form->add([
             'name' => $this->getOps('advsearch_autocomplete'),
             'type' => 'checkbox',
             'options' => [
@@ -36,14 +29,14 @@ class SiteSettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => $this->getOps('advsearch_autocomplete_fields'),
             'type' => PropertySelect::class,
+            'required' => false,
             'options' => [
                 'element_group' => 'search',
-                'empty_option' => '[Any Property]', // @translate 
                 'label' => 'Properties for autocomplete input fields in Advanced search', // @translate
-                'info' => 'Select properties for autocomplete in Advanced search input fields.', // @translate
+                'info' => 'Select properties for autocomplete in input fields. Leave field empty for all properties.', // @translate
                 'term_as_value' => true,
                 'allow_empty' => true,
             ],
@@ -56,9 +49,9 @@ class SiteSettingsFieldset extends Fieldset
             ],
         ]);
         
-        $allowedEmpty[] = $this->getOps('advsearch_autocomplete_fields');
+        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete_fields');
 
-        $this->form->add([
+        $form->add([
             'type' => 'checkbox',
             'name' => $this->getOps('search_fasets_enable'),
             'options' => [
@@ -74,7 +67,22 @@ class SiteSettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
+            'name' => $this->getOps('render_by_js'),
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'search',
+                'label' => 'JS render search fasets', // @translate
+                'checked_value' => 'true',
+                'unchecked_value' => 'false',
+            ],
+            'attributes' => [
+                'id' => $this->getOps('render_by_js'),
+                'value' => $this->getSiteSets('render_by_js'),
+            ],
+        ]);
+
+        $form->add([
             'name' => $this->getOps('search_fasets'),
             'type' => 'textarea',
             'options' => [
@@ -89,10 +97,7 @@ class SiteSettingsFieldset extends Fieldset
             ],
         ]);
 
-        $allowedEmpty[] = $this->getOps('search_fasets');
-
-        $inputFilter = $this->form->getInputFilter();
-        $this->inputFilterAllowEmpty($inputFilter, $allowedEmpty);
+        $this->FilterAllowEmpty[] = $this->getOps('search_fasets');
 
     }
 

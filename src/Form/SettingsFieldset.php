@@ -11,24 +11,17 @@ class SettingsFieldset extends Fieldset
 
     use General;
 
-    protected $form;
-
-    public function setForm($form)
-    {
-        $this->form = $form;
-    }
-
-    public function init(): void
+    public function addFields($form): void
     {
 
-        $options = $this->form->getOptions();
+        $options = $form->getOptions();
 
         $modesAdmiUI = $this->getConf('modes_admin_ui');
         foreach($modesAdmiUI as $k => $v){
             $modes[$k] = $v['label'];
         }
 
-        $this->form->add([
+        $form->add([
                 'name' => $this->getOps('mode_admin_ui'),
                 'type' => 'select',
                 'options' => [
@@ -47,7 +40,7 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_html_mode_page',
             'type' => 'radio',
             'options' => [
@@ -64,7 +57,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_html_config_page',
             'type' => 'radio',
             'options' => [
@@ -84,7 +77,7 @@ class SettingsFieldset extends Fieldset
         ]);
 
 
-        $this->form->add([
+        $form->add([
             'type' => 'checkbox',
             'name' => 'recaptcha_enable_on_login',
             'options' => [
@@ -100,7 +93,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'type' => 'checkbox',
             'name' => 'recaptcha_enable_on_forgot_password',
             'options' => [
@@ -116,7 +109,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'recaptcha_ip_white_list',
             'type' => 'textarea',
             'options' => [
@@ -133,7 +126,7 @@ class SettingsFieldset extends Fieldset
 
         $options['element_groups']['login&forgot'] = 'Pages Log in and Forgot Password'; // @translate
         
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_lf_1_url',
             'type' => 'Text',
             'options' => [
@@ -147,7 +140,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_lf_1_label',
             'type' => 'Text',
             'options' => [
@@ -161,7 +154,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_lf_2_url',
             'type' => 'Text',
             'options' => [
@@ -175,7 +168,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_lf_2_label',
             'type' => 'Text',
             'options' => [
@@ -191,7 +184,7 @@ class SettingsFieldset extends Fieldset
 
         $options['element_groups']['menuadmindashboard'] = 'Menu on Admin dashboard'; // @translate
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_menuadmindashboard_label',
             'type' => 'Text',
             'options' => [
@@ -205,7 +198,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'type' => 'checkbox',
             'name' => 'adminaddon_menuadmindashboard_enable',
             'options' => [
@@ -221,7 +214,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => 'adminaddon_menuadmindashboard',
             'type' => 'textarea',
             'options' => [
@@ -236,7 +229,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
                 'name' => $this->getOps('advsearch_autocomplete'),
                 'type' => 'checkbox',
                 'options' => [
@@ -251,16 +244,16 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
-        $allowedEmpty[] = $this->getOps('advsearch_autocomplete');
+        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete');
 
-        $this->form->add([
+        $form->add([
                 'name' => $this->getOps('advsearch_autocomplete_fields'),
                 'type' => PropertySelect::class,
+                'required' => false,
                 'options' => [
                     'element_group' => 'search',
-                    'empty_option' => '[Any Property]', // @translate 
                     'label' => 'Properties for autocomplete input fields in Advanced search', // @translate
-                    'info' => 'Select properties for autocomplete in Advanced search input fields.', // @translate
+                    'info' => 'Select properties for autocomplete in input fields. Leave field empty for all properties.', // @translate
                     'term_as_value' => true,
                 ],
                 'attributes' => [
@@ -272,9 +265,9 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
-        $allowedEmpty[] = $this->getOps('advsearch_autocomplete_fields');
+        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete_fields');
 
-        $this->form->add([
+        $form->add([
                 'name' => $this->getOps('forms_autocomplete'),
                 'type' => 'checkbox',
                 'options' => [
@@ -290,14 +283,14 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
-        $this->form->add([
+        $form->add([
                 'name' => $this->getOps('forms_autocomplete_fields'),
                 'type' => PropertySelect::class,
+                'required' => false,
                 'options' => [
                     'element_group' => 'editing',
-                    'empty_option' => '[Any Property]', // @translate 
                     'label' => 'Properties for autocomplete input fields in forms', // @translate
-                    'info' => 'Select properties for autocomplete in form input fields.', // @translate
+                    'info' => 'Select properties for autocomplete in input fields. Leave field empty for all properties.', // @translate
                     'term_as_value' => true,
                 ],
                 'attributes' => [
@@ -309,10 +302,9 @@ class SettingsFieldset extends Fieldset
                 ],
             ]);
 
-        $allowedEmpty[] = $this->getOps('forms_autocomplete_fields');
+        $this->FilterAllowEmpty[] = $this->getOps('forms_autocomplete_fields');
 
-
-        $this->form->add([
+        $form->add([
             'type' => 'checkbox',
             'name' => $this->getOps('search_fasets_enable'),
             'options' => [
@@ -328,7 +320,7 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $this->form->add([
+        $form->add([
             'name' => $this->getOps('search_fasets'),
             'type' => 'textarea',
             'options' => [
@@ -343,12 +335,9 @@ class SettingsFieldset extends Fieldset
             ],
         ]);
 
-        $allowedEmpty[] = $this->getOps('search_fasets');
+        $this->FilterAllowEmpty[] = $this->getOps('search_fasets');
 
-        $this->form->setOption('element_groups', $options['element_groups']);
-
-        $inputFilter = $this->form->getInputFilter();
-        $this->inputFilterAllowEmpty($inputFilter, $allowedEmpty);
+        $form->setOption('element_groups', $options['element_groups']);
 
     }
 }

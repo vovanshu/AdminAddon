@@ -13,6 +13,8 @@ trait General
 
     protected $indexes = [];
 
+    protected $FilterAllowEmpty = [];
+
     public function getIndex($name){
 
         if(isset($this->indexes[$name])){
@@ -28,6 +30,16 @@ trait General
         $current++;
         $this->indexes[$name] = $current;
         return $current;
+
+    }
+
+    public function memFilterAllowEmpty($allowedEmpty = False)
+    {
+
+        if(!empty($allowedEmpty)){
+            $this->FilterAllowEmpty = array_merge_recursive($this->FilterAllowEmpty, $allowedEmpty);
+        }
+        return $this->FilterAllowEmpty;
 
     }
 
@@ -128,14 +140,34 @@ trait General
 
     }
 
+    public function prepareQueriesInput($query, $config)
+    {
+
+        $def = ['page', 'advanced', 'submit', 'facets'];
+        $filter = array_merge(array_column($config, 'name'), $def);
+        $query = array_diff_key($query, array_flip($filter));
+        if(!empty($query['property'])){
+            foreach($config as $ops){
+                if(!empty($ops['facetValues'])){
+                    foreach($ops['facetValues'] as $val){
+                        $key = $this->searchInArray($query['property'], ['property' => $ops['property_id'], 'text' => $val['value']]);
+                        if(!empty($key) && !empty($query['property'][current($key)]['text'])){
+                            unset($query['property'][current($key)]);
+                        }
+                    }
+                }
+            }
+        }
+        return $query;
+
+    }
+
     public function getHiddenQueriesInput($query, $config)
     {
 
         $html = '';
         if(!empty($query)){
-            $def = ['page', 'advanced', 'submit', 'facets'];
-            $filter = array_merge(array_column($config, 'name'), $def);
-            $query = array_diff_key($query, array_flip($filter));
+            $query = $this->prepareQueriesInput($query, $config);
             foreach (explode("\n", http_build_query($query, '', "\n")) as $nameValue) {
                 if (!$nameValue) {
                     continue;
@@ -151,41 +183,18 @@ trait General
                 $html .= '<input type="hidden" name="' . $name . '" value="' . $value . '"' . "/>\n";
             }
             
-            
-            // foreach($query as $name => $val){
-            //     if(!empty($val) && is_array($val)){
-            //         $this->prepHiddenQueriesInput($name, $val, $filter);
-            //     }elseif(!in_array($name, $filter)){
-            //         echo '<input name="'.$name.'" type="hidden" data-type="query" value="'.$val.'"/>';
-            //     }                
-            // }
         }
         return $html;
 
     }
 
-    public function prepHiddenQueriesInput($name, $vars, $filter)
+    public function getConfigSearchFasets($siteSlug = False)
     {
-
-        $r = [];
-        foreach($vars as $k => $v){
-            if(is_array($val)){
-                $name .= "[$k]";
-                // $r = $this->prepHiddenQueriesInput($name, $v, $filter);
-            }else{
-                return $val;
-            }
-        }
-        return $r;
-
-    }
-
-    public function getConfigSearchFasets($admin = False)
-    {
-        if($admin){
-            $rc = $this->getSets('search_fasets');
+        if($siteSlug){
+            $siteID = $this->getSiteID($siteSlug);
+            $rc = $this->getSiteSets('search_fasets', $siteID);
         }else{
-            $rc = $this->getSiteSets('search_fasets');
+            $rc = $this->getSets('search_fasets');
         }
         if(!empty($rc)){
             return parse_ini_string($rc, true, INI_SCANNER_TYPED);
@@ -194,14 +203,20 @@ trait General
 
     }
 
-    public function prepareSearchFasets($query, $admin = False){
+    public function prepareSearchFasets($query, $route = False)
+    {
         
-        $config = $this->getConfigSearchFasets($admin);
+        $siteSlug = False;
+        if(!empty($route['site-slug'])){
+            $siteSlug = $route['site-slug'];
+        }
+        $config = $this->getConfigSearchFasets($siteSlug);
         if(!empty($config)){
 
             foreach($config as $k => $v){
                 if($v['type'] == 'range'){
-                    $q = $this->createQueryRange($query, $v);
+                    // $q = $this->createQueryRange($query, $v);
+                    $q = $this->buidQueryValues($query, $v);
                     $rc = $this->getConnection()->executeQuery($q)->fetchAssociative();
                     if(!empty($rc)){
                         if($v['result'] == 'date-year'){
@@ -214,7 +229,6 @@ trait General
                         }
                         $config[$k]['options'] = $rc;
                     }
-
                 }
                 if(in_array($v['type'], ['checkboxe', 'select'])){
                     $q = $this->buidQueryValues($query, $v);
@@ -234,9 +248,7 @@ trait General
                 $config[$k]['facetID'] = $k;
                 $config[$k]['query'] = $query;
 
-            }    
-
-
+            }
             return $config;
         }
         return False;        
@@ -261,6 +273,9 @@ trait General
             $q .= ' LEFT JOIN `item_site` ON `item_site`.`item_id` = `value`.`resource_id`';
             $siteID = $this->getSiteID($query['site_slug']);
         }
+        if(!empty($config['query_limited']) && !empty($query['item_set_id'])){
+            $q .= ' LEFT JOIN `item_item_set` ON `item_item_set`.`item_id` = `value`.`resource_id`';
+        }
         if(!empty($query['property_id'])){
             $q .= ' WHERE `property`.`id` = \''.$query['property_id'].'\'';
         }elseif(!empty($config['property_id'])){
@@ -271,8 +286,17 @@ trait General
             $q .= $this->prepQueryWhereByTerm($config['term']);
         }
         if(!empty($config['query_limited'])){
+            // echo $config['name'];
+            // print_r($query);
             if(!empty($query['value'])){
                 $q .= ' AND `value`.`value` LIKE \'%'.$query['value'].'%\'';
+            }
+            if(!empty($query['item_set_id'])){
+                if(is_array($query['item_set_id'])){
+                    $q .= ' AND `item_item_set`.`item_set_id` in (\''.join('\', \'', $query['item_set_id']).'\')';
+                }else{
+                    $q .= ' AND `item_item_set`.`item_set_id` = \''.$query['item_set_id'].'\'';
+                }
             }
         }
         if(!empty($siteID)){
@@ -290,41 +314,41 @@ trait General
 
     }
 
-    private function createQueryRange($query, $config){
+    // private function createQueryRange($query, $config){
 
-        $q = 'SELECT';
-        $q .= ' MIN(`value`.`value`) AS min_value, MAX(`value`.`value`) AS max_value';
-        $q .= ' FROM `value`';
-        $q .= ' LEFT JOIN `property` ON `property`.`id` = `value`.`property_id`';
-        $q .= ' LEFT JOIN `vocabulary` ON `vocabulary`.`id` = `property`.`vocabulary_id`';
-        $q .= ' LEFT JOIN `resource` ON `resource`.`id` = `value`.`resource_id`';
-        if(!empty($query['site_slug'])){
-            $q .= ' LEFT JOIN `item_site` ON `item_site`.`item_id` = `value`.`resource_id`';
-            $siteID = $this->getSiteID($query['site_slug']);
-        }
-        if(!empty($query['property_id'])){
-            $q .= ' WHERE `property`.`id` = \''.$query['property_id'].'\'';
-        }elseif(!empty($config['property_id'])){
-            $q .= ' WHERE `property`.`id` = \''.$config['property_id'].'\'';
-        }elseif(!empty($query['term'])){
-            $q .= $this->prepQueryWhereByTerm($query['term']);
-        }elseif(!empty($config['term'])){
-            $q .= $this->prepQueryWhereByTerm($config['term']);
-        }
-        if( $config['query_limited'] ){
-            if(!empty($query['value'])){
-                $q .= ' AND `value`.`value` LIKE \'%'.$query['value'].'%\'';
-            }
-        }
-        if(!empty($siteID)){
-            $q .= ' AND `item_site`.`site_id` = \''.$siteID.'\'';
-        }
-        $q .= ' AND `resource`.`is_public` = 1';
-        $q .= ';';
+    //     $q = 'SELECT';
+    //     $q .= ' MIN(`value`.`value`) AS min_value, MAX(`value`.`value`) AS max_value';
+    //     $q .= ' FROM `value`';
+    //     $q .= ' LEFT JOIN `property` ON `property`.`id` = `value`.`property_id`';
+    //     $q .= ' LEFT JOIN `vocabulary` ON `vocabulary`.`id` = `property`.`vocabulary_id`';
+    //     $q .= ' LEFT JOIN `resource` ON `resource`.`id` = `value`.`resource_id`';
+    //     if(!empty($query['site_slug'])){
+    //         $q .= ' LEFT JOIN `item_site` ON `item_site`.`item_id` = `value`.`resource_id`';
+    //         $siteID = $this->getSiteID($query['site_slug']);
+    //     }
+    //     if(!empty($query['property_id'])){
+    //         $q .= ' WHERE `property`.`id` = \''.$query['property_id'].'\'';
+    //     }elseif(!empty($config['property_id'])){
+    //         $q .= ' WHERE `property`.`id` = \''.$config['property_id'].'\'';
+    //     }elseif(!empty($query['term'])){
+    //         $q .= $this->prepQueryWhereByTerm($query['term']);
+    //     }elseif(!empty($config['term'])){
+    //         $q .= $this->prepQueryWhereByTerm($config['term']);
+    //     }
+    //     if( $config['query_limited'] ){
+    //         if(!empty($query['value'])){
+    //             $q .= ' AND `value`.`value` LIKE \'%'.$query['value'].'%\'';
+    //         }
+    //     }
+    //     if(!empty($siteID)){
+    //         $q .= ' AND `item_site`.`site_id` = \''.$siteID.'\'';
+    //     }
+    //     $q .= ' AND `resource`.`is_public` = 1';
+    //     $q .= ';';
 
-        return $q;
+    //     return $q;
 
-    }
+    // }
 
     private function prepQueryWhereByTerm($term){
 
@@ -378,6 +402,8 @@ trait General
                 $tems = $resource->listTerms();
                 if(!empty($tems[$val['value']])){
                     return $tems[$val['value']];
+                }else{
+                    return $val['value'];
                 }
             }
         } catch (\Exception $e) {

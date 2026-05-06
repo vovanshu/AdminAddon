@@ -35,7 +35,6 @@ return [
         ],
         'factories' => [
             'AdminAddon' => Service\ControllerPlugin\GeneralPluginFactory::class,
-            // 'AdminAddonFacets' => Service\ViewHelper\FacetsFactory::class,
         ],
     ],
     'controllers' => [
@@ -48,8 +47,6 @@ return [
         'factories' => [
             'Omeka\Form\LoginForm' => Service\Form\LoginFormFactory::class,
             'Omeka\Form\ForgotPasswordForm' => Service\Form\ForgotPasswordFormFactory::class,
-            // Form\SettingsFieldset::class => Form\SettingsFieldsetFactory::class
-            // Form\SiteSettingsFieldset::class => Form\SiteSettingsFieldsetFactory::class
         ],
     ],
     'service_manager' => [
@@ -62,7 +59,7 @@ return [
             'admin' => [
                 'child_routes' => [
                     'admin-addon-settings' => [
-                        'type' => \Laminas\Router\Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
                             'route' => '/admin-addon-settings[/:action][/:name]',
                             'constraints' => [
@@ -76,37 +73,25 @@ return [
                             ],
                         ],
                     ],
-                    'admin-addon-controller' => [
-                        'type' => \Laminas\Router\Http\Segment::class,
-                        'options' => [
-                            'route' => '/admin-addon[/:action]',
-                            'constraints' => [
-                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
-                            ],
-                            'defaults' => [
-                                '__NAMESPACE__' => 'AdminAddon\Controller',
-                                'controller' => Controller\AdminAddonController::class,
-                                'action' => 'suggestions',
-                            ],
-                        ],
-                    ],
                 ],
             ],
-            'site' => [
+            'api' => [
                 'child_routes' => [
                     'admin-addon-controller' => [
-                        'type' => \Laminas\Router\Http\Segment::class,
+                        'type' => 'Segment',
                         'options' => [
-                            'route' => '/admin-addon[/:action]',
-                            'constraints' => [
-                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                            'route' => '/admin-addon/:action[/:site-slug]',
+                            'constraints' => [                               
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'site-slug' => '[a-zA-Z][a-zA-Z0-9_-]*'
                             ],
                             'defaults' => [
                                 '__NAMESPACE__' => 'AdminAddon\Controller',
                                 'controller' => Controller\AdminAddonController::class,
-                                'action' => 'suggestions',
+                                'action' => 'index',
                             ],
                         ],
+                        'may_terminate' => true,
                     ],
                 ],
             ],
@@ -181,10 +166,6 @@ return [
             'search_fasets' => 'adminadon_search_fasets',
             'render_by_js' => 'adminadon_render_by_js',
         ],
-        'site_settings' => [
-            'adminadon_advsearch_autocomplete' => 'false',
-            'adminadon_advsearch_autocomplete_fields' => [],
-        ],
         'custom_configs' => [
             'adminaddon_replace_helper_ckeditor',
             'adminaddon_chosen_js_disable'
@@ -233,6 +214,10 @@ return [
                     ],
                 ]
             ],
+        ],
+        'compatible_autocomplete_facets' => [
+            'controllers' => ['Item', 'item', 'media', 'item-set'],
+            'actions' => ['browse', 'search', 'add', 'edit'],
         ],
     ]
 ];

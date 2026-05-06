@@ -543,27 +543,4 @@ trait Common
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
     }
 
-    public function inputFilterAllowEmpty($inputFilter, $allowedEmpty = [])
-    {
-
-        if(!empty($allowedEmpty)){
-            foreach($allowedEmpty as $var){
-                if(is_array($var)){
-                    foreach($var as $group => $name){
-                        $inputFilter->get($group)->add([
-                            'name' => $name,
-                            'allow_empty' => true,
-                        ]);
-                    }
-                }else{
-                    $inputFilter->add([
-                        'name' => $var,
-                        'allow_empty' => true,
-                    ]);
-                }
-            }
-        }
-
-    }
-
 }

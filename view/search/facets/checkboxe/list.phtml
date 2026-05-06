@@ -4,7 +4,6 @@
  * @var string $name
  * @var array $facetValues With value, count, active, label and url when needed.
  * @var array $options
- * @var array|null $tree For item sets tree or thesaurus. Don't contain data from item sets not in the site.
  */
 
 $plugins = $this->getHelperPluginManager();
@@ -21,27 +20,25 @@ $displayCount = !empty($options['display_count']);
     <?php foreach ($facetValues as $facetValue):
         $facetValue['active'] = False;
         if(!empty($query['property'])){
-            $key = $AdminAddon->searchInArray($query['property'], ['property' => $property_id, 'text' => $facetValue['value']]);
+            $key = $AdminAddon->searchInArray($query['property'], ['property' => $property_id]);
+            // , 'text' => $facetValue['value']
         }
-        if(!empty($key) && !empty($query['property'][current($key)]['text'])){
-            if($query['property'][current($key)]['text'] == $facetValue['value']){
+        if(!empty($key) && !empty($query['property'][$key[0]]['text'])){
+            if($query['property'][$key[0]]['text'] == $facetValue['value']){
                 $facetValue['active'] = True;
             }
         }
-
         if(!empty($query['facets'][$name])){
-            foreach($query['facets'][$name] as $var){
-                if($facetValue['value'] == $var){
-                // if(mb_strtolower($facetValue['value'], 'UTF-8') == mb_strtolower($var, 'UTF-8')){
-                    $facetValue['active'] = True;
-                }
-            }            
+            if(is_array($query['facets'][$name]) && in_array($facetValue['value'], $query['facets'][$name])){
+                $facetValue['active'] = True;
+            }elseif(is_string($query['facets'][$name]) && $facetValue['value'] == $query['facets'][$name]){
+                $facetValue['active'] = True;
+            }       
         }
 
         $escapedValue = $escapeAttr($facetValue['value']);
         $escapedId = 'facets-'.$name.'-'.$escapedValue;
         $inputName = 'facets['.$name.'][]';
-        // $inputId = 'property-'.$inputIndex;
         $label = $displayCount
             ? sprintf('%s <span class="badge bg-secondary ms-1">%d</span>', $escape($facetValue['label']),  $facetValue['count'])
             : $escape($facetValue['label']);
