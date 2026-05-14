@@ -435,7 +435,7 @@ trait TraitCommon
 
     private function getUserEntry($id)
     {
-        return $this->getAdapter('users')->findEntity($id);
+        return $this->getApiAdapterManager('users')->findEntity($id);
     }
 
     public function getStrConf($name, $param = Null)

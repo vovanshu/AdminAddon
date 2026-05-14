@@ -30,15 +30,10 @@
 namespace AdminAddon;
 
 use Omeka\Stdlib\PsrMessage;
-// use Laminas\EventManager\Event;
 use Laminas\I18n\Translator\TranslatorInterface;
-// use Laminas\Mvc\Controller\AbstractController;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-// use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as ModuleManager;
-// use Omeka\Settings\AbstractTargetSettings;
-// use Omeka\Settings\SettingsInterface;
 
 trait TraitModule
 {
