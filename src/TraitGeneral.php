@@ -2,14 +2,14 @@
 
 namespace AdminAddon;
 
-require_once __DIR__ . '/Common.php';
+require_once __DIR__ . '/TraitCommon.php';
 
-use AdminAddon\Common;
+use AdminAddon\TraitCommon;
 
-trait General
+trait TraitGeneral
 {
 
-    use Common;
+    use TraitCommon;
 
     protected $indexes = [];
 

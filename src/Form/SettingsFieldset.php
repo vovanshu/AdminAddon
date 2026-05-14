@@ -4,12 +4,12 @@ namespace AdminAddon\Form;
 
 use Laminas\Form\Fieldset;
 use Omeka\Form\Element\PropertySelect;
-use AdminAddon\General;
+use AdminAddon\TraitGeneral;
 
 class SettingsFieldset extends Fieldset
 {
 
-    use General;
+    use TraitGeneral;
 
     public function addFields($form): void
     {

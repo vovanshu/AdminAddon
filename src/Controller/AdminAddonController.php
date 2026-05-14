@@ -6,12 +6,12 @@ use Laminas\View\Model\ViewModel;
 // use Laminas\Form\Form;
 // use Omeka\Stdlib\Message;
 use Laminas\View\Model\JsonModel;
-use AdminAddon\General;
+use AdminAddon\TraitGeneral;
 
 class AdminAddonController extends AbstractActionController
 {
 
-    use General;
+    use TraitGeneral;
 
     public function indexAction()
     {

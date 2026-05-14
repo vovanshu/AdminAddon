@@ -2,11 +2,8 @@
 
 namespace AdminAddon;
 
-if (!class_exists(\Common\TraitModule::class)) {
-    require_once dirname(__DIR__) . '/Common/TraitModule.php';
-}
-
-require_once __DIR__ . '/src/General.php';
+require_once __DIR__ . '/src/TraitGeneral.php';
+require_once __DIR__ . '/src/TraitModule.php';
 
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\EventManager\Event;
@@ -17,32 +14,27 @@ use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
 use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
-use Omeka\Form\Element\PropertySelect;
+// use Omeka\Form\Element\PropertySelect;
 // use Omeka\Entity\Job;
-use Common\TraitModule;
-use AdminAddon\General;
+// use Common\TraitModule;
+use AdminAddon\TraitGeneral;
+use AdminAddon\TraitModule;
 
 class Module extends AbstractModule
 {
-
+    
+    use TraitGeneral;
     use TraitModule;
-
-    use General;
-
-    protected $application;
-
-    const NAMESPACE = __NAMESPACE__;
-
     
     /**
      * Get the config of the current module.
      *
      * @return array
      */
-    public function getConfig()
-    {
-        return include $this->modulePath() . '/config/module.config.php';
-    }
+    // public function getConfig()
+    // {
+    //     return include $this->modulePath() . '/config/module.config.php';
+    // }
 
     public function init(ModuleManager $moduleManager): void
     {
@@ -157,19 +149,6 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            'Omeka\Api\Adapter\ItemAdapter',
-            'api.search.query.finalize',
-            [$this, 'debugSearchQuery']
-        );
-
-        $sharedEventManager->attach(
-            'Omeka\Api\Adapter\MediaAdapter',
-            'api.search.query.finalize',
-            [$this, 'debugSearchQuery']
-        );
-        
-
-        $sharedEventManager->attach(
             'Omeka\Controller\Admin\Item',
             'view.advanced_search',
             [$this, 'addFieldsToAdvancedSearch']
@@ -191,7 +170,7 @@ class Module extends AbstractModule
             '*',
             'view.layout',
             [$this, 'handleViewLayout'],
-            1001
+            -1001
         );
 
         $sharedEventManager->attach(
@@ -226,23 +205,41 @@ class Module extends AbstractModule
 
             $mode = $this->modeAdminUI($controller, $action);
             if($mode){
-
-                if($this->getConf('developing')){
-                    echo "<!--\r\n";
-                    print_r($mode);
-                    echo "\r\n-->\r\n";
+                
+                if($this->isAppDevMode() && $this->userIsGlobalAdmin()){
+                    if(function_exists('d')){
+                        if(class_exists('Kint\Renderer\RichRenderer')){
+                            \Kint\Kint::$depth_limit = 0;
+                            \Kint\Renderer\RichRenderer::$folder = True;
+                        }
+                        d($mode);
+                    }else{
+                        echo "<!--\r\n";
+                        print_r($mode);
+                        echo "\r\n-->\r\n";
+                    }
                 }
 
                 foreach($mode['styles'] as $name => $style){
                     if($this->isCompatibleAdminUI($mode['controllers'], $controller, $action, $name)){
                         if(!empty($style['css'])){
-                            foreach($style['css'] as $file){
-                                $view->headLink()->appendStylesheet($view->assetUrl($file, 'AdminAddon'));
+                            foreach($style['css'] as $file => $type){
+                                if($type == 'URL'){
+                                    $assertURL = $file;
+                                }else{
+                                    $assertURL = $view->assetUrl($file, $type);
+                                }
+                                $view->headLink()->appendStylesheet($assertURL);
                             }
                         }
                         if(!empty($style['js'])){
-                            foreach($style['js'] as $file){
-                                $view->headScript()->appendFile($view->assetUrl($file, 'AdminAddon'));
+                            foreach($style['js'] as $file => $type){
+                                if($type == 'URL'){
+                                    $assertURL = $file;
+                                }else{
+                                    $assertURL = $view->assetUrl($file, $type);
+                                }
+                                $view->headScript()->appendFile($assertURL);
                             }
                         }
                     }
@@ -314,21 +311,6 @@ CSS;
             }
         }
 
-        if($this->getConf('developing') || $this->getConf('debug')){
-            echo "<!-- Controller: " . $controller . " -->\r\n";
-            echo "<!-- Action: " . $action . " -->\r\n";
-        }
-        if($this->getConf('debug')){
-            echo "<!--\r\n Params:\r\n";
-            print_r($params);
-            echo "\r\n-->\r\n";
-            echo "<!-- Current memory usage: " . $this->convert_size(memory_get_usage()) . " -->\r\n";
-            echo "<!-- Peak memory usage: " . $this->convert_size(memory_get_peak_usage()) . " -->\n";
-            $usege = getrusage();
-            echo "<!-- User CPU time: ".($usege['ru_utime.tv_usec']/1000000)." seconds -->\r\n";
-            echo "<!-- System CPU time: ".($usege['ru_stime.tv_usec']/1000000)." seconds -->\r\n";
-        }
-
     }
 
     public function addMenuAdminDashboard(Event $event): void
@@ -387,31 +369,6 @@ CSS;
                         'allow_empty' => true,
                     ]);
                 }
-            }
-        }
-
-    }
-
-    public function debugSearchQuery(Event $event): void
-    {
-
-        if($this->getConf('debug')){
-            $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
-            $controller = $routeMatch->getParam('__CONTROLLER__');
-            if(in_array($controller, $this->getConf('compatible_autocomplete_facets', 'controllers'))){
-                $request = $event->getParam('request');
-                $params = $request->getContent();
-                $qb = $event->getParam('queryBuilder');
-                echo "<!--\r\n Params:\r\n";
-                print_r($params);
-                echo "\r\n Query:\r\n";
-                echo $qb->getQuery()->getSQL();
-                // print_r(get_class_methods($qb));
-                // print_r(get_class_methods($qb->getQuery()));
-                // echo $qb->getRootAlias()."\r\n";
-                // print_r($qb->getRootAliases());
-                // print_r($qb->getAllAliases());
-                echo "\r\n-->\r\n";
             }
         }
 
@@ -561,13 +518,7 @@ CSS;
     public function getConfigForm(PhpRenderer $renderer)
     {
 
-        $url = $renderer->url('admin/admin-addon-settings', ['action' => 'edit']);
-        // return "<script>window.location.href = '$url';</script>";
-        $response = $this->getMvcEvent()->getResponse();
-        $response->getHeaders()->addHeaderLine('Location', $url);
-        $response->setStatusCode(302);
-        $response->sendHeaders();
-        return $response;
+        return $this->redirecToURL($renderer->url('admin/admin-addon-settings', ['action' => 'edit']));
         
     }
 

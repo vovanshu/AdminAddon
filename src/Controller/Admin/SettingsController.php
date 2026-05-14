@@ -7,12 +7,12 @@ use Laminas\Form\Form;
 use Omeka\Stdlib\Message;
 // use Common\Form\Element as CommonElement;
 use Omeka\Form\Element\PropertySelect;
-use AdminAddon\General;
+use AdminAddon\TraitGeneral;
 
 class SettingsController extends AbstractActionController
 {
 
-    use General;
+    use TraitGeneral;
 
     public function editAction()
     {

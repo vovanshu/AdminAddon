@@ -114,7 +114,6 @@ return [
         ],
     ],
     'AdminAddon' => [
-        'developing' => False,
         'debug' => False,
         'settings' => [
             'adminaddon_replace_helper_ckeditor' => 'false',
@@ -209,8 +208,8 @@ return [
                 ],
                 'styles' => [
                     'general' => [
-                        'css' => ['css/simpleapp.css'],
-                        'js' => ['js/simpleapp.js'],
+                        'css' => ['css/simpleapp.css' => 'AdminAddon'],
+                        'js' => ['js/simpleapp.js' => 'AdminAddon'],
                     ],
                 ]
             ],

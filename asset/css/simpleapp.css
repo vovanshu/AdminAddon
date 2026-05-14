@@ -52,7 +52,7 @@
         padding: 10px;
     }
 
-    body footer {
+    body > footer {
         z-index: 999999;
         position: fixed;
         bottom: 0;
@@ -206,4 +206,13 @@
         bottom: 50px;
     }
 
+    .mapper {
+        div#mapper {
+            max-height: calc(100% - 40px);
+            .cm-editor{
+                max-height: 100%;
+            }
+        }
+        
+    }
 }

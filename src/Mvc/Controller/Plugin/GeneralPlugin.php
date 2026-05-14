@@ -3,12 +3,12 @@
 namespace AdminAddon\Mvc\Controller\Plugin;
 
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
-use AdminAddon\General;
+use AdminAddon\TraitGeneral;
 
 class GeneralPlugin extends AbstractPlugin
 {
 
-    use General;
+    use TraitGeneral;
 
     public function __construct($serviceLocator, $requestedName = Null, array $options = null)
     {

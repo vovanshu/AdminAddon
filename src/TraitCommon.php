@@ -2,10 +2,10 @@
 
 namespace AdminAddon;
 
-trait Common
+trait TraitCommon
 {
 
-    protected $configName = __NAMESPACE__;
+    protected $moduleName = __NAMESPACE__;
 
     protected $mvcEvent;
 
@@ -27,7 +27,11 @@ trait Common
 
     protected $apiManager;
 
-    // protected $ApiAdapterManager;
+    protected $ModuleManager;
+
+    protected $ControllerPluginManager;
+
+    protected $ApiAdapterManager;
 
     protected $ApiAdapter = [];
 
@@ -35,14 +39,21 @@ trait Common
 
     protected $logger;
 
-    public function setMvcEvent($mvcEvent)
+
+    protected function isAppDevMode(): bool
     {
-        $this->mvcEvent = $mvcEvent;
+
+        if ((isset($_SERVER['APPLICATION_ENV']) && 'development' == $_SERVER['APPLICATION_ENV']) ||
+        (isset($_SERVER['REDIRECT_APPLICATION_ENV']) && 'development' == $_SERVER['REDIRECT_APPLICATION_ENV'])){
+            return True;
+        }
+        return False;
+
     }
 
-    public function getMvcEvent()
+    protected function modulePath(): string
     {
-        return $this->mvcEvent;
+        return dirname((new \ReflectionClass(static::class))->getFileName());
     }
 
     /**
@@ -64,24 +75,47 @@ trait Common
         return $this->serviceLocator;
     }
 
-    // public function getAdapter($resourceName = null)
-    // {
+    public function setMvcEvent($mvcEvent)
+    {
+        $this->mvcEvent = $mvcEvent;
+    }
 
-    //     if($this->serviceLocator){
-    //         if(!$this->ApiAdapterManager){
-    //             $this->ApiAdapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
-    //         }
-    //         if(!empty($resourceName)){
-    //             if(empty($this->ApiAdapter[$resourceName])){
-    //                 $this->ApiAdapter[$resourceName] = $this->getServiceLocator()->get('Omeka\ApiAdapterManager')->get($resourceName);
-    //             }
-    //             return $this->ApiAdapter[$resourceName];
-    //         }
-    //         return $this->ApiAdapterManager;
-    //     }
-    //     return;
+    public function getMvcEvent()
+    {
+        return $this->mvcEvent;
+    }
 
-    // }
+    public function getApiAdapterManager($resourceName = null)
+    {
+
+        if($this->serviceLocator){
+            if(!$this->ApiAdapterManager){
+                $this->ApiAdapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
+            }
+            if(!empty($resourceName)){
+                if(empty($this->ApiAdapters[$resourceName])){
+                    $this->ApiAdapters[$resourceName] = $this->ApiAdapterManager->get($resourceName);
+                }
+                return $this->ApiAdapters[$resourceName];
+            }
+            return $this->ApiAdapterManager;
+        }
+        return;
+
+    }
+
+    public function getModuleManager()
+    {
+
+        if($this->ModuleManager){
+            if(!$this->ModuleManager){
+                $this->ModuleManager = $this->getServiceLocator()->get('Omeka\ModuleManager');
+            }
+            return $this->ModuleManager;
+        }
+        return;
+
+    }
 
     public function getApplicationRouteMatch()
     {
@@ -130,6 +164,19 @@ trait Common
                 $this->apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
             }
             return $this->apiManager;
+        }
+        return;
+
+    }
+
+    public function getControllerPluginManager()
+    {
+
+        if($this->serviceLocator){
+            if(!$this->ControllerPluginManager){
+                $this->ControllerPluginManager = $this->getServiceLocator()->get('ControllerPluginManager');
+            }
+            return $this->ControllerPluginManager;
         }
         return;
 
@@ -221,7 +268,7 @@ trait Common
     public function getConf($name = Null, $param = Null, $default = Null, $all = False)
     {
 
-        $config = $this->getConfigs()[$this->configName];
+        $config = $this->getConfigs()[$this->moduleName];
         if(!empty($name)){
             if(!empty($config[$name])){
                 if(!empty($param)){
@@ -319,7 +366,7 @@ trait Common
         
     }
 
-    private function setUserSets($userId, $name, $value)
+    public function setUserSets($userId, $name, $value)
     {
 
         $name = (($opt = $this->getOps($name)) ? $opt : $name);
@@ -348,6 +395,20 @@ trait Common
         }
         return $r;
 
+    }
+
+    public function userIsGuest()
+    {
+    
+        return ($this->getRoleCurrentUser() == 'public');
+
+    }
+
+    public function userIsGlobalAdmin()
+    {
+        
+        return ($this->getRoleCurrentUser() == $this->getAcl()::ROLE_GLOBAL_ADMIN);
+        
     }
 
     public function getRoleUser($userID)
@@ -398,7 +459,7 @@ trait Common
 
     }
 
-    private function arrayToTextList($string, $separator = ' = ')
+    public function arrayToTextList($string, $separator = ' = ')
     {
 
         if(!empty($string)){
@@ -423,7 +484,7 @@ trait Common
      * @param string $string
      * @return array
      */
-    private function textListToArray($string, $keyValueSeparator = ' = ')
+    public function textListToArray($string, $keyValueSeparator = ' = ')
     {
 
         $result = [];
@@ -441,7 +502,7 @@ trait Common
      * @param string $string
      * @return array
      */
-    protected function stringToList($string)
+    public function stringToList($string)
     {
         return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), 'strlen');
     }
@@ -454,7 +515,7 @@ trait Common
      * @param string $string
      * @return string
      */
-    private function fixEndOfLine($string)
+    public function fixEndOfLine($string)
     {
         return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], (string) $string);
     }
@@ -541,6 +602,17 @@ trait Common
     {
         $unit=array('b','Kb','Mb','Gb','Tb','Pb');
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+    }
+
+    public function redirecToURL($url, $status = 301)
+    {
+
+        $response = $this->getMvcEvent()->getResponse();
+        $response->getHeaders()->addHeaderLine('Location', $url);
+        $response->setStatusCode($status);
+        $response->sendHeaders();
+        return $response;
+        
     }
 
 }

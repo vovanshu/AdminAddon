@@ -3,12 +3,12 @@ namespace AdminAddon\Form;
 
 use Laminas\Form\Form;
 use Omeka\Form\Element\Recaptcha;
-use AdminAddon\General;
+use AdminAddon\TraitGeneral;
 
 class ForgotPasswordForm extends Form
 {
 
-    use General;
+    use TraitGeneral;
 
     public function __construct($serviceLocator, $requestedName, $options)
     {
