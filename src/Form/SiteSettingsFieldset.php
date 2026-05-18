@@ -15,7 +15,7 @@ class SiteSettingsFieldset extends Fieldset
     {
 
         $form->add([
-            'name' => $this->getOps('advsearch_autocomplete'),
+            'name' => 'adminaddon_advsearch_autocomplete',
             'type' => 'checkbox',
             'options' => [
                 'element_group' => 'search',
@@ -24,13 +24,13 @@ class SiteSettingsFieldset extends Fieldset
                 'unchecked_value' => 'false',
             ],
             'attributes' => [
-                'id' => $this->getOps('advsearch_autocomplete'),
-                'value' => $this->getSiteSets('advsearch_autocomplete'),
+                'id' => 'adminaddon_advsearch_autocomplete',
+                'value' => $this->getSiteSets('adminaddon_advsearch_autocomplete_fields'),
             ],
         ]);
 
         $form->add([
-            'name' => $this->getOps('advsearch_autocomplete_fields'),
+            'name' => 'adminaddon_advsearch_autocomplete_fields',
             'type' => PropertySelect::class,
             'required' => false,
             'options' => [
@@ -44,16 +44,16 @@ class SiteSettingsFieldset extends Fieldset
                 'multiple' => true,
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select properties…', // @translate
-                'id' => $this->getOps('advsearch_autocomplete_fields'),
-                'value' => $this->getSiteSets('advsearch_autocomplete_fields'),
+                'id' => 'adminaddon_advsearch_autocomplete_fields',
+                'value' => $this->getSiteSets('adminaddon_advsearch_autocomplete_fields'),
             ],
         ]);
         
-        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete_fields');
+        $this->FilterAllowEmpty[] = 'adminaddon_advsearch_autocomplete_fields';
 
         $form->add([
             'type' => 'checkbox',
-            'name' => $this->getOps('search_fasets_enable'),
+            'name' => 'adminaddon_search_fasets_enable',
             'options' => [
                 'element_group' => 'search',
                 'label' => 'Enable search fasets', // @translate
@@ -62,13 +62,13 @@ class SiteSettingsFieldset extends Fieldset
                 'unchecked_value' => 'false',
             ],
             'attributes' => [
-                'value' => $this->getSiteSets('search_fasets_enable'),
-                'id' => $this->getOps('search_fasets_enable'),
+                'value' => $this->getSiteSets('adminaddon_search_fasets_enable'),
+                'id' => 'adminaddon_search_fasets_enable',
             ],
         ]);
 
         $form->add([
-            'name' => $this->getOps('render_by_js'),
+            'name' => 'adminaddon_render_by_js',
             'type' => 'checkbox',
             'options' => [
                 'element_group' => 'search',
@@ -77,13 +77,13 @@ class SiteSettingsFieldset extends Fieldset
                 'unchecked_value' => 'false',
             ],
             'attributes' => [
-                'id' => $this->getOps('render_by_js'),
-                'value' => $this->getSiteSets('render_by_js'),
+                'id' => 'adminaddon_render_by_js',
+                'value' => $this->getSiteSets('adminaddon_render_by_js'),
             ],
         ]);
 
         $form->add([
-            'name' => $this->getOps('search_fasets'),
+            'name' => 'adminaddon_search_fasets',
             'type' => 'textarea',
             'options' => [
                 'element_group' => 'search',
@@ -91,13 +91,13 @@ class SiteSettingsFieldset extends Fieldset
                 'info' => '', // @translate
             ],
             'attributes' => [
-                'value' => $this->getSiteSets('search_fasets'),
-                'id' => $this->getOps('search_fasets'),
+                'value' => $this->getSiteSets('adminaddon_search_fasets'),
+                'id' => 'adminaddon_search_fasets',
                 'class' => 'edit-ini-textarea'
             ],
         ]);
 
-        $this->FilterAllowEmpty[] = $this->getOps('search_fasets');
+        $this->FilterAllowEmpty[] = 'adminaddon_search_fasets';
 
     }
 

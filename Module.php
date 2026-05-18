@@ -7,16 +7,13 @@ require_once __DIR__ . '/src/TraitModule.php';
 
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\EventManager\Event;
-// use Laminas\Mvc\Controller\AbstractController;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\ModuleManager\ModuleEvent;
-use Laminas\ModuleManager\ModuleManager;
-use Laminas\Mvc\MvcEvent;
+// use Laminas\ModuleManager\ModuleManager;
+// use Laminas\Mvc\MvcEvent;
 use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Acl;
-// use Omeka\Form\Element\PropertySelect;
-// use Omeka\Entity\Job;
-// use Common\TraitModule;
+use Omeka\Entity\Job;
 use AdminAddon\TraitGeneral;
 use AdminAddon\TraitModule;
 
@@ -31,15 +28,6 @@ class Module extends AbstractModule
      *
      * @return array
      */
-    // public function getConfig()
-    // {
-    //     return include $this->modulePath() . '/config/module.config.php';
-    // }
-
-    public function init(ModuleManager $moduleManager): void
-    {
-        $moduleManager->getEventManager()->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onEventMergeConfig']);
-    }
 
     public function onEventMergeConfig(ModuleEvent $event): void
     {
@@ -55,16 +43,6 @@ class Module extends AbstractModule
                 $configListener->setMergedConfig($config);
             }
         }
-
-    }
-
-    public function onBootstrap(MvcEvent $event): void
-    {
-
-        // $this->setServiceLocator($this->serviceLocator);
-        parent::onBootstrap($event);
-        $this->setMvcEvent($event);
-        $this->addDefAclRules();
 
     }
     
@@ -100,7 +78,40 @@ class Module extends AbstractModule
                 Controller\AdminAddonController::class
             ]
         );
+        $this->getAcl()->allow(
+            [
+                Acl::ROLE_GLOBAL_ADMIN,
+                Acl::ROLE_SITE_ADMIN
+            ],
+            [
+                'Omeka\Controller\Admin\Vocabulary',
+                'Omeka\Controller\Admin\Property',
+                'Omeka\Controller\Admin\ResourceClass',
+            ],
+            [
+                'browse', 'show-details', 'properties', 'classes', 'add', 'edit', 'delete', 'delete-confirm'
+            ]
+        );
+        $this->getAcl()->allow(
+            [
+                Acl::ROLE_GLOBAL_ADMIN,
+                Acl::ROLE_SITE_ADMIN
+            ],
+            [
+                'Omeka\Controller\Admin\Job',
+            ],
+            [
+                'fix-job', 'clearn', 'delete-error', 'delete', 'run', 'stop'
+            ]
+        );
 
+    }
+
+    public function getConfigForm(PhpRenderer $renderer)
+    {
+
+        return $this->redirecToURL($renderer->url('admin/admin-addon-settings', ['action' => 'edit']));
+        
     }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
@@ -178,6 +189,19 @@ class Module extends AbstractModule
             'view.browse.after',
             [$this, 'addMenuAdminDashboard']
         );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Job',
+            'view.browse.before',
+            [$this, 'addActionsToJobBrowse']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Job',
+            'view.layout',
+            [$this, 'addActionsToJobShow']
+        );
+
     }
 
     public function handleViewLayout(Event $event): void
@@ -196,10 +220,14 @@ class Module extends AbstractModule
         if(!empty($params['action'])){
             $action = $params['action'];
         }
-        $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
         
-        $view->headLink()->appendStylesheet($view->assetUrl('css/facets.css', 'AdminAddon'));
-        $view->headScript()->appendFile($view->assetUrl('js/fasets.js', 'AdminAddon'));
+        $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
+        // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
+        
+        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_search_fasets_enable') == 'true' || !empty($params['__SITE__']) && $this->getSets('adminaddon_search_fasets_enable') == 'true'){
+            $view->headLink()->appendStylesheet($view->assetUrl('css/facets.css', 'AdminAddon'));
+            $view->headScript()->appendFile($view->assetUrl('js/fasets.js', 'AdminAddon'));
+        }
 
         if(!empty($params['__ADMIN__'])){
 
@@ -244,22 +272,13 @@ class Module extends AbstractModule
                         }
                     }
                 }
-
-                // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
             }
 
             if($controller == 'Page' && $action == 'edit'){
                 $view->headScript()->appendFile($view->assetUrl('js/ckeditor/mode.js', 'AdminAddon'));
             }
 
-            // add theme ckeditor css (provide defaults)
-            // todo: check if exists
-            // $view->headLink()->appendStylesheet($view->assetUrl('css/ckeditor.css', 'AdminAddon', true));
-            // add ckeditor styles (provide defaults)
-            // todo: check if exists
-            // $styleSetUrl = $view->assetUrl('js/ckeditor_styles.js', 'AdminAddon', true);
-
-            if($this->getSets('search_form_hidden') == 'true'){
+            if($this->getSets('adminaddon_search_form_inmenu_hidden') == 'true'){
                 $css = <<<CSS
 header #user {
     margin-bottom: 24px;
@@ -273,7 +292,7 @@ CSS;
 
         }
 
-        if(!empty($params['__ADMIN__']) && $this->getSets('select2') == 'true' || !empty($params['__SITE__']) && $this->getSets('select2public') == 'true'){
+        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_select2_enable') == 'true' || !empty($params['__SITE__']) && $this->getSets('adminaddon_select2_enable_public') == 'true'){
             if(in_array($action, ['search', 'add', 'edit'])){
                 $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
                 $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
@@ -281,7 +300,7 @@ CSS;
             }
         }
 
-        if(!empty($params['__ADMIN__']) && $this->getSets('advsearch_autocomplete') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('advsearch_autocomplete') == 'true'){
+        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_advsearch_autocomplete') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('adminaddon_advsearch_autocomplete') == 'true'){
             
             if(in_array($controller, $this->getConf('compatible_autocomplete_facets', 'controllers')) && in_array($action, $this->getConf('compatible_autocomplete_facets', 'actions'))){
                 $script = '';               
@@ -290,13 +309,13 @@ CSS;
                     $view->headScript()->appendFile('//code.jquery.com/ui/1.14.2/jquery-ui.min.js');
                 }
                 if(!empty($params['__ADMIN__']) && in_array($action, ['search'])){  
-                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('adminaddon_advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
                 }
                 if(!empty($params['__SITE__']) && in_array($action, ['search'])){  
-                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSiteSets('advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSiteSets('adminaddon_advsearch_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
                 }
                 if(!empty($params['__ADMIN__']) && in_array($action, ['add', 'edit'])){
-                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('forms_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
+                    $script .= 'window.AdminAdonNeededFields = '.json_encode($this->getSets('adminaddon_forms_autocomplete_fields'), JSON_UNESCAPED_UNICODE).';';
                 }
                 $script .= 'window.OmekaAdonController = \''.$controller.'\';';
                 $script .= 'window.OmekaAdonAction = \''.$action.'\';';
@@ -316,12 +335,12 @@ CSS;
     public function addMenuAdminDashboard(Event $event): void
     {
 
-        if($this->getSets('menuadmindashboard_enable') == 'true' && !empty($this->getSets('menuadmindashboard')) && !empty($this->getSets('menuadmindashboard_label'))){
+        if($this->getSets('adminaddon_adminaddon_menuadmindashboard_enable') == 'true' && !empty($this->getSets('adminaddon_menuadmindashboard')) && !empty($this->getSets('adminaddon_menuadmindashboard_label'))){
             $view = $event->getTarget();
-            $menurc = $this->getSets('menuadmindashboard');
+            $menurc = $this->getSets('adminaddon_menuadmindashboard');
             $menu = parse_ini_string($menurc, true, INI_SCANNER_TYPED);
             echo $view->partial('admin-addon/admin/index/menu', [
-                'label' => $this->getSets('menuadmindashboard_label'),
+                'label' => $this->getSets('adminaddon_menuadmindashboard_label'),
                 'menu' => $menu,
             ]);
         }
@@ -515,11 +534,77 @@ CSS;
         $event->setParam('config', $config);
     }
 
-    public function getConfigForm(PhpRenderer $renderer)
+
+    public function addActionsToJobBrowse(Event $event): void
     {
 
-        return $this->redirecToURL($renderer->url('admin/admin-addon-settings', ['action' => 'edit']));
+        $view = $event->getTarget();
+        $plugins = $view->getHelperPluginManager();
+        $translate = $plugins->get('translate');
+
+        $view->headLink()->appendStylesheet($view->assetUrl('css/settings.css', 'AdminAddon'));
+        $view->headScript()->appendFile($view->assetUrl('js/settings.js', 'AdminAddon'));
+
+        $allowed = [];
         
+        if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'fix-job')){
+            $allowed[] = $view->hyperlink($translate('Fix jobs'), $view->url('admin/default', ['controller'=> 'job', 'action' => 'fix-job'], true), ['class' => 'link']);
+        }
+        if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'delete-error')){
+            $allowed[] = $view->hyperlink($translate('Deleting jobs with error'), $view->url('admin/default', ['controller' => 'job', 'action' => 'delete-error'], true), ['class' => 'link']);
+        }
+        if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'clearn')){
+            $allowed[] = $view->hyperlink($translate('Deleting finished & stoped jobs'), $view->url('admin/default', ['controller' => 'job', 'action' => 'clearn'], true), ['class' => 'link']);
+        }
+        echo '<div id="page-actions">';
+        if(!empty($allowed)){
+            echo '<a href="#" id="expand-menu" class="collapsed button expand-more" aria-label="'.$translate('Maintenance').'" title="'. $translate('Maintenance').'" aria-expanded="false" aria-target="#maintenance-menu">'. $translate('Maintenance') .'</a>
+            <ul id="maintenance-menu" class="collapsible-menu">
+               <li>';
+            echo implode('</li><li>', $allowed);
+            echo '</li></ul>';
+        }
+        if ($view->userIsAllowed('AdminAddon\Controller\Admin\SettingsController', 'edit')){
+            echo $view->hyperlink($translate('Settings'), $view->url('admin/admin-addon-settings', ['action' => 'edit'], true), ['class' => 'button']);
+        }
+        echo '</div>';
+
+    }
+
+    public function addActionsToJobShow(Event $event): void
+    {
+
+        $view = $event->getTarget();
+        $params = $view->params()->fromRoute();
+        if(!empty($params['action']) && $params['action'] == 'show'){
+            $plugins = $view->getHelperPluginManager();
+            $translate = $plugins->get('translate');
+            $api = $plugins->get('api');
+            $job = $api->read('jobs', $params['id'])->getContent();
+            $jobStatus = $job->status();
+            $vars = $view->vars();
+            $replace = '<div id="page-actions">';
+            if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'run') && in_array($jobStatus, [Job::STATUS_STARTING, Job::STATUS_COMPLETED, Job::STATUS_STOPPED, Job::STATUS_ERROR])){
+                $replace .= $view->hyperlink($translate('Run'), $view->url('admin/id', ['controller'=> 'job', 'action' => 'run', 'id' => $params['id']], true), ['class' => 'button']);
+            }
+            if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'stop') && in_array($jobStatus, [Job::STATUS_STOPPING, Job::STATUS_IN_PROGRESS])){
+                $replace .= $view->hyperlink($translate('Stop'), $view->url('admin/id', ['controller'=> 'job', 'action' => 'stop', 'id' => $params['id']], true), ['class' => 'button']);
+            }
+            if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'terminate') && in_array($jobStatus, [Job::STATUS_STOPPING, Job::STATUS_IN_PROGRESS])){
+                $replace .= $view->hyperlink($translate('Terminate'), $view->url('admin/id', ['controller'=> 'job', 'action' => 'terminate', 'id' => $params['id']], true), ['class' => 'button']);
+            }
+            if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'delete') && in_array($jobStatus, [Job::STATUS_STARTING, Job::STATUS_COMPLETED, Job::STATUS_STOPPED, Job::STATUS_ERROR])){
+                $replace .= $view->hyperlink($translate('Delete'), $view->url('admin/id', ['controller'=> 'job', 'action' => 'delete', 'id' => $params['id']], true), ['class' => 'button']);
+            }
+            $content = $vars->offsetGet('content');
+            $content = preg_replace([
+                '/(<div id="page-actions">)/i'
+            ], [
+                $replace    
+            ], $content);
+            $vars->offsetSet('content', $content);
+        }
+
     }
 
 }

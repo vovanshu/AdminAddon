@@ -22,7 +22,7 @@ class SettingsFieldset extends Fieldset
         }
 
         $form->add([
-                'name' => $this->getOps('mode_admin_ui'),
+                'name' => 'adminaddon_mode_admin_ui',
                 'type' => 'select',
                 'options' => [
                     'element_group' => 'display',
@@ -31,12 +31,12 @@ class SettingsFieldset extends Fieldset
                     'use_hidden_element' => true,
                 ],
                 'attributes' => [
-                    'id' => $this->getOps('mode_admin_ui'),
+                    'id' => 'adminaddon_mode_admin_ui',
                     'multiple' => false,
                     'required' => false,
                     'class' => 'select',
                     'data-placeholder' => 'Select mode admin UI', // @translate
-                    'value' => $this->getSets('mode_admin_ui')
+                    'value' => $this->getSets('adminaddon_mode_admin_ui')
                 ],
             ]);
 
@@ -53,7 +53,7 @@ class SettingsFieldset extends Fieldset
             ],
             'attributes' => [
                 'id' => 'adminaddon_html_mode_page',
-                'value' => $this->getSets('html_mode')
+                'value' => $this->getSets('adminaddon_html_mode_page')
             ],
         ]);
 
@@ -72,7 +72,7 @@ class SettingsFieldset extends Fieldset
             ],
             'attributes' => [
                 'id' => 'adminaddon_html_config_page',
-                'value' => $this->getSets('html_config')
+                'value' => $this->getSets('adminaddon_html_config_page')
             ],
         ]);
 
@@ -193,7 +193,7 @@ class SettingsFieldset extends Fieldset
                 'info' => 'Label for menu on Admin dashboard', // @translate
             ],
             'attributes' => [
-                'value' => $this->getSets('menuadmindashboard_label'),
+                'value' => $this->getSets('adminaddon_menuadmindashboard_label'),
                 'id' => 'adminaddon_menuadmindashboard_label',
             ],
         ]);
@@ -209,7 +209,7 @@ class SettingsFieldset extends Fieldset
                 'unchecked_value' => 'false',
             ],
             'attributes' => [
-                'value' => $this->getSets('menuadmindashboard_enable'),
+                'value' => $this->getSets('adminaddon_menuadmindashboard_enable'),
                 'id' => 'adminaddon_menuadmindashboard_enable',
             ],
         ]);
@@ -223,14 +223,14 @@ class SettingsFieldset extends Fieldset
                 'info' => '', // @translate
             ],
             'attributes' => [
-                'value' => $this->getSets('menuadmindashboard'),
+                'value' => $this->getSets('adminaddon_menuadmindashboard'),
                 'id' => 'adminaddon_menuadmindashboard',
                 'class' => 'edit-ini-textarea'
             ],
         ]);
 
         $form->add([
-                'name' => $this->getOps('advsearch_autocomplete'),
+                'name' => 'adminaddon_advsearch_autocomplete',
                 'type' => 'checkbox',
                 'options' => [
                     'element_group' => 'search',
@@ -239,15 +239,15 @@ class SettingsFieldset extends Fieldset
                     'unchecked_value' => 'false',
                 ],
                 'attributes' => [
-                    'id' => $this->getOps('advsearch_autocomplete'),
-                    'value' => $this->getSets('advsearch_autocomplete'),
+                    'id' => 'adminaddon_advsearch_autocomplete',
+                    'value' => $this->getSets('adminaddon_advsearch_autocomplete'),
                 ],
             ]);
 
-        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete');
+        $this->FilterAllowEmpty[] = 'adminaddon_advsearch_autocomplete';
 
         $form->add([
-                'name' => $this->getOps('advsearch_autocomplete_fields'),
+                'name' => 'adminaddon_advsearch_autocomplete_fields',
                 'type' => PropertySelect::class,
                 'required' => false,
                 'options' => [
@@ -260,15 +260,15 @@ class SettingsFieldset extends Fieldset
                     'multiple' => true,
                     'class' => 'chosen-select',
                     'data-placeholder' => 'Select properties…', // @translate
-                    'id' => $this->getOps('advsearch_autocomplete_fields'),
-                    'value' => $this->getSets('advsearch_autocomplete_fields'),
+                    'id' => 'adminaddon_advsearch_autocomplete_fields',
+                    'value' => $this->getSets('adminaddon_advsearch_autocomplete_fields'),
                 ],
             ]);
 
-        $this->FilterAllowEmpty[] = $this->getOps('advsearch_autocomplete_fields');
+        $this->FilterAllowEmpty[] = 'adminaddon_advsearch_autocomplete_fields';
 
         $form->add([
-                'name' => $this->getOps('forms_autocomplete'),
+                'name' => 'adminaddon_forms_autocomplete',
                 'type' => 'checkbox',
                 'options' => [
                     'element_group' => 'editing',
@@ -278,13 +278,13 @@ class SettingsFieldset extends Fieldset
                     'unchecked_value' => 'false',
                 ],
                 'attributes' => [
-                    'id' => $this->getOps('forms_autocomplete'),
-                    'value' => $this->getSets('forms_autocomplete'),
+                    'id' => 'adminaddon_forms_autocomplete',
+                    'value' => $this->getSets('adminaddon_forms_autocomplete'),
                 ],
             ]);
 
         $form->add([
-                'name' => $this->getOps('forms_autocomplete_fields'),
+                'name' => 'adminaddon_forms_autocomplete_fields',
                 'type' => PropertySelect::class,
                 'required' => false,
                 'options' => [
@@ -297,16 +297,16 @@ class SettingsFieldset extends Fieldset
                     'multiple' => true,
                     'class' => 'chosen-select',
                     'data-placeholder' => 'Select properties…', // @translate
-                    'id' => $this->getOps('forms_autocomplete_fields'),
-                    'value' => $this->getSets('forms_autocomplete_fields'),
+                    'id' => 'adminaddon_forms_autocomplete_fields',
+                    'value' => $this->getSets('adminaddon_forms_autocomplete_fields'),
                 ],
             ]);
 
-        $this->FilterAllowEmpty[] = $this->getOps('forms_autocomplete_fields');
+        $this->FilterAllowEmpty[] = 'adminaddon_forms_autocomplete_fields';
 
         $form->add([
             'type' => 'checkbox',
-            'name' => $this->getOps('search_fasets_enable'),
+            'name' => 'adminaddon_search_fasets_enable',
             'options' => [
                 'element_group' => 'search',
                 'label' => 'Enable search fasets', // @translate
@@ -315,13 +315,13 @@ class SettingsFieldset extends Fieldset
                 'unchecked_value' => 'false',
             ],
             'attributes' => [
-                'value' => $this->getSets('search_fasets_enable'),
-                'id' => $this->getOps('search_fasets_enable'),
+                'value' => $this->getSets('adminaddon_search_fasets_enable'),
+                'id' => 'adminaddon_search_fasets_enable',
             ],
         ]);
 
         $form->add([
-            'name' => $this->getOps('search_fasets'),
+            'name' => 'adminaddon_search_fasets',
             'type' => 'textarea',
             'options' => [
                 'element_group' => 'search',
@@ -329,13 +329,13 @@ class SettingsFieldset extends Fieldset
                 'info' => '', // @translate
             ],
             'attributes' => [
-                'value' => $this->getSets('search_fasets'),
-                'id' => $this->getOps('search_fasets'),
+                'value' => $this->getSets('adminaddon_search_fasets'),
+                'id' => 'adminaddon_search_fasets',
                 'class' => 'edit-ini-textarea'
             ],
         ]);
 
-        $this->FilterAllowEmpty[] = $this->getOps('search_fasets');
+        $this->FilterAllowEmpty[] = 'adminaddon_search_fasets';
 
         $form->setOption('element_groups', $options['element_groups']);
 

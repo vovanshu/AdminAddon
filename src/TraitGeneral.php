@@ -73,8 +73,12 @@ trait TraitGeneral
                 if($need == $key){
                     foreach($val as $k => $v){
                         if($controller == $k){
-                            if(in_array($action, $v)){
-                                return True;
+                            if(is_array($v)){
+                                if(empty($v)){
+                                    return True;
+                                }elseif(in_array($action, $v)){
+                                    return True;
+                                }                                
                             }
                         }
                     }
@@ -82,8 +86,12 @@ trait TraitGeneral
             }else{
                 foreach($val as $k => $v){
                     if($controller == $k){
-                        if(in_array($action, $v)){
-                            return True;
+                        if(is_array($v)){
+                            if(empty($v)){
+                                return True;
+                            }elseif(in_array($action, $v)){
+                                return True;
+                            }                                
                         }
                     }
                 }
@@ -96,7 +104,7 @@ trait TraitGeneral
     private function modeAdminUI($controller, $action)
     {
 
-        $mode = $this->getSets('mode_admin_ui');
+        $mode = $this->getSets('adminaddon_mode_admin_ui');
         if($mode && $mode !== 'default' && $controller && $action){            
             $conf = $this->getConf('modes_admin_ui', $mode);
             if(!empty($conf['controllers']) && !empty($conf['actions'])){
@@ -192,9 +200,9 @@ trait TraitGeneral
     {
         if($siteSlug){
             $siteID = $this->getSiteID($siteSlug);
-            $rc = $this->getSiteSets('search_fasets', $siteID);
+            $rc = $this->getSiteSets('adminaddon_search_fasets', $siteID);
         }else{
-            $rc = $this->getSets('search_fasets');
+            $rc = $this->getSets('adminaddon_search_fasets');
         }
         if(!empty($rc)){
             return parse_ini_string($rc, true, INI_SCANNER_TYPED);
@@ -314,42 +322,6 @@ trait TraitGeneral
 
     }
 
-    // private function createQueryRange($query, $config){
-
-    //     $q = 'SELECT';
-    //     $q .= ' MIN(`value`.`value`) AS min_value, MAX(`value`.`value`) AS max_value';
-    //     $q .= ' FROM `value`';
-    //     $q .= ' LEFT JOIN `property` ON `property`.`id` = `value`.`property_id`';
-    //     $q .= ' LEFT JOIN `vocabulary` ON `vocabulary`.`id` = `property`.`vocabulary_id`';
-    //     $q .= ' LEFT JOIN `resource` ON `resource`.`id` = `value`.`resource_id`';
-    //     if(!empty($query['site_slug'])){
-    //         $q .= ' LEFT JOIN `item_site` ON `item_site`.`item_id` = `value`.`resource_id`';
-    //         $siteID = $this->getSiteID($query['site_slug']);
-    //     }
-    //     if(!empty($query['property_id'])){
-    //         $q .= ' WHERE `property`.`id` = \''.$query['property_id'].'\'';
-    //     }elseif(!empty($config['property_id'])){
-    //         $q .= ' WHERE `property`.`id` = \''.$config['property_id'].'\'';
-    //     }elseif(!empty($query['term'])){
-    //         $q .= $this->prepQueryWhereByTerm($query['term']);
-    //     }elseif(!empty($config['term'])){
-    //         $q .= $this->prepQueryWhereByTerm($config['term']);
-    //     }
-    //     if( $config['query_limited'] ){
-    //         if(!empty($query['value'])){
-    //             $q .= ' AND `value`.`value` LIKE \'%'.$query['value'].'%\'';
-    //         }
-    //     }
-    //     if(!empty($siteID)){
-    //         $q .= ' AND `item_site`.`site_id` = \''.$siteID.'\'';
-    //     }
-    //     $q .= ' AND `resource`.`is_public` = 1';
-    //     $q .= ';';
-
-    //     return $q;
-
-    // }
-
     private function prepQueryWhereByTerm($term){
 
         if(stripos($term, ':') !== False){
@@ -412,4 +384,38 @@ trait TraitGeneral
 
     }
 
+
+    private function getSelectVocabularies()
+    {
+
+        $response = $this->api()->search('vocabularies');
+        $vocabularies = $response->getContent();
+        foreach ($vocabularies as $vocabulary){
+            $result[$vocabulary->id()] = $vocabulary->label();
+        }
+        return $result;
+
+    }
+
+
+    private function getVocabularyID($data = Null)
+    {
+
+        $params = $this->params()->fromRoute();
+        $id = Null;
+        if(!empty($params['id'])){
+            $id = $params['id'];
+        }
+        if(!empty($data['o:vocabulary'])){
+            $id = $data['o:vocabulary']->jsonSerialize()['o:id'];
+        }
+        return $id;
+
+    }
+
+    private function getVocabularyEntry($id)
+    {
+        return $this->getApiAdapterManager('vocabularies')->findEntity($id);
+    }
+    
 }

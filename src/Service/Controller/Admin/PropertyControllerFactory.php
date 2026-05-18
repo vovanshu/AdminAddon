@@ -2,15 +2,13 @@
 namespace AdminAddon\Service\Controller\Admin;
 
 use Interop\Container\ContainerInterface;
-use AdminAddon\Controller\Admin\JobController;
+use AdminAddon\Controller\Admin\PropertyController;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class JobControllerFactory implements FactoryInterface
+class PropertyControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
-        $class = new JobController();
-        $class->setServiceLocator($services);
-        return $class;
+        return new PropertyController($services, $requestedName, $options);
     }
 }

@@ -40,7 +40,7 @@ trait TraitCommon
     protected $logger;
 
 
-    protected function isAppDevMode(): bool
+    public function isAppDevMode(): bool
     {
 
         if ((isset($_SERVER['APPLICATION_ENV']) && 'development' == $_SERVER['APPLICATION_ENV']) ||
@@ -51,9 +51,9 @@ trait TraitCommon
 
     }
 
-    protected function modulePath(): string
+    public function modulePath(): string
     {
-        return dirname((new \ReflectionClass(static::class))->getFileName());
+        return dirname(__DIR__);
     }
 
     /**
@@ -291,18 +291,10 @@ trait TraitCommon
 
     }
 
-    public function getOps($name, $default = Null)
-    {
-
-        return $this->getConf('options', $name, $default);        
-
-    }
-
     public function getSets($name, $callback = [])
     {
         
-        $ops = $this->getOps($name, $name);
-        $r = $this->getSettings()->get($ops, $this->getConf('settings', $ops));
+        $r = $this->getSettings()->get($name, $this->getConf('settings', $name));
         if(!empty($callback)){
             $r = call_user_func_array($callback, [$r]);
         }
@@ -313,19 +305,17 @@ trait TraitCommon
     public function setSets($name, $value)
     {
         
-        $ops = $this->getOps($name, $name);
-        $this->getSettings()->set($ops, $value);
+        $this->getSettings()->set($name, $value);
         
     }
 
     public function getSiteSets($name, $siteID = Null, $callback = [])
     {
 
-        $ops = $this->getOps($name, $name);
         if($siteID){
-            $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops), $siteID);
+            $r = $this->getSiteSettings()->get($name, $this->getConf('settings', $name), $siteID);
         }else{
-            $r = $this->getSiteSettings()->get($ops, $this->getConf('settings', $ops));
+            $r = $this->getSiteSettings()->get($name, $this->getConf('settings', $name));
         }
         
         if(!empty($callback)){
@@ -338,8 +328,7 @@ trait TraitCommon
     public function setSiteSets($name, $value)
     {
         
-        $ops = $this->getOps($name, $name);
-        $this->getSiteSettings()->set($ops, $value);
+        $this->getSiteSettings()->set($name, $value);
         
     }
 
@@ -357,7 +346,6 @@ trait TraitCommon
     public function getUserSets($name, $userId, $callback = [])
     {
         
-        $name = (($opt = $this->getOps($name)) ? $opt : $name);
         $r = $this->getUserSettings()->get($name, Null, $userId);
         if(!empty($callback)){
             $r = call_user_func_array($callback, [$r]);
@@ -369,7 +357,6 @@ trait TraitCommon
     public function setUserSets($userId, $name, $value)
     {
 
-        $name = (($opt = $this->getOps($name)) ? $opt : $name);
         $this->getUserSettings()->set($name, $value, $userId);
 
     }

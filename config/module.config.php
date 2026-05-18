@@ -4,16 +4,105 @@ namespace AdminAddon;
 
 return [
     'permissions' => [
+        'classes' => [
+            'vocabulary' => 'Vocabularies', // @translate
+            'properties' => 'Properties', // @translate
+            'resourceclasses' => 'Resource Classes', // @translate
+        ],
         'labels' => [
             'settings_adminaddon' => 'Settings Admin Addition', // @translate
             'deactivate_all' => 'Deactivate all', // @translate
-            // ''
+            'settings_vocabularyaddon' => 'Settings Vocabulary Addition', // @translate
+            'jobs' => 'Jobs',  // @translate
+            'management' => 'Management',  // @translate
+            'control' => 'Control',  // @translate
         ],
         'rules' => [
+            'jobs' => [
+                'Omeka\Controller\Admin\Job' => [
+                    'browse' => [
+                        'browse', 'show'
+                    ],
+                    'management' => [
+                        'fix-job', 'clearn', 'delete-error', 'delete'
+                    ],
+                    'control' => [
+                        'stop', 'run', 'terminate'
+                    ]
+                ]
+            ],
+            'vocabulary' => [
+                'Omeka\Controller\Admin\Vocabulary' => [
+                    'browse' => [
+                        'browse', 'properties', 'classes',
+                    ],
+                    'show' => [
+                        'show-details', 'show', 'read',
+                    ],
+                    'add' => [
+                        'add', 'import'
+                    ],
+                    'edit' => [
+                        'edit', 'update'
+                    ],
+                    'delete' => [
+                        'delete', 'delete-confirm'
+                    ],
+                ],
+                'Omeka\Api\Adapter\VocabularyAdapter' => [
+                    'add' => [
+                        'create'
+                    ],
+                    'edit' => [
+                        'update'
+                    ],
+                    'delete' => [
+                        'delete'
+                    ],
+                ]
+            ],
+            'properties' => [
+                'Omeka\Controller\Admin\Property' => [
+                    'browse' => [
+                        'browse',
+                    ],
+                    'show' => [
+                        'show-details', 'show', 'read'
+                    ],
+                    'add' => [
+                        'add'
+                    ],
+                    'edit' => [
+                        'edit'
+                    ],
+                    'delete' => [
+                        'delete'
+                    ],
+                ]
+            ],
+            'resourceclasses' => [
+                'Omeka\Controller\Admin\ResourceClass' => [
+                    'browse' => [
+                        'browse', 'show-details', 'show', 'read'
+                    ],
+                    'show' => [
+                        'show-details', 'show', 'read'
+                    ],
+                    'add' => [
+                        'add'
+                    ],
+                    'edit' => [
+                        'edit'
+                    ],
+                    'delete' => [
+                        'delete'
+                    ],
+                ]
+            ],
             'modules' => [
                 'AdminAddon\Controller\Admin\SettingsController' => [
                     'settings_adminaddon' => [
-                        'edit',
+                        'edit', 'info-about', 'details', 'delete-confirm', 'delete', 'backups', 'backuping', 'restore-confirm', 'restore'
                     ],
                     'deactivate_all' => [
                         'deactivate-all',
@@ -25,6 +114,12 @@ return [
     'view_manager' => [
         'template_path_stack' => [
             dirname(__DIR__) . '/view',
+        ],
+        'controller_map' => [
+            Controller\Admin\VocabularyControllerDelegator::class => 'omeka/admin/vocabulary',
+            Controller\Admin\PropertyControllerDelegator::class => 'omeka/admin/property',
+            Controller\Admin\ResourceClassControllerDelegator::class => 'omeka/admin/resource-class',
+            Controller\Admin\JobController::class => 'omeka/admin/job',
         ],
     ],
     'view_helpers' => [
@@ -41,7 +136,15 @@ return [
         'factories' => [
             Controller\Admin\SettingsController::class => Service\Controller\Admin\SettingsControllerFactory::class,
             Controller\AdminAddonController::class => Service\Controller\AdminAddonControllerFactory::class,
+            \Omeka\Controller\Admin\PropertyController::class => Service\Controller\Admin\PropertyControllerFactory::class,
+            \Omeka\Controller\Admin\ResourceClassController::class => Service\Controller\Admin\ResourceClassControllerFactory::class,
+            \Omeka\Controller\Admin\JobController::class => Service\Controller\Admin\JobControllerFactory::class,
         ],
+        'delegators' => [
+            'Omeka\Controller\Admin\Vocabulary' => [
+                Service\Controller\Admin\VocabularyControllerDelegatorFactory::class
+            ],
+        ]
     ],
     'form_elements' => [
         'factories' => [
@@ -105,16 +208,11 @@ return [
                 'pattern' => '%s.mo',
                 'text_domain' => null,
             ],
-            [
-                'type' => 'gettext',
-                'base_dir' => OMEKA_PATH . '/files/languages/AdminAddon',
-                'pattern' => '%s.mo',
-                'text_domain' => null,
-            ],
         ],
     ],
     'AdminAddon' => [
         'debug' => False,
+        'backups' => OMEKA_PATH.'/files/backup/AdminAddon/',
         'settings' => [
             'adminaddon_replace_helper_ckeditor' => 'false',
             'adminaddon_editor_change_in_setting' => 'false',
@@ -131,39 +229,17 @@ return [
             'adminaddon_select2_enable' => 'false',
             'adminaddon_select2_enable_public' => 'false',
             'adminaddon_chosen_js_disable' => 'false',
-            'adminadon_advsearch_autocomplete' => 'false',
-            'adminadon_advsearch_public_autocomplete' => 'false',
-            'adminadon_advsearch_autocomplete_fields' => [],
-            'adminadon_forms_autocomplete' => 'false',
-            'adminadon_forms_autocomplete_fields' => [],
-            'adminadon_search_fasets_enable' => 'false',
-            'adminadon_search_fasets' => '',
-            'adminadon_render_by_js' => 'false',
-        ],
-        'options' => [
-            'replace_helper_ckeditor' => 'adminaddon_replace_helper_ckeditor',
-            'editor_change_in_setting' => 'adminaddon_editor_change_in_setting',
-            'html_mode' => 'adminaddon_html_mode_page',
-            'html_config' => 'adminaddon_html_config_page',
-            'mode_admin_ui' => 'adminaddon_mode_admin_ui',
-            'search_form_hidden' => 'adminaddon_search_form_inmenu_hidden',
-            'recaptcha_enable_on_login' => 'recaptcha_enable_on_login',
-            'recaptcha_enable_on_forgot_password' => 'recaptcha_enable_on_forgot_password',
-            'recaptcha_ip_white_list' => 'recaptcha_ip_white_list',
-            'menuadmindashboard' => 'adminaddon_menuadmindashboard',
-            'menuadmindashboard_enable' => 'adminaddon_menuadmindashboard_enable',
-            'menuadmindashboard_label' => 'adminaddon_menuadmindashboard_label',
-            'select2' => 'adminaddon_select2_enable',
-            'select2public' => 'adminaddon_select2_enable_public',
-            'chosen_js_disable' => 'adminaddon_chosen_js_disable',
-            'advsearch_autocomplete' => 'adminadon_advsearch_autocomplete',
-            'advsearch_public_autocomplete' => 'adminadon_advsearch_public_autocomplete',
-            'forms_autocomplete' => 'adminadon_forms_autocomplete',
-            'advsearch_autocomplete_fields' => 'adminadon_advsearch_autocomplete_fields',
-            'forms_autocomplete_fields' => 'adminadon_forms_autocomplete_fields',
-            'search_fasets_enable' => 'adminadon_search_fasets_enable',
-            'search_fasets' => 'adminadon_search_fasets',
-            'render_by_js' => 'adminadon_render_by_js',
+            'adminaddon_advsearch_autocomplete' => 'false',
+            'adminaddon_advsearch_public_autocomplete' => 'false',
+            'adminaddon_advsearch_autocomplete_fields' => [],
+            'adminaddon_forms_autocomplete' => 'false',
+            'adminaddon_forms_autocomplete_fields' => [],
+            'adminaddon_search_fasets_enable' => 'false',
+            'adminaddon_search_fasets' => '',
+            'adminaddon_render_by_js' => 'false',
+            'adminaddon_vocabulary_edit_all' => 'false',
+            'adminaddon_vocabulary_can_delete' => 'false',
+            'adminaddon_backup_resource_template' => 'false',
         ],
         'custom_configs' => [
             'adminaddon_replace_helper_ckeditor',
@@ -178,9 +254,9 @@ return [
                 'controllers' => [
                     'general' => [
                         'AdminAddon\Controller\Admin\SettingsController' => ['edit'],
-                        'item' => ['browse', 'show', 'add', 'edit', 'search'],
-                        'media' => ['browse', 'show', 'add', 'edit', 'search'],
-                        'item-set' => ['browse', 'show', 'add', 'edit', 'search'],
+                        'item' => [],
+                        'media' => [],
+                        'item-set' => [],
                         'vocabulary' => ['browse', 'classes', 'properties'],
                         'resource-template' => ['browse', 'add', 'edit'],
                         'user' => ['browse'],
@@ -191,7 +267,7 @@ return [
                         'item-review' => ['browse', 'edit'],
                         'item-review-contracts' => ['browse'],
                         'setting' => ['browse'],
-                        'settings' => ['edit', 'backups'],
+                        'settings' => [],
                         'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation', 'users'],
                         'index' => ['browse'],
                         'Page' => ['index', 'show', 'edit'],
@@ -201,6 +277,7 @@ return [
                         'theme' => ['index'],
                         'Admin\Index' => ['index'],
                         'Log\Controller\Admin\LogController' => ['browse'],
+                        'Reference\Controller\Admin\ReferenceController' => ['browse'],
                     ]
                 ],
                 'actions' => [

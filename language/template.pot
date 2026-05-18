@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-12 11:26+0300\n"
+"POT-Creation-Date: 2026-05-18 16:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,29 +17,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:516
+#: Module.php:490
 msgid "Deactivate all"
 msgstr ""
 
-#: view/admin-addon/admin/settings/backuping.phtml:14
+#: Module.php:551
+msgid "Fix jobs"
+msgstr ""
+
+#: Module.php:554
+msgid "Deleting jobs with error"
+msgstr ""
+
+#: Module.php:557
+msgid "Deleting finished & stoped jobs"
+msgstr ""
+
+#: Module.php:561 view/admin-addon/admin/settings/edit.phtml:20
+msgid "Maintenance"
+msgstr ""
+
+#: Module.php:588
+msgid "Run"
+msgstr ""
+
+#: Module.php:591
+msgid "Stop"
+msgstr ""
+
+#: Module.php:594
+msgid "Terminate"
+msgstr ""
+
+#: view/admin-addon/admin/property/delete-confirm.phtml:10
+#: view/admin-addon/admin/resource-class/delete-confirm.phtml:10
+msgid "Deleting is not possible because there is metadata for this property!"
+msgstr ""
+
+#: view/admin-addon/admin/settings(1)/edit.phtml:11
+#: view/admin-addon/admin/settings/restore.phtml:14
+msgid "Vocabulary Addition"
+msgstr ""
+
+#: view/admin-addon/admin/settings(1)/edit.phtml:17
+#: view/admin-addon/admin/settings/backuping.phtml:19
 #: view/admin-addon/admin/settings/backups.phtml:15
+#: view/admin-addon/admin/settings/edit.phtml:24
+#: view/admin-addon/admin/settings/restore.phtml:19
+msgid "Backups"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backuping.phtml:14
 msgid "Backup"
 msgstr ""
 
 #: view/admin-addon/admin/settings/backuping.phtml:14
 #: view/admin-addon/admin/settings/backups.phtml:15
-msgid "Items Review"
+#: view/admin-addon/admin/settings/edit.phtml:15
+msgid "Admin Addition"
 msgstr ""
 
-#: view/admin-addon/admin/settings/backuping.phtml:18
-msgid "Backups"
+#: view/admin-addon/admin/settings/backups.phtml:20
+msgid "Backuping"
 msgstr ""
 
-#: view/admin-addon/admin/settings/backups.phtml:25
+#: view/admin-addon/admin/settings/backups.phtml:26
 msgid "Backups file no found."
 msgstr ""
 
-#: view/admin-addon/admin/settings/backups.phtml:33
+#: view/admin-addon/admin/settings/backups.phtml:34
 msgid "Actions"
 msgstr ""
 
@@ -61,8 +107,8 @@ msgstr ""
 msgid "File %s backup content"
 msgstr ""
 
-#: view/admin-addon/admin/settings/edit.phtml:11
-msgid "Admin Addition"
+#: view/admin-addon/admin/settings/edit.phtml:34
+msgid "Update Locale template"
 msgstr ""
 
 #: view/admin-addon/admin/settings/restore-confirm.phtml:6
@@ -98,64 +144,188 @@ msgstr ""
 msgid "Facets loading..."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:26
+#: src/Controller/Admin/VocabularyControllerDelegator.php:39
+msgid "No update"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:27
 msgid "Replace ckEditor Helper"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:40
+#: src/Controller/Admin/SettingsController.php:41
 msgid "Hiding the Search form field in the Admin menu"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:54
+#: src/Controller/Admin/SettingsController.php:55
 msgid "Select2 enable"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:68
+#: src/Controller/Admin/SettingsController.php:69
 msgid "Select2 enable on public"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:82
+#: src/Controller/Admin/SettingsController.php:83
 msgid "Chosen-js disable"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:124
+#: src/Controller/Admin/SettingsController.php:99
+msgid "Edit all elements"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:112
+msgid "Element can be deleted"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:125
+msgid "Backup Resource Templates"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:167
 msgid "Settings save successfully."
 msgstr ""
 
-#: src/TraitModule.php:87 src/TraitModule.php:372
+#: src/Controller/Admin/SettingsController.php:242
+msgid "Update Doctrine Module add to Jobs."
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:247
+msgid "Update Doctrine Module not allowed."
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:264
+msgid "Update Locale template add to Jobs."
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:269
+msgid "Update Locale template not allowed."
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:318
+msgid "Restore successfully."
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:321
+msgid "Restore failed!"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:324
+msgid "Restore failed - file no found!"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:357
+msgid "File backup successfully deleted."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:45
+msgid "Deleted succes finished & stoped jobs"
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:66
+msgid "Deleted succes jobs with error"
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:95
+msgid ""
+"Dead jobs were cleaned: {count_stopped} marked \"stopped\" and {count_error} "
+"marked \"error\" on a total of {count_jobs}."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:105
+msgid "The following {count} jobs are dead: {job_ids}."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:133
+msgid "A total of {count} dead jobs have been cleaned."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:139
+msgid "There is no dead job."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:143
+msgid "Fix jobs succes"
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:158
+msgid "The job was started."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:160
+msgid "The job could not be starting."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:164
+#: src/Controller/Admin/JobController.php:187
+msgid "The job could not be founded."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:203
+msgid "The job was deleted."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:62
+#: src/Controller/Admin/PropertyController.php:61
+msgid "Local name"
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:127
+msgid "ResourceClass successfully created."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:176
+msgid "Class successfully saved."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:203
+msgid "Class successfully deleted."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:126
+msgid "Property successfully created."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:175
+msgid "Property successfully saved."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:202
+msgid "Property successfully deleted."
+msgstr ""
+
+#: src/TraitModule.php:114 src/TraitModule.php:399
 msgid "This module requires the module \"{module}\"."
 msgstr ""
 
-#: src/TraitModule.php:92
+#: src/TraitModule.php:119
 msgid "This module requires modules \"{modules}\"."
 msgstr ""
 
-#: src/TraitModule.php:102
+#: src/TraitModule.php:129
 msgid ""
 "This module cannot install its tables, because they exist already. Try to "
 "remove them first."
 msgstr ""
 
-#: src/TraitModule.php:280
+#: src/TraitModule.php:307
 msgid "The module removed tables \"{tables}\" from a previous broken install."
 msgstr ""
 
-#: src/TraitModule.php:367
+#: src/TraitModule.php:394
 msgid ""
 "This module requires the module \"{module}\", version {version} or above."
 msgstr ""
 
-#: src/TraitModule.php:480
+#: src/TraitModule.php:507
 msgid ""
 "The module \"{module}\" was automatically deactivated because the "
 "dependencies are unavailable."
 msgstr ""
 
-#: src/TraitModule.php:499
+#: src/TraitModule.php:526
 msgid "The directory \"{path}\" is not writeable."
 msgstr ""
 
-#: src/TraitModule.php:510
+#: src/TraitModule.php:537
 msgid "The directory \"{path}\" is not writeable: {error}."
 msgstr ""
 
@@ -307,11 +477,27 @@ msgstr ""
 msgid "Properties for autocomplete input fields in forms"
 msgstr ""
 
-#: config/module.config.php:8
+#: config/module.config.php:10
+msgid "Resource Classes"
+msgstr ""
+
+#: config/module.config.php:13
 msgid "Settings Admin Addition"
 msgstr ""
 
-#: config/module.config.php:178
+#: config/module.config.php:15
+msgid "Settings Vocabulary Addition"
+msgstr ""
+
+#: config/module.config.php:17
+msgid "Management"
+msgstr ""
+
+#: config/module.config.php:18
+msgid "Control"
+msgstr ""
+
+#: config/module.config.php:253
 msgid "Simple application"
 msgstr ""
 
