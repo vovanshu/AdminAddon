@@ -335,7 +335,7 @@ CSS;
     public function addMenuAdminDashboard(Event $event): void
     {
 
-        if($this->getSets('adminaddon_adminaddon_menuadmindashboard_enable') == 'true' && !empty($this->getSets('adminaddon_menuadmindashboard')) && !empty($this->getSets('adminaddon_menuadmindashboard_label'))){
+        if($this->getSets('adminaddon_menuadmindashboard_enable') == 'true' && !empty($this->getSets('adminaddon_menuadmindashboard')) && !empty($this->getSets('adminaddon_menuadmindashboard_label'))){
             $view = $event->getTarget();
             $menurc = $this->getSets('adminaddon_menuadmindashboard');
             $menu = parse_ini_string($menurc, true, INI_SCANNER_TYPED);
@@ -544,25 +544,29 @@ CSS;
 
         $view->headLink()->appendStylesheet($view->assetUrl('css/settings.css', 'AdminAddon'));
         $view->headScript()->appendFile($view->assetUrl('js/settings.js', 'AdminAddon'));
-
-        $allowed = [];
-        
+        $maintenance = [];
         if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'fix-job')){
-            $allowed[] = $view->hyperlink($translate('Fix jobs'), $view->url('admin/default', ['controller'=> 'job', 'action' => 'fix-job'], true), ['class' => 'link']);
+            $maintenance[$translate('Fix jobs')] = $view->url('admin/default', ['controller'=> 'job', 'action' => 'fix-job'], true);
         }
         if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'delete-error')){
-            $allowed[] = $view->hyperlink($translate('Deleting jobs with error'), $view->url('admin/default', ['controller' => 'job', 'action' => 'delete-error'], true), ['class' => 'link']);
+            $maintenance[$translate('Deleting jobs with error')] = $view->url('admin/default', ['controller' => 'job', 'action' => 'delete-error'], true);
         }
         if ($view->userIsAllowed('Omeka\Controller\Admin\Job', 'clearn')){
-            $allowed[] = $view->hyperlink($translate('Deleting finished & stoped jobs'), $view->url('admin/default', ['controller' => 'job', 'action' => 'clearn'], true), ['class' => 'link']);
+            $maintenance[$translate('Deleting finished & stoped jobs')] = $view->url('admin/default', ['controller' => 'job', 'action' => 'clearn'], true);
         }
         echo '<div id="page-actions">';
-        if(!empty($allowed)){
-            echo '<a href="#" id="expand-menu" class="collapsed button expand-more" aria-label="'.$translate('Maintenance').'" title="'. $translate('Maintenance').'" aria-expanded="false" aria-target="#maintenance-menu">'. $translate('Maintenance') .'</a>
-            <ul id="maintenance-menu" class="collapsible-menu">
-               <li>';
-            echo implode('</li><li>', $allowed);
-            echo '</li></ul>';
+        if(!empty($maintenance)){
+            if(count($maintenance) > 1){
+                echo '<a href="#" id="expand-menu" class="collapsed button expand-more" aria-label="'.$translate('Maintenance').'" title="'. $translate('Maintenance').'" aria-expanded="false" aria-target="#maintenance-menu">'. $translate('Maintenance') .'</a>
+                <ul id="maintenance-menu" class="collapsible-menu">';
+                foreach($maintenance as $title => $url){
+                    echo $view->hyperlink($title, $url, ['class' => 'link']);
+                }
+                echo '</ul>';    
+                
+            }else{
+                echo $view->hyperlink(key($maintenance), current($maintenance), ['class' => 'button']);
+            }
         }
         if ($view->userIsAllowed('AdminAddon\Controller\Admin\SettingsController', 'edit')){
             echo $view->hyperlink($translate('Settings'), $view->url('admin/admin-addon-settings', ['action' => 'edit'], true), ['class' => 'button']);

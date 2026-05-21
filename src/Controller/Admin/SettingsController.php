@@ -21,7 +21,7 @@ class SettingsController extends AbstractActionController
         $form = $this->getForm(Form::class);
 
         $form->add([
-                'name' => 'adminaddon_menuadmindashboard',
+                'name' => 'adminaddon_replace_helper_ckeditor',
                 'type' => 'checkbox',
                 'options' => [
                     'label' => 'Replace ckEditor Helper', // @translate
@@ -29,8 +29,8 @@ class SettingsController extends AbstractActionController
                     'unchecked_value' => 'false',
                 ],
                 'attributes' => [
-                    'id' => 'adminaddon_menuadmindashboard',
-                    'value' => $this->getSets('adminaddon_menuadmindashboard'),
+                    'id' => 'adminaddon_replace_helper_ckeditor',
+                    'value' => $this->getSets('adminaddon_replace_helper_ckeditor'),
                 ],
             ]);
 
@@ -426,8 +426,8 @@ class SettingsController extends AbstractActionController
         $result .= "--\n-- Backup Settings\n--\n\n";
 
         $oi = 1;
-        foreach($settings as $key => $name){
-            $value = $this->getSets($key);
+        foreach($settings as $name => $defval){
+            $value = $this->getSets($name);
             if(!empty($value)){
                 if(is_array($value)){
                     $value = json_encode($value);

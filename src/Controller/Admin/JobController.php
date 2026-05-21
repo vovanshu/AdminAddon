@@ -12,21 +12,6 @@ class JobController extends \Omeka\Controller\Admin\JobController
 {
 
     use TraitGeneral;
-    // protected $config;
-
-    // protected $services;
-
-    // protected $entityManager;
-
-    // protected $logger;
-
-    // protected $acl;
-
-    // public function __construct(ContainerInterface $services)
-    // {
-    //     $this->setServiceLocator($services);
-    // }
-
 
     public function clearnAction()
     {
@@ -39,6 +24,7 @@ class JobController extends \Omeka\Controller\Admin\JobController
             $logsCount = 0;
             foreach($jobs as $job){
                 $logsCount = $logsCount + $connect->executeQuery("DELETE FROM `log` WHERE `job_id` = {$job['id']};")->rowCount();
+                $this->cleanerdb($job['id']);
             }
             $connect->executeStatement("DELETE FROM `job` WHERE `status` IN ('completed', 'stopped');");
             $connect->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
@@ -60,6 +46,7 @@ class JobController extends \Omeka\Controller\Admin\JobController
             $logsCount = 0;
             foreach($jobs as $job){
                 $logsCount = $logsCount + $connect->executeQuery("DELETE FROM `log` WHERE `job_id` = {$job['id']};")->rowCount();
+                $this->cleanerdb($job['id']);
             }
             $connect->executeStatement("DELETE FROM `job` WHERE `status` IN ('error');");
             $connect->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
@@ -77,30 +64,37 @@ class JobController extends \Omeka\Controller\Admin\JobController
         // Fetch all: jobs are few, except if admin never checks result of jobs.
         $result = $connect->executeQuery($sql)->fetchAllAssociative();
 
+        $ids = [];
         // Unselect processes with an existing pid.
         foreach ($result as $id => $row) {
             // TODO The check of the pid works only with Linux.
-            if ($row['pid'] && file_exists('/proc/' . $row['pid'])) {
+            // if ($row['pid'] && file_exists('/proc/' . $row['pid'])) {
+            if($this->isProcessRunning(intval($row['pid']))){
                 unset($result[$id]);
+            }else{
+                $ids[] = $row['id'];
             }
         }
 
-        $sql = 'SELECT COUNT(id) FROM job';
-        $countJobs = $connect->executeQuery($sql)->fetchOne();
-        $sql = 'UPDATE job SET status = "stopped" WHERE  status IN ("starting", "stopping");';
-        $stopped = $connect->executeQuery($sql)->rowCount();
-        $sql = 'UPDATE job SET status = "error" WHERE  status IN ("in_progress");';
-        $error = $connect->executeQuery($sql)->rowCount();
-        $this->getLogger()->notice(
-            'Dead jobs were cleaned: {count_stopped} marked "stopped" and {count_error} marked "error" on a total of {count_jobs}.', // @translate
-            [
-                'count_stopped' => $stopped,
-                'count_error' => $error,
-                'count_jobs' => $countJobs,
-            ]
-        );
-
         if (!empty($result)) {
+
+            $sql = 'SELECT COUNT(id) FROM job';
+            $countJobs = $connect->executeQuery($sql)->fetchOne();
+
+            $sql = 'UPDATE job SET status = "stopped" WHERE id IN ('.join(', ', $ids).') AND status IN ("starting", "stopping");';
+            $stopped = $connect->executeQuery($sql)->rowCount();
+            $sql = 'UPDATE job SET status = "error" WHERE id IN ('.join(', ', $ids).') AND status IN ("in_progress");';
+            $error = $connect->executeQuery($sql)->rowCount();
+            $this->getLogger()->notice(
+                'Dead jobs were cleaned: {count_stopped} marked "stopped" and {count_error} marked "error" on a total of {count_jobs}.', // @translate
+                [
+                    'count_stopped' => $stopped,
+                    'count_error' => $error,
+                    'count_jobs' => $countJobs,
+                ]
+            );
+            
+
             $this->getLogger()->notice(
                 'The following {count} jobs are dead: {job_ids}.', // @translate
                 [
@@ -170,15 +164,18 @@ class JobController extends \Omeka\Controller\Admin\JobController
     public function terminateAction()
     {
 
-        $job = $this->api()->read('jobs', $this->params('id'))->getContent();
+        $jobID = $this->params('id');
+        $job = $this->api()->read('jobs', $jobID)->getContent();
         if(!empty($job)){
-            $connect = $this->services->get('Omeka\Connection');
             if (in_array($job->status(), ['starting', 'stopping', 'in_progress'])) {
                 $this->jobDispatcher()->stop($job->id());
                 $this->messenger()->addSuccess('Attempting to stop the job.'); // @translate
-                $sql = 'UPDATE job SET status = "stopped" WHERE id = '.$this->params('id').' AND status IN ("starting", "stopping");';
-                $sql .= 'UPDATE job SET status = "error" WHERE id = '.$this->params('id').' AND status IN ("in_progress");';
-                $connect->executeQuery($sql);
+                if($this->isProcessRunning(intval($jobID))){
+                    $this->killProcessRunning(intval($jobID));
+                }
+                $sql = 'UPDATE job SET status = "stopped" WHERE id = '.$jobID.' AND status IN ("starting", "stopping");';
+                $sql .= 'UPDATE job SET status = "error" WHERE id = '.$jobID.' AND status IN ("in_progress");';
+                $this->getConnection()->executeQuery($sql);
             }else{
                 $this->messenger()->addError('The job could not be stopped.'); // @translate
             }
@@ -199,10 +196,40 @@ class JobController extends \Omeka\Controller\Admin\JobController
         $log = $connect->executeQuery("SELECT * FROM `log` WHERE 'job_id' = '$id';")->rowCount();
         if(!empty($log)){
             $connect->executeStatement("DELETE FROM `log` WHERE `job_id` = '$id';");
-        }       
+        }
         $this->messenger()->addSuccess('The job was deleted.'); // @translate
         return $this->redirect()->toRoute('admin/default', ['controller' => 'job', 'action' => 'browse']);
 
+    }
+
+    private function cleanerdb($id)
+    {
+
+        if(!empty($this->getConnection()->executeQuery("SELECT * FROM `log` WHERE 'job_id' = '$id';")->rowCount())){
+            $this->getConnection()->executeStatement("DELETE FROM `log` WHERE `job_id` = '$id';");
+        }
+        if(!empty($this->getConnection()->executeQuery("SELECT * FROM `bulk_import` WHERE 'job_id' = '$id';")->rowCount())){
+            $this->getConnection()->executeStatement("DELETE FROM `bulk_import` WHERE `job_id` = '$id';");
+        }
+        if(!empty($this->getConnection()->executeQuery("SELECT * FROM `bulk_imported` WHERE 'job_id' = '$id';")->rowCount())){
+            $this->getConnection()->executeStatement("DELETE FROM `bulk_imported` WHERE `job_id` = '$id';");
+        }
+         
+
+    }
+
+    private function isProcessRunning(int $pid): bool
+    {
+        // Check if the PID is active
+        return is_dir("/proc/$pid");
+
+    }
+
+    private function killProcessRunning(int $pid)
+    {
+
+        // Kill running process PID
+        posix_kill($pid, SIGTERM);
     }
 
 }

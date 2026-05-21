@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-18 16:16+0300\n"
+"POT-Creation-Date: 2026-05-21 11:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,38 +33,25 @@ msgstr ""
 msgid "Deleting finished & stoped jobs"
 msgstr ""
 
-#: Module.php:561 view/admin-addon/admin/settings/edit.phtml:20
+#: Module.php:562 view/admin-addon/admin/settings/edit.phtml:20
 msgid "Maintenance"
 msgstr ""
 
-#: Module.php:588
+#: Module.php:594
 msgid "Run"
 msgstr ""
 
-#: Module.php:591
+#: Module.php:597
 msgid "Stop"
 msgstr ""
 
-#: Module.php:594
+#: Module.php:600
 msgid "Terminate"
 msgstr ""
 
 #: view/admin-addon/admin/property/delete-confirm.phtml:10
 #: view/admin-addon/admin/resource-class/delete-confirm.phtml:10
 msgid "Deleting is not possible because there is metadata for this property!"
-msgstr ""
-
-#: view/admin-addon/admin/settings(1)/edit.phtml:11
-#: view/admin-addon/admin/settings/restore.phtml:14
-msgid "Vocabulary Addition"
-msgstr ""
-
-#: view/admin-addon/admin/settings(1)/edit.phtml:17
-#: view/admin-addon/admin/settings/backuping.phtml:19
-#: view/admin-addon/admin/settings/backups.phtml:15
-#: view/admin-addon/admin/settings/edit.phtml:24
-#: view/admin-addon/admin/settings/restore.phtml:19
-msgid "Backups"
 msgstr ""
 
 #: view/admin-addon/admin/settings/backuping.phtml:14
@@ -77,15 +64,22 @@ msgstr ""
 msgid "Admin Addition"
 msgstr ""
 
-#: view/admin-addon/admin/settings/backups.phtml:20
+#: view/admin-addon/admin/settings/backuping.phtml:19
+#: view/admin-addon/admin/settings/backups.phtml:15
+#: view/admin-addon/admin/settings/edit.phtml:24
+#: view/admin-addon/admin/settings/restore.phtml:19
+msgid "Backups"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backups.phtml:19
 msgid "Backuping"
 msgstr ""
 
-#: view/admin-addon/admin/settings/backups.phtml:26
+#: view/admin-addon/admin/settings/backups.phtml:25
 msgid "Backups file no found."
 msgstr ""
 
-#: view/admin-addon/admin/settings/backups.phtml:34
+#: view/admin-addon/admin/settings/backups.phtml:33
 msgid "Actions"
 msgstr ""
 
@@ -118,6 +112,10 @@ msgstr ""
 #: view/admin-addon/admin/settings/restore-confirm.phtml:7
 #, php-format
 msgid "Are you sure you would like to restore data from file %s?"
+msgstr ""
+
+#: view/admin-addon/admin/settings/restore.phtml:14
+msgid "Vocabulary Addition"
 msgstr ""
 
 #: view/common/advanced-search/media-ingester.phtml:15
@@ -216,50 +214,50 @@ msgstr ""
 msgid "File backup successfully deleted."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:45
+#: src/Controller/Admin/JobController.php:31
 msgid "Deleted succes finished & stoped jobs"
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:66
+#: src/Controller/Admin/JobController.php:53
 msgid "Deleted succes jobs with error"
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:95
+#: src/Controller/Admin/JobController.php:89
 msgid ""
 "Dead jobs were cleaned: {count_stopped} marked \"stopped\" and {count_error} "
 "marked \"error\" on a total of {count_jobs}."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:105
+#: src/Controller/Admin/JobController.php:99
 msgid "The following {count} jobs are dead: {job_ids}."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:133
+#: src/Controller/Admin/JobController.php:127
 msgid "A total of {count} dead jobs have been cleaned."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:139
+#: src/Controller/Admin/JobController.php:133
 msgid "There is no dead job."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:143
+#: src/Controller/Admin/JobController.php:137
 msgid "Fix jobs succes"
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:158
+#: src/Controller/Admin/JobController.php:152
 msgid "The job was started."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:160
+#: src/Controller/Admin/JobController.php:154
 msgid "The job could not be starting."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:164
-#: src/Controller/Admin/JobController.php:187
+#: src/Controller/Admin/JobController.php:158
+#: src/Controller/Admin/JobController.php:184
 msgid "The job could not be founded."
 msgstr ""
 
-#: src/Controller/Admin/JobController.php:203
+#: src/Controller/Admin/JobController.php:200
 msgid "The job was deleted."
 msgstr ""
 
