@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-21 11:32+0300\n"
+"POT-Creation-Date: 2026-06-02 09:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:490
+#: Module.php:497
 msgid "Deactivate all"
 msgstr ""
 
-#: Module.php:551
+#: Module.php:556
 msgid "Fix jobs"
 msgstr ""
 
-#: Module.php:554
+#: Module.php:559
 msgid "Deleting jobs with error"
 msgstr ""
 
-#: Module.php:557
+#: Module.php:562
 msgid "Deleting finished & stoped jobs"
 msgstr ""
 
-#: Module.php:562 view/admin-addon/admin/settings/edit.phtml:20
+#: Module.php:567 view/admin-addon/admin/settings/edit.phtml:32
 msgid "Maintenance"
 msgstr ""
 
-#: Module.php:594
+#: Module.php:599
 msgid "Run"
 msgstr ""
 
-#: Module.php:597
+#: Module.php:602
 msgid "Stop"
 msgstr ""
 
-#: Module.php:600
+#: Module.php:605
 msgid "Terminate"
 msgstr ""
 
@@ -60,13 +60,13 @@ msgstr ""
 
 #: view/admin-addon/admin/settings/backuping.phtml:14
 #: view/admin-addon/admin/settings/backups.phtml:15
-#: view/admin-addon/admin/settings/edit.phtml:15
+#: view/admin-addon/admin/settings/edit.phtml:26
 msgid "Admin Addition"
 msgstr ""
 
 #: view/admin-addon/admin/settings/backuping.phtml:19
 #: view/admin-addon/admin/settings/backups.phtml:15
-#: view/admin-addon/admin/settings/edit.phtml:24
+#: view/admin-addon/admin/settings/edit.phtml:15
 #: view/admin-addon/admin/settings/restore.phtml:19
 msgid "Backups"
 msgstr ""
@@ -101,7 +101,7 @@ msgstr ""
 msgid "File %s backup content"
 msgstr ""
 
-#: view/admin-addon/admin/settings/edit.phtml:34
+#: view/admin-addon/admin/settings/edit.phtml:21
 msgid "Update Locale template"
 msgstr ""
 
@@ -178,39 +178,39 @@ msgstr ""
 msgid "Backup Resource Templates"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:167
+#: src/Controller/Admin/SettingsController.php:207
 msgid "Settings save successfully."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:242
+#: src/Controller/Admin/SettingsController.php:306
 msgid "Update Doctrine Module add to Jobs."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:247
+#: src/Controller/Admin/SettingsController.php:311
 msgid "Update Doctrine Module not allowed."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:264
+#: src/Controller/Admin/SettingsController.php:328
 msgid "Update Locale template add to Jobs."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:269
+#: src/Controller/Admin/SettingsController.php:333
 msgid "Update Locale template not allowed."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:318
+#: src/Controller/Admin/SettingsController.php:382
 msgid "Restore successfully."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:321
+#: src/Controller/Admin/SettingsController.php:385
 msgid "Restore failed!"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:324
+#: src/Controller/Admin/SettingsController.php:388
 msgid "Restore failed - file no found!"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:357
+#: src/Controller/Admin/SettingsController.php:421
 msgid "File backup successfully deleted."
 msgstr ""
 
@@ -495,7 +495,7 @@ msgstr ""
 msgid "Control"
 msgstr ""
 
-#: config/module.config.php:253
+#: config/module.config.php:254
 msgid "Simple application"
 msgstr ""
 

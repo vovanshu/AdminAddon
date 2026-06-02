@@ -25,7 +25,7 @@ class SiteSettingsFieldset extends Fieldset
             ],
             'attributes' => [
                 'id' => 'adminaddon_advsearch_autocomplete',
-                'value' => $this->getSiteSets('adminaddon_advsearch_autocomplete_fields'),
+                'value' => $this->getSiteSets('adminaddon_advsearch_autocomplete'),
             ],
         ]);
 

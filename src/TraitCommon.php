@@ -265,29 +265,23 @@ trait TraitCommon
         return $this->getServiceLocator()->get('Omeka\Media\Ingester\Manager');
     }
 
-    public function getConf($name = Null, $param = Null, $default = Null, $all = False)
+    public function getConf($name = Null, $param = Null, $default = False, $all = False)
     {
 
         $config = $this->getConfigs()[$this->moduleName];
         if(!empty($name)){
             if(!empty($config[$name])){
-                if(!empty($param)){
-                    if(isset($config[$name][$param])){
-                        return $config[$name][$param];
-                    }else{
-                        return $default;
-                    }
+                if(!empty($param) && isset($config[$name][$param])){
+                    return $config[$name][$param];
                 }else{
                     return $config[$name];
                 }
             }
-        }else{
-            if($all){
-                return $config;
-            }else{
-                return $default;
-            }
         }
+        if($all){
+            return $config;
+        }
+        return $default;
 
     }
 

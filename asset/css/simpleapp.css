@@ -34,6 +34,7 @@
     body:is(.configure, .settings) .flex > #content form,
     body:is(.theme, .theme-settings) .flex > #content form,
     body.site-pages .flex > #content form,
+    body.sites #nav-tree,
     body.resource-meta .flex > #content form,
     body.oai-pmh-harvester .flex > #content,
     body .flex > #content div#bulk-import,

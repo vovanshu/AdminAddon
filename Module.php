@@ -34,12 +34,19 @@ class Module extends AbstractModule
 
         if(file_exists(OMEKA_PATH . '/config/custom.config.php')){
             $custom_config = include OMEKA_PATH . '/config/custom.config.php';
-            if(!empty($custom_config)){
+            if(!empty($custom_config['AdminAddon'])){
                 /** @var \Laminas\ModuleManager\Listener\ConfigListener $configListener */
                 $configListener = $event->getParam('configListener');
                 // At this point, the config is read only, so it is copied and replaced.
                 $config = $configListener->getMergedConfig(false);
-                $config = array_replace_recursive($config, $custom_config);
+                if(!empty($custom_config['AdminAddon']['chosen_js_disable']) && $custom_config['AdminAddon']['chosen_js_disable'] == 'true'){
+                    $config['assets']['internals']['vendor/chosen-js/chosen.css'] = 'AdminAddon';
+                    $config['assets']['internals']['vendor/chosen-js/chosen.jquery.js'] = 'AdminAddon';
+                    $config['assets']['internals']['js/chosen-options.js'] = 'AdminAddon';
+                }
+                if(!empty($custom_config['AdminAddon']['replace_helper_ckeditor']) && $custom_config['AdminAddon']['replace_helper_ckeditor'] == 'true'){
+                    $config['view_helpers']['invokables']['ckEditor'] = '\AdminAddon\View\Helper\CkEditor';
+                }
                 $configListener->setMergedConfig($config);
             }
         }

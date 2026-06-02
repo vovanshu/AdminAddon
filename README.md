@@ -1,7 +1,8 @@
 AdminAddon (module for Omeka S)
 ==========================
 
-Addition for control the Jobs
+Addition for Admin UI, manager jobs and vocabularies, 
+sugestions for autocomplete
 
 
 Installation
