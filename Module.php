@@ -231,7 +231,7 @@ class Module extends AbstractModule
         $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
         // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
         
-        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_search_fasets_enable') == 'true' || !empty($params['__SITE__']) && $this->getSets('adminaddon_search_fasets_enable') == 'true'){
+        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_search_fasets_enable') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('adminaddon_search_fasets_enable') == 'true'){
             $view->headLink()->appendStylesheet($view->assetUrl('css/facets.css', 'AdminAddon'));
             $view->headScript()->appendFile($view->assetUrl('js/fasets.js', 'AdminAddon'));
         }
@@ -299,7 +299,7 @@ CSS;
 
         }
 
-        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_select2_enable') == 'true' || !empty($params['__SITE__']) && $this->getSets('adminaddon_select2_enable_public') == 'true'){
+        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_select2_enable') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('adminaddon_select2_enable_public') == 'true'){
             if(in_array($action, ['search', 'add', 'edit'])){
                 $view->headLink()->appendStylesheet($view->assetUrl('vendor/select2/css/select2.min.css', 'AdminAddon'));
                 $view->headScript()->appendFile($view->assetUrl('vendor/select2/js/select2.full.min.js', 'AdminAddon'));
@@ -307,7 +307,7 @@ CSS;
             }
         }
 
-        if(!empty($params['__ADMIN__']) && $this->getSets('adminaddon_advsearch_autocomplete') == 'true' || !empty($params['__SITE__']) && $this->getSiteSets('adminaddon_advsearch_autocomplete') == 'true'){
+        if(!empty($params['__ADMIN__']) && ($this->getSets('adminaddon_advsearch_autocomplete') == 'true' || $this->getSets('adminaddon_search_fasets_enable') == 'true') || !empty($params['__SITE__']) && ($this->getSiteSets('adminaddon_advsearch_autocomplete') == 'true'  || $this->getSiteSets('adminaddon_search_fasets_enable') == 'true')){
             
             if(in_array($controller, $this->getConf('compatible_autocomplete_facets', 'controllers')) && in_array($action, $this->getConf('compatible_autocomplete_facets', 'actions'))){
                 $script = '';               

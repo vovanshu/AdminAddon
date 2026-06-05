@@ -32,6 +32,13 @@ if(!empty($searchFasets)):
     <?php foreach ($searchFasets as $facetID => $facetOption): ?>
     <?php $cardId++; ?>
     <div id="facet-id-<?= $facetID ?>" class="card mb-3 facet">
+        <?php
+        if($AdminAddon->isAppDevMode()){
+            echo '<!---';
+            print_r($facetOption);
+            echo '--->';
+        }
+        ?>
         <div class="card-header">
             <h5 class="card-title mb-0">
                 <?php if(!empty($facetOption['icon'])): ?>

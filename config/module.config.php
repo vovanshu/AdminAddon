@@ -215,7 +215,6 @@ return [
         'debug' => False,
         'backups' => OMEKA_PATH.'/files/backup/AdminAddon/',
         'settings' => [
-            // 'adminaddon_replace_helper_ckeditor' => 'false',
             'adminaddon_editor_change_in_setting' => 'false',
             'adminaddon_html_mode_page' => 'inline',
             'adminaddon_html_config_page' => 'default',
@@ -229,7 +228,6 @@ return [
             'adminaddon_menuadmindashboard' => '',
             'adminaddon_select2_enable' => 'false',
             'adminaddon_select2_enable_public' => 'false',
-            // 'adminaddon_chosen_js_disable' => 'false',
             'adminaddon_advsearch_autocomplete' => 'false',
             'adminaddon_advsearch_public_autocomplete' => 'false',
             'adminaddon_advsearch_autocomplete_fields' => [],

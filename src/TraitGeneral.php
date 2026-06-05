@@ -215,16 +215,19 @@ trait TraitGeneral
     {
         
         $siteSlug = False;
+        if($this->getStatus()->isSiteRequest()){
+            $siteSlug = $query['site_slug'] = $this->getStatus()->getRouteParam('site-slug');
+        }
         if(!empty($route['site-slug'])){
-            $siteSlug = $route['site-slug'];
+            $siteSlug = $query['site_slug'] = $route['site-slug'];
         }
         $config = $this->getConfigSearchFasets($siteSlug);
         if(!empty($config)){
 
             foreach($config as $k => $v){
+                $q = $this->buidQueryValues($query, $v);
                 if($v['type'] == 'range'){
-                    // $q = $this->createQueryRange($query, $v);
-                    $q = $this->buidQueryValues($query, $v);
+                    
                     $rc = $this->getConnection()->executeQuery($q)->fetchAssociative();
                     if(!empty($rc)){
                         if($v['result'] == 'date-year'){
@@ -239,7 +242,7 @@ trait TraitGeneral
                     }
                 }
                 if(in_array($v['type'], ['checkboxe', 'select'])){
-                    $q = $this->buidQueryValues($query, $v);
+                    // $q = $this->buidQueryValues($query, $v);
                     $rc = $this->getConnection()->executeQuery($q)->fetchAll();
                     if(!empty($rc)){
                         foreach($rc as $id => $val){
@@ -255,7 +258,9 @@ trait TraitGeneral
                 }
                 $config[$k]['facetID'] = $k;
                 $config[$k]['query'] = $query;
-
+                if($this->isAppDevMode()){
+                    $config[$k]['SQL'] = $q;
+                }
             }
             return $config;
         }
@@ -279,7 +284,7 @@ trait TraitGeneral
         $q .= ' LEFT JOIN `resource` ON `resource`.`id` = `value`.`resource_id`';
         if(!empty($query['site_slug'])){
             $q .= ' LEFT JOIN `item_site` ON `item_site`.`item_id` = `value`.`resource_id`';
-            $siteID = $this->getSiteID($query['site_slug']);
+            $query['site_id'] = $this->getSiteID($query['site_slug']);
         }
         if(!empty($config['query_limited']) && !empty($query['item_set_id'])){
             $q .= ' LEFT JOIN `item_item_set` ON `item_item_set`.`item_id` = `value`.`resource_id`';
@@ -307,8 +312,8 @@ trait TraitGeneral
                 }
             }
         }
-        if(!empty($siteID)){
-            $q .= ' AND `item_site`.`site_id` = \''.$siteID.'\'';
+        if(!empty($query['site_id'])){
+            $q .= ' AND `item_site`.`site_id` = \''.$query['site_id'].'\'';
         }
         $q .= ' AND `resource`.`is_public` = 1';
 
