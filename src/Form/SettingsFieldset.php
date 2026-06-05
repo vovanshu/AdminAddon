@@ -304,38 +304,38 @@ class SettingsFieldset extends Fieldset
 
         $this->FilterAllowEmpty[] = 'adminaddon_forms_autocomplete_fields';
 
-        $form->add([
-            'type' => 'checkbox',
-            'name' => 'adminaddon_search_fasets_enable',
-            'options' => [
-                'element_group' => 'search',
-                'label' => 'Enable search fasets', // @translate
-                'info' => 'Enable search fasets config', // @translate
-                'checked_value' => 'true',
-                'unchecked_value' => 'false',
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_search_fasets_enable'),
-                'id' => 'adminaddon_search_fasets_enable',
-            ],
-        ]);
+        // $form->add([
+        //     'type' => 'checkbox',
+        //     'name' => 'adminaddon_search_fasets_enable',
+        //     'options' => [
+        //         'element_group' => 'search',
+        //         'label' => 'Enable search fasets', // @translate
+        //         'info' => 'Enable search fasets config', // @translate
+        //         'checked_value' => 'true',
+        //         'unchecked_value' => 'false',
+        //     ],
+        //     'attributes' => [
+        //         'value' => $this->getSets('adminaddon_search_fasets_enable'),
+        //         'id' => 'adminaddon_search_fasets_enable',
+        //     ],
+        // ]);
 
-        $form->add([
-            'name' => 'adminaddon_search_fasets',
-            'type' => 'textarea',
-            'options' => [
-                'element_group' => 'search',
-                'label' => 'Search fasets config', // @translate
-                'info' => '', // @translate
-            ],
-            'attributes' => [
-                'value' => $this->getSets('adminaddon_search_fasets'),
-                'id' => 'adminaddon_search_fasets',
-                'class' => 'edit-ini-textarea'
-            ],
-        ]);
+        // $form->add([
+        //     'name' => 'adminaddon_search_fasets',
+        //     'type' => 'textarea',
+        //     'options' => [
+        //         'element_group' => 'search',
+        //         'label' => 'Search fasets config', // @translate
+        //         'info' => '', // @translate
+        //     ],
+        //     'attributes' => [
+        //         'value' => $this->getSets('adminaddon_search_fasets'),
+        //         'id' => 'adminaddon_search_fasets',
+        //         'class' => 'edit-ini-textarea'
+        //     ],
+        // ]);
 
-        $this->FilterAllowEmpty[] = 'adminaddon_search_fasets';
+        // $this->FilterAllowEmpty[] = 'adminaddon_search_fasets';
 
         $form->setOption('element_groups', $options['element_groups']);
 

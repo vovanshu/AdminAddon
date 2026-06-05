@@ -403,10 +403,11 @@ CSS;
     public function handlerSearchQuery(Event $event): void
     {
 
-        $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+        // $routeMatch = $this->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+        $routeMatch = $this->getStatus()->getRouteMatch();
         if(!empty($routeMatch) && method_exists($routeMatch, 'getParam')){
             $controller = $routeMatch->getParam('__CONTROLLER__');
-            if(in_array($controller, ['media', 'item'])){
+            if(in_array($controller, ['media', 'item', 'Item', 'Media'])){
                 $siteSlug = False;
                 if(!empty($routeMatch->getParam('site-slug'))){
                     $siteSlug = $routeMatch->getParam('site-slug');
@@ -416,7 +417,7 @@ CSS;
                 $qb = $event->getParam('queryBuilder');
                 $entityAlias = $qb->getRootAlias();
                 $expr = $qb->expr();
-                if($controller == 'media'){
+                if($controller == 'media' || $controller == 'Media'){
                     $mediaAlias = $qb->createAlias();
                     if(!empty($params['ingester'])){
                         $qb->andWhere($expr->eq($entityAlias . '.ingester', "'".$params['ingester']."'"));
@@ -425,7 +426,7 @@ CSS;
                         $qb->andWhere($expr->eq($entityAlias . '.mediaType', "'".$params['media_type']."'"));
                     }
                 }
-                if($controller == 'item'){
+                if($controller == 'item' || $controller == 'Item'){
                     $mediaAlias = $qb->createAlias();
                     if(!empty($params['ingester'])){
                         $qb->leftJoin($entityAlias . '.media', $mediaAlias);
