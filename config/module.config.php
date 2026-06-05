@@ -278,6 +278,7 @@ return [
                         'Admin\Index' => ['index'],
                         'Log\Controller\Admin\LogController' => ['browse'],
                         'Reference\Controller\Admin\ReferenceController' => ['browse'],
+                        'browses' => [],
                     ]
                 ],
                 'actions' => [

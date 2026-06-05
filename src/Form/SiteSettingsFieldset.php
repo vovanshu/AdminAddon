@@ -55,7 +55,7 @@ class SiteSettingsFieldset extends Fieldset
             'type' => 'checkbox',
             'name' => 'adminaddon_search_fasets_enable',
             'options' => [
-                'element_group' => 'search',
+                'element_group' => 'browse',
                 'label' => 'Enable search fasets', // @translate
                 'info' => 'Enable search fasets config', // @translate
                 'checked_value' => 'true',
@@ -71,7 +71,7 @@ class SiteSettingsFieldset extends Fieldset
             'name' => 'adminaddon_render_by_js',
             'type' => 'checkbox',
             'options' => [
-                'element_group' => 'search',
+                'element_group' => 'browse',
                 'label' => 'JS render search fasets', // @translate
                 'checked_value' => 'true',
                 'unchecked_value' => 'false',
@@ -86,7 +86,7 @@ class SiteSettingsFieldset extends Fieldset
             'name' => 'adminaddon_search_fasets',
             'type' => 'textarea',
             'options' => [
-                'element_group' => 'search',
+                'element_group' => 'browse',
                 'label' => 'Search fasets config', // @translate
                 'info' => '', // @translate
             ],
