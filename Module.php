@@ -192,6 +192,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            '*',
+            'view.layout-admin.body.top',
+            [$this, 'handleViewLayoutAdminBodyTop'],
+        );
+
+        $sharedEventManager->attach(
             'Omeka\Controller\Admin\Index',
             'view.browse.after',
             [$this, 'addMenuAdminDashboard']
@@ -215,18 +221,19 @@ class Module extends AbstractModule
     {
 
         $view = $event->getTarget();
+        [$controller, $action, $mode] = $this->modeAdminUI($event);
         $params = $view->params()->fromRoute();
-        $controller = False;
-        $action = False;
+        // $controller = False;
+        // $action = False;
         $siteSlug = isset($params['site-slug']) ? $params['site-slug'] : '';
-        if(!empty($params['__CONTROLLER__'])){
-            $controller = $params['__CONTROLLER__'];
-        }elseif(!empty($params['controller'])){
-            $controller = $params['controller'];
-        }
-        if(!empty($params['action'])){
-            $action = $params['action'];
-        }
+        // if(!empty($params['__CONTROLLER__'])){
+        //     $controller = $params['__CONTROLLER__'];
+        // }elseif(!empty($params['controller'])){
+        //     $controller = $params['controller'];
+        // }
+        // if(!empty($params['action'])){
+        //     $action = $params['action'];
+        // }
         
         $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
         // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));
@@ -237,8 +244,6 @@ class Module extends AbstractModule
         }
 
         if(!empty($params['__ADMIN__'])){
-
-            $mode = $this->modeAdminUI($controller, $action);
             if($mode){
                 
                 if($this->isAppDevMode() && $this->userIsGlobalAdmin()){
@@ -338,6 +343,18 @@ CSS;
         }
 
     }
+
+    public function handleViewLayoutAdminBodyTop(Event $event)
+    {
+
+        $view = $event->getTarget();
+        [$controller, $action, $mode] = $this->modeAdminUI($event);
+        if($mode && !empty($mode['view.layout-admin.body.top'])){
+            echo $view->partial($mode['view.layout-admin.body.top']);
+        }
+
+    }
+
 
     public function addMenuAdminDashboard(Event $event): void
     {

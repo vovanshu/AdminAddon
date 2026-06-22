@@ -4,6 +4,7 @@ namespace AdminAddon;
 
 require_once __DIR__ . '/TraitCommon.php';
 
+use Laminas\EventManager\Event;
 use AdminAddon\TraitCommon;
 
 trait TraitGeneral
@@ -101,20 +102,33 @@ trait TraitGeneral
 
     }
 
-    private function modeAdminUI($controller, $action)
+    private function modeAdminUI(Event $event)
     {
 
+        $view = $event->getTarget();
+        $params = $view->params()->fromRoute();
+        $controller = False;
+        $action = False;
+        if(!empty($params['__CONTROLLER__'])){
+            $controller = $params['__CONTROLLER__'];
+        }elseif(!empty($params['controller'])){
+            $controller = $params['controller'];
+        }
+        if(!empty($params['action'])){
+            $action = $params['action'];
+        }
+        $rc = [];
         $mode = $this->getSets('adminaddon_mode_admin_ui');
-        if($mode && $mode !== 'default' && $controller && $action){            
+        if($mode && $mode !== 'default' && $controller && $action){
             $conf = $this->getConf('modes_admin_ui', $mode);
             if(!empty($conf['controllers']) && !empty($conf['actions'])){
                 // if($this->isCompatibleAdminUI($conf['controllers'], $controller) && $this->isCompatibleAdminUI($conf['actions'], $action)){
                 if($this->isCompatibleAdminUI($conf['controllers'], $controller, $action)){
-                    return $conf;
+                    $rc = $conf;
                 }
             }
         }
-        return False;
+        return [$controller, $action, $rc];
 
     }
 

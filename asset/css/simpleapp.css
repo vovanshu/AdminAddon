@@ -1,3 +1,50 @@
+/* Повноекранний блок */
+.page-overlay-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Колір фону під час завантаження */
+    z-index: 99999; /* Поверх усіх елементів сайту */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease, vertical-align 0.4s;
+}
+
+/* Круговий спінер */
+.menu-loader-big {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db; /* Колір індикатора (змініть під тему) */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Текст під спінером (опціонально) */
+.loader-text {
+    margin-top: 15px;
+    font-family: sans-serif;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Анімація обертання */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Клас для плавної зміни прозорості перед приховуванням */
+.page-overlay-loader.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Щоб блок не заважав клікам після зникнення */
+}
+
+
 @media (min-width: 1024px) {
 
     body .flex > header {

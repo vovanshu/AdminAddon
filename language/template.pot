@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 09:03+0300\n"
+"POT-Creation-Date: 2026-06-22 10:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:497
+#: Module.php:515
 msgid "Deactivate all"
 msgstr ""
 
-#: Module.php:556
+#: Module.php:574
 msgid "Fix jobs"
 msgstr ""
 
-#: Module.php:559
+#: Module.php:577
 msgid "Deleting jobs with error"
 msgstr ""
 
-#: Module.php:562
+#: Module.php:580
 msgid "Deleting finished & stoped jobs"
 msgstr ""
 
-#: Module.php:567 view/admin-addon/admin/settings/edit.phtml:32
+#: Module.php:585 view/admin-addon/admin/settings/edit.phtml:32
 msgid "Maintenance"
 msgstr ""
 
-#: Module.php:599
+#: Module.php:617
 msgid "Run"
 msgstr ""
 
-#: Module.php:602
+#: Module.php:620
 msgid "Stop"
 msgstr ""
 
-#: Module.php:605
+#: Module.php:623
 msgid "Terminate"
 msgstr ""
 
@@ -134,6 +134,10 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
+#: view/common/simpleapp-layout-admin-body-top.phtml:7
+msgid "Loading..."
+msgstr ""
+
 #: view/search/facets/list.phtml:21
 msgid "Facets"
 msgstr ""
@@ -178,39 +182,39 @@ msgstr ""
 msgid "Backup Resource Templates"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:207
+#: src/Controller/Admin/SettingsController.php:169
 msgid "Settings save successfully."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:306
+#: src/Controller/Admin/SettingsController.php:260
 msgid "Update Doctrine Module add to Jobs."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:311
+#: src/Controller/Admin/SettingsController.php:265
 msgid "Update Doctrine Module not allowed."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:328
+#: src/Controller/Admin/SettingsController.php:282
 msgid "Update Locale template add to Jobs."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:333
+#: src/Controller/Admin/SettingsController.php:287
 msgid "Update Locale template not allowed."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:382
+#: src/Controller/Admin/SettingsController.php:336
 msgid "Restore successfully."
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:385
+#: src/Controller/Admin/SettingsController.php:339
 msgid "Restore failed!"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:388
+#: src/Controller/Admin/SettingsController.php:342
 msgid "Restore failed - file no found!"
 msgstr ""
 
-#: src/Controller/Admin/SettingsController.php:421
+#: src/Controller/Admin/SettingsController.php:375
 msgid "File backup successfully deleted."
 msgstr ""
 
@@ -347,11 +351,11 @@ msgstr ""
 msgid "Select properties…"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:59 src/Form/SettingsFieldset.php:312
+#: src/Form/SiteSettingsFieldset.php:59
 msgid "Enable search fasets"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:60 src/Form/SettingsFieldset.php:313
+#: src/Form/SiteSettingsFieldset.php:60
 msgid "Enable search fasets config"
 msgstr ""
 
@@ -359,7 +363,7 @@ msgstr ""
 msgid "JS render search fasets"
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:90 src/Form/SettingsFieldset.php:328
+#: src/Form/SiteSettingsFieldset.php:90
 msgid "Search fasets config"
 msgstr ""
 
@@ -475,6 +479,10 @@ msgstr ""
 msgid "Properties for autocomplete input fields in forms"
 msgstr ""
 
+#: src/Form/SettingsFieldset.php:305
+msgid "adminaddon_forms_autocomplete_fields"
+msgstr ""
+
 #: config/module.config.php:10
 msgid "Resource Classes"
 msgstr ""
@@ -495,7 +503,11 @@ msgstr ""
 msgid "Control"
 msgstr ""
 
-#: config/module.config.php:254
+#: config/module.config.php:215
+msgid "There was an error connecting to the server. Please try again later."
+msgstr ""
+
+#: config/module.config.php:255
 msgid "Simple application"
 msgstr ""
 

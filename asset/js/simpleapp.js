@@ -1,11 +1,38 @@
-// $.extend($.ui.autocomplete.prototype.options, {
-//         minLength: 2,           // Тепер у всіх буде мінімум 2 символи
-//         autoFocus: true,        // Перший варіант завжди підсвічений
-//         appendTo: "#resource-values", // Всі списки падатимуть сюди
-//         delay: 300              // Затримка для зменшення навантаження на сервер
-//     });
+// $(window).on('beforeunload', function() {
+//     var $preloader = $('#page-preloader');
+//     $preloader.show();
+// });
 
 $(document).ready(function() {
+
+    var $preloader = $('#page-preloader');
+
+    $preloader.addClass('fade-out');
+    setTimeout(function() { $preloader.hide(); }, 400);
+
+    // Варіант Б (альтернатива): Якщо треба чекати і важкі картинки/скрипти, 
+    // розкоментуйте код нижче, а рядки Варіанту А вище — видаліть:
+    /*
+    $(window).on('load', function() {
+        $preloader.addClass('fade-out');
+        setTimeout(function() { $preloader.hide(); }, 400);
+    });
+    */
+
+    $('a').on('click', function(e) {
+        var href = $(this).attr('href');
+        var target = $(this).attr('target');
+
+        if (href && href !== '#' && href !== 'javascript:void(0);' && !target) {
+            clearTimeout(loaderTimeout);
+            $preloader.show().removeClass('fade-out');
+            loaderTimeout = setTimeout(function() {
+                $preloader.addClass('fade-out');
+                setTimeout(function() { $preloader.hide(); }, 400);
+                alert(Omeka.jsTranslate('There was an error connecting to the server. Please try again later.'));
+            }, 25000);
+        }
+    });
 
     const observer = new MutationObserver(function(mutations, obs) {
         const target = $('.autocomplete-suggestions');

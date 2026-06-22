@@ -211,6 +211,9 @@ return [
             ],
         ],
     ],
+    'js_translate_strings' => [
+        'There was an error connecting to the server. Please try again later.', // @translate 
+    ],
     'AdminAddon' => [
         'debug' => False,
         'backups' => OMEKA_PATH.'/files/backup/AdminAddon/',
@@ -287,7 +290,8 @@ return [
                         'css' => ['css/simpleapp.css' => 'AdminAddon'],
                         'js' => ['js/simpleapp.js' => 'AdminAddon'],
                     ],
-                ]
+                ],
+                'view.layout-admin.body.top' => 'common/simpleapp-layout-admin-body-top',
             ],
         ],
         'compatible_autocomplete_facets' => [

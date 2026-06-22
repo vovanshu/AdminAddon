@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AdminAddon\n"
-"POT-Creation-Date: 2026-04-24 11:35+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-22 10:02+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,370 +13,504 @@ msgstr ""
 "X-Domain: AdminAddon\n"
 "X-Generator: Poedit 3.9\n"
 
-#: modules/AdminAddon/Module.php:503
+#: Module.php:515
 msgid "Deactivate all"
 msgstr "Деактивувати всі"
 
-#: modules/AdminAddon/config/module.config.php:8
-msgid "Settings Admin Addition"
-msgstr "Налаштування Адмін Росширення"
+#: Module.php:574
+msgid "Fix jobs"
+msgstr ""
 
-#: modules/AdminAddon/config/module.config.php:197
-msgid "Simple application"
-msgstr "Простий застосунок"
+#: Module.php:577
+msgid "Deleting jobs with error"
+msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:26
+#: Module.php:580
+msgid "Deleting finished & stoped jobs"
+msgstr ""
+
+#: Module.php:585 view/admin-addon/admin/settings/edit.phtml:32
+msgid "Maintenance"
+msgstr ""
+
+#: Module.php:617
+msgid "Run"
+msgstr ""
+
+#: Module.php:620
+msgid "Stop"
+msgstr ""
+
+#: Module.php:623
+msgid "Terminate"
+msgstr ""
+
+#: view/admin-addon/admin/property/delete-confirm.phtml:10
+#: view/admin-addon/admin/resource-class/delete-confirm.phtml:10
+msgid "Deleting is not possible because there is metadata for this property!"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backuping.phtml:14
+msgid "Backup"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backuping.phtml:14
+#: view/admin-addon/admin/settings/backups.phtml:15
+#: view/admin-addon/admin/settings/edit.phtml:26
+msgid "Admin Addition"
+msgstr "Адмін Росширення"
+
+#: view/admin-addon/admin/settings/backuping.phtml:19
+#: view/admin-addon/admin/settings/backups.phtml:15
+#: view/admin-addon/admin/settings/edit.phtml:15
+#: view/admin-addon/admin/settings/restore.phtml:19
+msgid "Backups"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backups.phtml:19
+msgid "Backuping"
+msgstr ""
+
+#: view/admin-addon/admin/settings/backups.phtml:25
+msgid "Backups file no found."
+msgstr ""
+
+#: view/admin-addon/admin/settings/backups.phtml:33
+msgid "Actions"
+msgstr ""
+
+#: view/admin-addon/admin/settings/delete-confirm.phtml:6
+msgid "Delete backup"
+msgstr ""
+
+#: view/admin-addon/admin/settings/delete-confirm.phtml:7
+#, php-format
+msgid "Are you sure you would like to delete the file %s?"
+msgstr ""
+
+#: view/admin-addon/admin/settings/details.phtml:5
+msgid "Details backup"
+msgstr ""
+
+#: view/admin-addon/admin/settings/details.phtml:6
+#, php-format
+msgid "File %s backup content"
+msgstr ""
+
+#: view/admin-addon/admin/settings/edit.phtml:21
+msgid "Update Locale template"
+msgstr ""
+
+#: view/admin-addon/admin/settings/restore-confirm.phtml:6
+msgid "Restore backup"
+msgstr ""
+
+#: view/admin-addon/admin/settings/restore-confirm.phtml:7
+#, php-format
+msgid "Are you sure you would like to restore data from file %s?"
+msgstr ""
+
+#: view/admin-addon/admin/settings/restore.phtml:14
+msgid "Vocabulary Addition"
+msgstr ""
+
+#: view/common/advanced-search/media-ingester.phtml:15
+msgid "Media Ingester"
+msgstr "Медіа інтегратор"
+
+#: view/common/advanced-search/media-ingester.phtml:19
+msgid "Select Media Ingester"
+msgstr "Виберіть медіа інтегратор"
+
+#: view/common/pagination.phtml:24
+msgid "First"
+msgstr "Перший"
+
+#: view/common/pagination.phtml:33
+msgid "Last"
+msgstr "Останній"
+
+#: view/common/simpleapp-layout-admin-body-top.phtml:7
+msgid "Loading..."
+msgstr "Завантаження..."
+
+#: view/search/facets/list.phtml:21
+msgid "Facets"
+msgstr "Фільтр"
+
+#: view/search/facets/list.phtml:30
+msgid "Facets loading..."
+msgstr ""
+
+#: src/Controller/Admin/VocabularyControllerDelegator.php:39
+msgid "No update"
+msgstr ""
+
+#: src/Controller/Admin/SettingsController.php:27
 msgid "Replace ckEditor Helper"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:40
+#: src/Controller/Admin/SettingsController.php:41
 msgid "Hiding the Search form field in the Admin menu"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:54
+#: src/Controller/Admin/SettingsController.php:55
 msgid "Select2 enable"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:68
+#: src/Controller/Admin/SettingsController.php:69
 msgid "Select2 enable on public"
 msgstr ""
 
-#: modules/AdminAddon/src/Controller/Admin/SettingsController.php:82
+#: src/Controller/Admin/SettingsController.php:83
 msgid "Chosen-js disable"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:36
-msgid "Mode admin UI"
-msgstr "Режим Інтерфейсу адміністратора"
+#: src/Controller/Admin/SettingsController.php:99
+msgid "Edit all elements"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:45
-msgid "Select mode admin UI"
-msgstr "Вибрати режим Інтерфейсу адміністратора"
+#: src/Controller/Admin/SettingsController.php:112
+msgid "Element can be deleted"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:55
-msgid "Html edition mode for pages"
-msgstr "Режим редагування HTML для сторінок"
+#: src/Controller/Admin/SettingsController.php:125
+msgid "Backup Resource Templates"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:57
-msgid "Inline (default)"
-msgstr "Вбудований (за замовчуванням)"
+#: src/Controller/Admin/SettingsController.php:169
+msgid "Settings save successfully."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:72
-msgid "Html edition config and toolbar for pages"
-msgstr "Конфігурація HTML-версії та панель інструментів для сторінок"
+#: src/Controller/Admin/SettingsController.php:260
+msgid "Update Doctrine Module add to Jobs."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:92
-msgid "Enable reCAPTCHA on Login page"
-msgstr "Увімкнути reCAPTCHA на сторінці Входу"
+#: src/Controller/Admin/SettingsController.php:265
+msgid "Update Doctrine Module not allowed."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:93
-msgid "Check this to enable reCAPTCHA on Login page."
-msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Входу"
+#: src/Controller/Admin/SettingsController.php:282
+msgid "Update Locale template add to Jobs."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:108
-msgid "Enable reCAPTCHA on Forgot Password page"
-msgstr "Увімкнути reCAPTCHA на сторінці Відновлення паролю"
+#: src/Controller/Admin/SettingsController.php:287
+msgid "Update Locale template not allowed."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:109
-msgid "Check this to enable reCAPTCHA on Forgot Password page."
-msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Відновлення паролю"
+#: src/Controller/Admin/SettingsController.php:336
+msgid "Restore successfully."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:124
-msgid "IP whitelist for reCAPTCHA"
-msgstr "Білий список IP для reCAPTCHA"
+#: src/Controller/Admin/SettingsController.php:339
+msgid "Restore failed!"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:141
-msgid "Button 1 - URL"
-msgstr "Кнопка 1 - URL"
+#: src/Controller/Admin/SettingsController.php:342
+msgid "Restore failed - file no found!"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:155
-msgid "Button 1 - Label"
-msgstr "Кнопка 1 - Етикетка"
+#: src/Controller/Admin/SettingsController.php:375
+msgid "File backup successfully deleted."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:169
-msgid "Button 2 - URL"
-msgstr "Кнопка 2 - URL"
+#: src/Controller/Admin/JobController.php:31
+msgid "Deleted succes finished & stoped jobs"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:183
-msgid "Button 2 - Label"
-msgstr "Кнопка 2 - Етикетка"
+#: src/Controller/Admin/JobController.php:53
+msgid "Deleted succes jobs with error"
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:213
-msgid "Enable"
-msgstr "Увімкнути"
+#: src/Controller/Admin/JobController.php:89
+msgid ""
+"Dead jobs were cleaned: {count_stopped} marked \"stopped\" and {count_error} "
+"marked \"error\" on a total of {count_jobs}."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:214
-msgid "Enable menu on Admin dashboard"
-msgstr "Увімкнути меню на Панелі адмінстування"
+#: src/Controller/Admin/JobController.php:99
+msgid "The following {count} jobs are dead: {job_ids}."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:229
-msgid "Content"
-msgstr "Вміст"
+#: src/Controller/Admin/JobController.php:127
+msgid "A total of {count} dead jobs have been cleaned."
+msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:244
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:29
+#: src/Controller/Admin/JobController.php:133
+msgid "There is no dead job."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:137
+msgid "Fix jobs succes"
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:152
+msgid "The job was started."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:154
+msgid "The job could not be starting."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:158
+#: src/Controller/Admin/JobController.php:184
+msgid "The job could not be founded."
+msgstr ""
+
+#: src/Controller/Admin/JobController.php:200
+msgid "The job was deleted."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:62
+#: src/Controller/Admin/PropertyController.php:61
+msgid "Local name"
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:127
+msgid "ResourceClass successfully created."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:176
+msgid "Class successfully saved."
+msgstr ""
+
+#: src/Controller/Admin/ResourceClassController.php:203
+msgid "Class successfully deleted."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:126
+msgid "Property successfully created."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:175
+msgid "Property successfully saved."
+msgstr ""
+
+#: src/Controller/Admin/PropertyController.php:202
+msgid "Property successfully deleted."
+msgstr ""
+
+#: src/TraitModule.php:114 src/TraitModule.php:399
+msgid "This module requires the module \"{module}\"."
+msgstr ""
+
+#: src/TraitModule.php:119
+msgid "This module requires modules \"{modules}\"."
+msgstr ""
+
+#: src/TraitModule.php:129
+msgid ""
+"This module cannot install its tables, because they exist already. Try to "
+"remove them first."
+msgstr ""
+
+#: src/TraitModule.php:307
+msgid "The module removed tables \"{tables}\" from a previous broken install."
+msgstr ""
+
+#: src/TraitModule.php:394
+msgid ""
+"This module requires the module \"{module}\", version {version} or above."
+msgstr ""
+
+#: src/TraitModule.php:507
+msgid ""
+"The module \"{module}\" was automatically deactivated because the "
+"dependencies are unavailable."
+msgstr ""
+
+#: src/TraitModule.php:526
+msgid "The directory \"{path}\" is not writeable."
+msgstr ""
+
+#: src/TraitModule.php:537
+msgid "The directory \"{path}\" is not writeable: {error}."
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:22 src/Form/SettingsFieldset.php:237
 msgid "Autocomplete on Advanced search"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:262
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:45
+#: src/Form/SiteSettingsFieldset.php:38 src/Form/SettingsFieldset.php:255
 msgid "Properties for autocomplete input fields in Advanced search"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:263
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:46
-msgid "Select properties for autocomplete in Advanced search input fields."
+#: src/Form/SiteSettingsFieldset.php:39 src/Form/SettingsFieldset.php:256
+#: src/Form/SettingsFieldset.php:293
+msgid ""
+"Select properties for autocomplete in input fields. Leave field empty for "
+"all properties."
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:269
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:306
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:53
+#: src/Form/SiteSettingsFieldset.php:46 src/Form/SettingsFieldset.php:262
+#: src/Form/SettingsFieldset.php:299
 msgid "Select properties…"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:282
+#: src/Form/SiteSettingsFieldset.php:59
+msgid "Enable search fasets"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:60
+msgid "Enable search fasets config"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:75
+msgid "JS render search fasets"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:90
+msgid "Search fasets config"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:29
+msgid "Mode admin UI"
+msgstr "Режим Інтерфейсу адміністратора"
+
+#: src/Form/SettingsFieldset.php:38
+msgid "Select mode admin UI"
+msgstr "Вибрати режим Інтерфейсу адміністратора"
+
+#: src/Form/SettingsFieldset.php:48
+msgid "Html edition mode for pages"
+msgstr "Режим редагування HTML для сторінок"
+
+#: src/Form/SettingsFieldset.php:50
+msgid "Inline (default)"
+msgstr "Вбудований (за замовчуванням)"
+
+#: src/Form/SettingsFieldset.php:51
+msgid "Document (maximizable)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:65
+msgid "Html edition config and toolbar for pages"
+msgstr "Конфігурація HTML-версії та панель інструментів для сторінок"
+
+#: src/Form/SettingsFieldset.php:85
+msgid "Enable reCAPTCHA on Login page"
+msgstr "Увімкнути reCAPTCHA на сторінці Входу"
+
+#: src/Form/SettingsFieldset.php:86
+msgid "Check this to enable reCAPTCHA on Login page."
+msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Входу."
+
+#: src/Form/SettingsFieldset.php:101
+msgid "Enable reCAPTCHA on Forgot Password page"
+msgstr "Увімкнути reCAPTCHA на сторінці Відновлення паролю"
+
+#: src/Form/SettingsFieldset.php:102
+msgid "Check this to enable reCAPTCHA on Forgot Password page."
+msgstr "Відмітити це для увімкнення reCAPTCHA на сторінці Відновлення паролю."
+
+#: src/Form/SettingsFieldset.php:117
+msgid "IP whitelist for reCAPTCHA"
+msgstr "Білий список IP для reCAPTCHA"
+
+#: src/Form/SettingsFieldset.php:118
+msgid ""
+"Enter a single IP address or a range of IP addresses separated by dashes "
+"(IPbegin-IPend) in the line to whitelist for reCAPTCHA."
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:127
+msgid "Pages Log in and Forgot Password"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:134
+msgid "Button 1 - URL"
+msgstr "Кнопка 1 - URL"
+
+#: src/Form/SettingsFieldset.php:135 src/Form/SettingsFieldset.php:163
+msgid "URL for button"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:148
+msgid "Button 1 - Label"
+msgstr "Кнопка 1 - Етикетка"
+
+#: src/Form/SettingsFieldset.php:149 src/Form/SettingsFieldset.php:177
+msgid "Label for button"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:162
+msgid "Button 2 - URL"
+msgstr "Кнопка 2 - URL"
+
+#: src/Form/SettingsFieldset.php:176
+msgid "Button 2 - Label"
+msgstr "Кнопка 2 - Етикетка"
+
+#: src/Form/SettingsFieldset.php:185
+msgid "Menu on Admin dashboard"
+msgstr "Меню на Панелі адмінстування"
+
+#: src/Form/SettingsFieldset.php:193
+msgid "Label for menu on Admin dashboard"
+msgstr "Етикетка для меню на Панелі адмінстування"
+
+#: src/Form/SettingsFieldset.php:206
+msgid "Enable"
+msgstr "Увімкнути"
+
+#: src/Form/SettingsFieldset.php:207
+msgid "Enable menu on Admin dashboard"
+msgstr "Увімкнути меню на Панелі адмінстування"
+
+#: src/Form/SettingsFieldset.php:222
+msgid "Content"
+msgstr "Вміст"
+
+#: src/Form/SettingsFieldset.php:275
 msgid "Autocomplete on forms"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:283
+#: src/Form/SettingsFieldset.php:276
 msgid ""
 "Autocomplete input fields in forms on the page for adding and editing items, "
 "item sets, and media files."
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:299
+#: src/Form/SettingsFieldset.php:292
 msgid "Properties for autocomplete input fields in forms"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:300
-msgid "Select properties for autocomplete in form input fields."
+#: src/Form/SettingsFieldset.php:305
+msgid "adminaddon_forms_autocomplete_fields"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:320
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:66
-msgid "Enable search fasets"
+#: config/module.config.php:10
+msgid "Resource Classes"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:321
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:67
-msgid "Enable search fasets config"
+#: config/module.config.php:13
+msgid "Settings Admin Addition"
+msgstr "Налаштування Адмін Росширення"
+
+#: config/module.config.php:15
+#, fuzzy
+#| msgid "Settings Admin Addition"
+msgid "Settings Vocabulary Addition"
+msgstr "Налаштування Адмін Росширення"
+
+#: config/module.config.php:17
+msgid "Management"
 msgstr ""
 
-#: modules/AdminAddon/src/Form/SettingsFieldset.php:336
-#: modules/AdminAddon/src/Form/SiteSettingsFieldset.php:82
-msgid "Search fasets config"
+#: config/module.config.php:18
+msgid "Control"
 msgstr ""
 
-#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
-#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:15
-msgid "Backup"
-msgstr ""
+#: config/module.config.php:215
+msgid "There was an error connecting to the server. Please try again later."
+msgstr "Помилка з'єднання із сервером. Спробуйте пізніше."
 
-#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:14
-#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:15
-msgid "Items Review"
-msgstr ""
+#: config/module.config.php:255
+msgid "Simple application"
+msgstr "Простий застосунок"
 
-#: modules/AdminAddon/view/admin-addon/admin/settings/backuping.phtml:18
-msgid "Backups"
-msgstr ""
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:25
-msgid "Backups file no found."
-msgstr ""
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/backups.phtml:33
-msgid "Actions"
-msgstr ""
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/details.phtml:5
-msgid "Details backup"
-msgstr ""
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/details.phtml:6
-#, php-format
-msgid "File %s backup content"
-msgstr ""
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/edit.phtml:11
-msgid "Admin Addition"
-msgstr "Адмін Росширення"
-
-#: modules/AdminAddon/view/admin-addon/admin/settings/restore-confirm.phtml:3
+#: view/admin-addon/admin/settings/restore-confirm.phtml:3
 msgid "Confirm restore"
-msgstr ""
-
-#: modules/AdminAddon/view/common/advanced-search/media-ingester.phtml:15
-msgid "Media Ingester"
-msgstr "Медіа інтегратор"
-
-#: modules/AdminAddon/view/common/advanced-search/media-ingester.phtml:19
-msgid "Select Media Ingester"
-msgstr "Виберіть медіа інтегратор"
-
-#: modules/AdminAddon/view/common/pagination.phtml:24
-msgid "First"
-msgstr "Перший"
-
-#: modules/AdminAddon/view/common/pagination.phtml:33
-msgid "Last"
-msgstr "Останній"
-
-#: modules/AdminAddon/view/search/facet-actives.phtml:18
-#, php-format
-msgid "from %1$s"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-actives.phtml:19
-#, php-format
-msgid "to %1$s"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-checkboxes-filter.phtml:21
-msgid "Filter…"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-checkboxes-filter.phtml:21
-msgid "Filter values"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-range-double.phtml:77
-msgid "Ok"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-select-range.phtml:20
-msgid "Between"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-select-range.phtml:21
-#: modules/AdminAddon/view/search/facet-select-range.phtml:30
-#: modules/AdminAddon/view/search/facet-select.phtml:18
-msgid "Select below…"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facet-select-range.phtml:29
-#: modules/AdminAddon/view/search/search-form-main.phtml:519
-msgid "and"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facets/list copy.phtml:51
-#: modules/AdminAddon/view/search/facets/list.phtml:22
-#: modules/AdminAddon/view/search/facets-list.phtml:42
-msgid "Facets"
-msgstr "Фільтр"
-
-#: modules/AdminAddon/view/search/facets/list.phtml:31
-msgid "Facets loading..."
-msgstr ""
-
-#: modules/AdminAddon/view/search/facets-list-work.phtml:169
-msgid "See more"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facets-list-work.phtml:169
-msgid "See less"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facets-list-work.phtml:169
-msgid "Previous page"
-msgstr ""
-
-#: modules/AdminAddon/view/search/facets-list-work.phtml:169
-msgid "Next page"
-msgstr ""
-
-#: modules/AdminAddon/view/search/pagination-per-page-selector.phtml:18
-msgid "Per page"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results-header-footer.phtml:62
-#, php-format
-msgid "Found %d items matching your search"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results-header-footer.phtml:114
-msgid "View mode"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results-header-footer.phtml:116
-msgid "Grid view"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results-header-footer.phtml:121
-msgid "List view"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results-header-footer.phtml:123
-msgid "List"
-msgstr ""
-
-#: modules/AdminAddon/view/search/results.phtml:50
-msgid "No media"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:512
-msgid "Filters"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:515
-msgid "Add a filter"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:516
-msgid "Remove this filter"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:517
-msgid "Reset fields"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:520
-msgid "or"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:521
-msgid "not"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-main.phtml:524
-msgid "NOT"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search-form-quick.phtml:31
-msgid "Search..."
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:102
-msgid "Breadcrumb"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:155
-#, php-format
-msgid "%d Results"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:156
-msgid "No results"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:304
-msgid "No Results Found"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:306
-msgid "Fill a query and get results."
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:308
-msgid "This item set has no items."
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:315
-msgid "The query returned no results"
-msgstr ""
-
-#: modules/AdminAddon/view/search/search.phtml:318
-msgid "Try adjusting your search criteria or filters"
 msgstr ""
 
 #~ msgid "Allow change Editor config in the setting"
