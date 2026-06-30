@@ -223,17 +223,7 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         [$controller, $action, $mode] = $this->modeAdminUI($event);
         $params = $view->params()->fromRoute();
-        // $controller = False;
-        // $action = False;
         $siteSlug = isset($params['site-slug']) ? $params['site-slug'] : '';
-        // if(!empty($params['__CONTROLLER__'])){
-        //     $controller = $params['__CONTROLLER__'];
-        // }elseif(!empty($params['controller'])){
-        //     $controller = $params['controller'];
-        // }
-        // if(!empty($params['action'])){
-        //     $action = $params['action'];
-        // }
         
         $view->headLink()->appendStylesheet($view->assetUrl('css/adminaddon.css', 'AdminAddon'));
         // $view->headScript()->appendFile($view->assetUrl('js/adminaddon.js', 'AdminAddon'));

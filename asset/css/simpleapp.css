@@ -77,7 +77,7 @@
     body.assets.edit .flex > #content,
     body.jobs.show .flex > #content,
     body.resource-templates.show .flex > #content,
-    body.resource-templates:is(.add, .edit) .flex > #content form,
+    body.resource-templates:is(.add, .edit):not(:has(.section-nav)) .flex > #content form,
     body:is(.configure, .settings) .flex > #content form,
     body:is(.theme, .theme-settings) .flex > #content form,
     body.site-pages .flex > #content form,

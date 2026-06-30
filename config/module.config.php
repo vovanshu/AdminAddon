@@ -265,8 +265,9 @@ return [
                         'job' => ['browse'],
                         'asset' => ['browse'],
                         'roles' => ['browse', 'show', 'edit'],
-                        'item-review' => ['browse', 'edit'],
-                        'item-review-contracts' => ['browse'],
+                        'roles-manager' => [],
+                        'queries' => [],
+                        'contracts' => [],
                         'setting' => ['browse'],
                         'settings' => [],
                         'Index' => ['index', 'browse', 'show', 'edit', 'theme', 'theme-settings', 'theme-resource-pages', 'resources', 'navigation', 'users'],
@@ -279,7 +280,9 @@ return [
                         'Admin\Index' => ['index'],
                         'Log\Controller\Admin\LogController' => ['browse'],
                         'Reference\Controller\Admin\ReferenceController' => ['browse'],
+                        'browse' => [],
                         'browses' => [],
+                        'import' => [],
                     ]
                 ],
                 'actions' => [
